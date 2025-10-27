@@ -6,7 +6,7 @@ O objetivo é classificar áreas de especialidade de profissionais, a partir de 
 ---
 
 ## 🎯 Objetivo do Projeto
-Desenvolver um **modelo de Machine Learning supervisionado** capaz de classificar a **área principal de atuação (target)** de profissionais negros, utilizando dados reais da base **Indy Black Professionals**.
+Desenvolver um **modelo de Machine Learning supervisionado** capaz de classificar a **área principal de atuação (target)** de profissionais negros, utilizando dados reais da base **Black Households**.
 
 ---
 
@@ -63,8 +63,6 @@ https://www.statista.com/statistics/1338253/percentage-of-black-households-with-
 
 ## 🧩 Requisitos
 
-Instale as dependências com:
-```bash
 pip install -r requirements.txt
 Principais bibliotecas:
 - pandas

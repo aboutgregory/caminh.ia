@@ -1,0 +1,19 @@
+[
+  {"id": 1,  "slug": "tecnologia",           "pt": "Tecnologia",                 "en": "Technology"},
+  {"id": 2,  "slug": "saude",                "pt": "Saúde",                      "en": "Healthcare"},
+  {"id": 3,  "slug": "educacao",             "pt": "Educação",                   "en": "Education"},
+  {"id": 4,  "slug": "financas",             "pt": "Finanças",                   "en": "Finance"},
+  {"id": 5,  "slug": "varejo_ecommerce",     "pt": "Varejo e E-commerce",        "en": "Retail & E-commerce"},
+  {"id": 6,  "slug": "marketing_comunicacao","pt": "Marketing e Comunicação",    "en": "Marketing & Communications"},
+  {"id": 7,  "slug": "consultoria",          "pt": "Consultoria",                "en": "Consulting"},
+  {"id": 8,  "slug": "industria",            "pt": "Indústria",                  "en": "Manufacturing"},
+  {"id": 9,  "slug": "midia_entretenimento", "pt": "Mídia e Entretenimento",     "en": "Media & Entertainment"},
+  {"id": 10, "slug": "bem_estar_esporte",    "pt": "Bem-estar e Esporte",        "en": "Wellness & Sports"},
+  {"id": 11, "slug": "terceiro_setor",       "pt": "Terceiro Setor",             "en": "Nonprofit"},
+  {"id": 12, "slug": "setor_publico",        "pt": "Setor Público",              "en": "Public Sector"},
+  {"id": 13, "slug": "rh_pessoas",           "pt": "RH e Pessoas",               "en": "HR & People"},
+  {"id": 14, "slug": "logistica",            "pt": "Logística",                  "en": "Logistics"},
+  {"id": 15, "slug": "agro",                 "pt": "Agronegócio",                "en": "Agribusiness"},
+  {"id": 16, "slug": "juridico",             "pt": "Jurídico",                   "en": "Legal"},
+  {"id": 17, "slug": "turismo_gastronomia",  "pt": "Turismo e Gastronomia",      "en": "Hospitality & Food"}
+]

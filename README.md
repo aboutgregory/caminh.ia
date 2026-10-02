@@ -1,118 +1,86 @@
-# 🧠 caminh.ia – Classificação Supervisionada de Carreiras
+# caminh.ia
 
-Este projeto faz parte da fase de validação técnica (PoC) da plataforma **caminh.ia**, um assistente de IA desenvolvido dentro da arquitetura BHO.  
-O objetivo é classificar áreas de especialidade de profissionais, a partir de descrições de cargos, habilidades e experiências — base fundamental para o mecanismo de recomendação de carreiras e mentores da plataforma.
+assistente de IA do **CarrerMatch** (BHO) que combina experiências profissionais **e pessoais** para revelar caminhos de carreira inesperados — e conecta a pessoa a mentores que já percorreram esses caminhos.
 
----
+> habilidades aparentemente desconectadas são o ativo mais diferenciado de uma pessoa. o caminh.ia trata isso como dado de entrada, não como exceção.
 
-## 🎯 Objetivo do Projeto
-Desenvolver um **modelo de Machine Learning supervisionado** capaz de classificar a **área principal de atuação (target)** de profissionais negros, utilizando dados reais da base **Black Households**.
-
----
-## Definição do Problema
-
-Para cumprir o contexto de "Recomendação de Conteúdo, Mentores e Guias," e dada a sua experiência com o CareerMatch, escolheremos um problema focado em categorização de perfis ou recursos:
-
-- **Objetivo de Classificação:**
-    - **Problema Proposto:** Desenvolver um modelo para **classificar a Área de Especialidade Principal (Target $Y$)** de um Mentor/Guia com base em suas características (títulos, *skills*, e experiência).
-    - **Tipo de Classificação:** **Multiclasse** (Ex: `Tecnologia`, `Finanças`, `Marketing`, `Recursos Humanos`).
-- **Justificativa da Escolha do Tema:**
-    - A classificação correta de Mentores/Guias é o primeiro passo crítico para qualquer sistema de recomendação (o seu *Matching Engine*).
-    - A acurácia do modelo garante que os usuários do CareerMatch (ou de qualquer plataforma de mentoria) sejam conectados a especialistas **realmente relevantes** para suas trilhas de carreira.
+**status:** MVP v2 em desenvolvimento — reescrita pós-beta Lovable (`caminho.lovable.app`). sprint 0 (fundação) concluído.
 
 ---
 
-## 📊 Dataset
-**Não foi possível encontrar um dataset com as informações necessárias para teste da PoC. Por isso, foi usado um exemplo, para seguir as regras da atividade**
-💡 A Função do Google Dataset Search
+## como funciona
 
-O **Google Dataset Search** é uma ferramenta crucial para cientistas de dados, pois atua como um motor de busca para dados científicos e comunitários1. Ele indexa metadados de conjuntos de dados hospedados em milhares de repositórios (como statista), fornecendo uma fonte **confiável e verificável** de dados para análise.
+```
+3–5 experiências (texto livre)
+        │
+        ├──► ItemBasedRecommender   cosine entre vetores TF-IDF de habilidades
+        ├──► KnowledgeGraphEngine   transições de carreira (career_transitions)
+        └──► HybridPipeline         combina, pondera, seleciona 6–21 caminhos
+                    │
+                    ▼
+        Claude API — descreve cada caminho em pt-BR (não seleciona)
+                    │
+                    ▼
+        mapa de ilhas + cards → mentor matching (user-based CF)
+```
 
-- **Estratégia de Busca:** Você procurará por termos como "Mentor Skills Dataset", "Job Posting Classification", ou "Professional Profile Dataset" para garantir que as colunas essenciais (`skills`, `job title`, `area`) estejam presentes.
-  
-- **Origem e Fonte:**
-https://www.statista.com/statistics/1338253/percentage-of-black-households-with-telephone-in-the-us-by-household-size/
+os algoritmos próprios escolhem e rankeiam; o Claude só escreve as descrições contextualizadas (ADR-02). todo evento é registrado em `behavioral_events` para treinar o modelo próprio da fase 2.
 
----
+## stack
 
-## 📂 Estrutura do Repositório
+| camada | tecnologia |
+|---|---|
+| backend | FastAPI · Python 3.12 · asyncpg · Pydantic v2 |
+| banco | PostgreSQL 16 (knowledge graph relacional, sem Neo4j no MVP) |
+| IA | Claude API (descrições) · TF-IDF + cosine (fase 2: embeddings) |
+| frontend | React 18 · Vite 5 · TypeScript · Tailwind · shadcn/ui |
+| auth / e-mail | Supabase Auth (Google + LinkedIn) · Resend |
 
-📁 caminhiA-ML-Classification
-│
-├── 📄 README.md
-├── 📘 caminh_ia_model_training.ipynb
-├── 📊 dataset/
-│   └── black_households.csv
-├── 📂 results/
-│   ├── confusion_matrix.png
-│   ├── metrics_summary.csv
-│   └── model_performance_report.txt
-└── 📄 requirements.txt
+## estrutura
 
----
+```
+backend/carrermatch/
+├── main.py, config.py           FastAPI + pool asyncpg + GET /health
+├── recommender/
+│   ├── models/domain.py         entidades puras (RN-01..RN-09 validadas)
+│   ├── repositories/            Protocol + Postgres + InMemory
+│   ├── engines/                 item-based, knowledge graph, hybrid, mentor (sprints 1–3)
+│   └── tests/
+└── db/
+    ├── migrations/001_initial_schema.sql
+    └── seeds/data/*.json        17 setores · 77 habilidades · 84 cargos · 315 transições
+frontend/                        sprint 3
+tools/collab/                    ponte MCP claude code ↔ antigravity
+research/                        PoCs (classificação supervisionada)
+```
 
-## ⚙️ Pipeline de Desenvolvimento
+## rodando o backend
 
-1. **Análise Exploratória (EDA)** — inspeção de dados, tipos, valores ausentes e distribuição.
-2. **Pré-processamento**  
-   - Limpeza e padronização.  
-   - `OneHotEncoder`, `LabelEncoder` e `TF-IDF` aplicados.  
-3. **Modelagem**  
-   - Três modelos testados:  
-     - Regressão Logística  
-     - Gaussian Naive Bayes  
-     - Random Forest  
-4. **Avaliação**  
-   - Métricas: Acurácia, Precisão, Recall e F1-Score.  
-   - Visualização: Matriz de Confusão.  
-5. **Conclusão e Insights**  
-   - Interpretação dos resultados.  
-   - Sugestões de aprimoramento (embeddings, tuning, balanceamento).
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -e ".[dev]"
+copy .env.example .env          # preencher DATABASE_URL e ANTHROPIC_API_KEY
+.venv\Scripts\python.exe -m pytest -q
+.venv\Scripts\python.exe -m carrermatch.db.seeds.build_seed
+psql "%DATABASE_URL%" -f carrermatch/db/migrations/001_initial_schema.sql
+psql "%DATABASE_URL%" -f carrermatch/db/seeds/seed.sql
+.venv\Scripts\python.exe -m uvicorn carrermatch.main:app --reload
+```
 
----
+## desenvolvimento colaborativo
 
-## 📈 Resultados Principais
+o projeto é construído por dois agentes em loop de revisão cruzada — **claude code** (arquitetura, algoritmos, backend) e **antigravity / gemini** (produto, design, frontend, infra). quem escreve é o responsável no RACI; o outro revisa; até 3 rodadas antes de escalar. detalhes em [`.collab/PROTOCOL.md`](.collab/PROTOCOL.md).
 
-| Modelo | Acurácia | F1-Score | Observações |
-|--------|-----------|----------|--------------|
-| Regressão Logística | 0.72 | 0.71 | Bom baseline linear |
-| Naive Bayes | 0.68 | 0.66 | Rápido e leve, mas com viés de texto |
-| Random Forest | **0.79** | **0.78** | Melhor performance e generalização |
+## documentação
 
----
+- [PoC de classificação supervisionada](research/poc-classificacao-supervisionada/README.md)
+- PRD, TRD e roadmap são documentos internos da BHO e não são versionados neste repositório público.
 
-## Interpretação dos Resultados e Conclusão
+## roadmap
 
-- **Análise Comparativa:** Apresentar as métricas em uma tabela resumo. Justificar a escolha do **modelo final** com base no **F1-Score** e na capacidade de generalização (evitando *overfitting* 34).
-- **Justificativa do Modelo Final:** Escolher o modelo com o melhor desempenho no *Teste Set* e com a melhor interpretabilidade (onde aplicável, como o `RandomForestClassifier` 35).
-- **Conclusão e Melhorias:**
-    - Documentar aprendizados sobre a modelagem (ex: "A alta cardinalidade dos títulos de cargo exigiu um filtro").
-    - Propor melhorias futuras36363636: Otimização de hiperparâmetros (GridSearch), balanceamento de classes (SMOTE) ou uso de *embeddings* de texto mais avançados.
-
----
-
-## 🧩 Requisitos
-
-pip install -r requirements.txt
-Principais bibliotecas:
-- pandas
-- numpy
-- scikit-learn
-- matplotlib
-- seaborn
-
----
-
-🚀 Execução
-
-Abra o notebook no Google Colab:
-## **caminh.ia: modelo de classificação supervisionada.ipynb**
-https://drive.google.com/file/d/1YSFFSuIinzW4gZaZzqc2c8yZDR8EPFrg/view?usp=sharing
-
-📘 Referências
-
-Géron, Aurélien. Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow
-
-Bishop, C. Pattern Recognition and Machine Learning
-
-Scikit-learn Documentation: https://scikit-learn.org
+| fase | quando | o quê |
+|---|---|---|
+| **1 — MVP** | 8 semanas | backend, engines, Claude API, frontend reescrito, mentores |
+| 2 — modelo próprio | após 1.000 usuários | embeddings, Faiss, Markov → LSTM, HDBSCAN |
+| 3 — LTP engine | após fase 2 | grafo de plasticidade, classificador + SHAP |

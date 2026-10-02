@@ -1,0 +1,28 @@
+# caminh.ia — instruções para o claude code
+
+produto: assistente que combina experiências (pessoais e profissionais) em 6–21 caminhos de carreira. specs: `caminhia-PRD-v2.md`, `caminhia-TRD-v2.md`, `caminhia-roadmap-implementacao.md` (locais, fora do git: o repo é público). colaboração com o antigravity: `.collab/PROTOCOL.md`.
+
+## layout
+
+- `backend/` — FastAPI + asyncpg, pacote `carrermatch`. venv em `backend/.venv`.
+- `backend/carrermatch/db/migrations/001_initial_schema.sql` — schema (recriado na v2; o original não foi recuperado).
+- `backend/carrermatch/db/seeds/data/*.json` — vocabulário e knowledge graph curados; `build_seed.py` gera `seed.sql`. edite os JSONs, nunca o SQL.
+- `frontend/` — React + Vite (sprint 3, antigravity é R).
+- `tools/collab/` — servidores MCP da ponte claude ↔ antigravity.
+
+## comandos (rodar em `backend/`)
+
+```
+.venv\Scripts\python.exe -m pytest -q
+.venv\Scripts\python.exe -m ruff check carrermatch
+.venv\Scripts\python.exe -m carrermatch.db.seeds.build_seed
+.venv\Scripts\python.exe -m uvicorn carrermatch.main:app --reload
+```
+
+## invariantes
+
+- engines nunca falam com o banco: só via `RecommenderRepository`.
+- RN-09: `Experience.kind` nunca entra na ponderação.
+- scores internos em [0, 1]; estrelas 1–5 só na borda da API.
+- claude API só descreve caminhos já selecionados pelos algoritmos (ADR-02).
+- nenhuma chave no frontend; `backend/.env` fora do git.

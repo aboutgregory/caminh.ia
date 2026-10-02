@@ -1,0 +1,403 @@
+{
+  "_format": "[from_slug, to_slug, confidence (0-1), observed_count, avg_years]. Curadoria manual v1 — a validar com O*NET/RAIS. bridge_skill_ids são calculadas no build (interseção de role_skills).",
+  "transitions": [
+    ["desenvolvedor_software", "tech_lead", 0.80, 120, 4],
+    ["desenvolvedor_software", "devops", 0.60, 60, 3],
+    ["desenvolvedor_software", "cientista_dados", 0.50, 45, 3],
+    ["desenvolvedor_software", "product_manager", 0.45, 40, 4],
+    ["desenvolvedor_software", "no_code_builder", 0.30, 15, 1],
+    ["desenvolvedor_software", "analista_seguranca", 0.40, 30, 3],
+    ["desenvolvedor_software", "empreendedor_fundador", 0.30, 25, 5],
+    ["desenvolvedor_software", "especialista_ia_aplicada", 0.45, 20, 2],
+
+    ["analista_dados", "cientista_dados", 0.70, 90, 3],
+    ["analista_dados", "product_manager", 0.50, 40, 3],
+    ["analista_dados", "people_analytics", 0.50, 25, 2],
+    ["analista_dados", "growth_manager", 0.55, 35, 3],
+    ["analista_dados", "consultor_estrategia", 0.40, 25, 4],
+    ["analista_dados", "analista_financeiro", 0.35, 20, 2],
+    ["analista_dados", "engenheiro_automacao", 0.45, 25, 2],
+
+    ["cientista_dados", "especialista_ia_aplicada", 0.65, 40, 2],
+    ["cientista_dados", "product_manager", 0.35, 20, 4],
+    ["cientista_dados", "tech_lead", 0.30, 15, 4],
+
+    ["engenheiro_automacao", "especialista_ia_aplicada", 0.60, 30, 2],
+    ["engenheiro_automacao", "consultor_processos", 0.55, 30, 3],
+    ["engenheiro_automacao", "ops_remote", 0.45, 15, 2],
+    ["engenheiro_automacao", "devops", 0.35, 15, 3],
+    ["engenheiro_automacao", "no_code_builder", 0.50, 20, 1],
+
+    ["product_manager", "chief_of_staff", 0.45, 20, 4],
+    ["product_manager", "pm_healthtech", 0.50, 25, 2],
+    ["product_manager", "empreendedor_fundador", 0.45, 35, 5],
+    ["product_manager", "growth_manager", 0.40, 20, 3],
+    ["product_manager", "especialista_produtos_financeiros", 0.40, 15, 3],
+
+    ["ux_designer", "product_manager", 0.55, 50, 4],
+    ["ux_designer", "cx_specialist", 0.50, 25, 3],
+    ["ux_designer", "designer_gamificacao", 0.40, 10, 3],
+    ["ux_designer", "designer_instrucional", 0.40, 15, 3],
+
+    ["devops", "analista_seguranca", 0.55, 40, 3],
+    ["devops", "tech_lead", 0.50, 30, 4],
+
+    ["especialista_ia_aplicada", "consultor_estrategia", 0.45, 15, 4],
+    ["especialista_ia_aplicada", "empreendedor_fundador", 0.40, 15, 3],
+    ["especialista_ia_aplicada", "chief_of_staff", 0.30, 8, 4],
+
+    ["analista_seguranca", "analista_compliance", 0.50, 25, 3],
+    ["analista_seguranca", "devops", 0.40, 20, 2],
+
+    ["tech_lead", "chief_of_staff", 0.35, 12, 5],
+    ["tech_lead", "empreendedor_fundador", 0.40, 25, 5],
+    ["tech_lead", "gerente_projetos", 0.45, 30, 3],
+
+    ["ops_remote", "chief_of_staff", 0.45, 12, 3],
+    ["ops_remote", "gerente_operacoes", 0.50, 20, 3],
+    ["ops_remote", "people_partner", 0.35, 10, 3],
+
+    ["no_code_builder", "empreendedor_fundador", 0.50, 30, 2],
+    ["no_code_builder", "engenheiro_automacao", 0.55, 25, 2],
+    ["no_code_builder", "product_manager", 0.40, 15, 3],
+
+    ["growth_manager", "product_manager", 0.55, 40, 3],
+    ["growth_manager", "growth_longevidade", 0.40, 8, 2],
+    ["growth_manager", "empreendedor_fundador", 0.45, 30, 4],
+    ["growth_manager", "chief_of_staff", 0.30, 10, 4],
+    ["growth_manager", "brand_manager", 0.30, 10, 4],
+
+    ["analista_marketing_digital", "growth_manager", 0.60, 60, 3],
+    ["analista_marketing_digital", "especialista_ecommerce", 0.55, 40, 2],
+    ["analista_marketing_digital", "seo_specialist", 0.50, 30, 2],
+    ["analista_marketing_digital", "estrategista_conteudo", 0.45, 30, 2],
+    ["analista_marketing_digital", "brand_manager", 0.35, 20, 4],
+
+    ["estrategista_conteudo", "brand_manager", 0.45, 25, 4],
+    ["estrategista_conteudo", "criador_conteudo", 0.50, 25, 2],
+    ["estrategista_conteudo", "copywriter", 0.50, 30, 1],
+    ["estrategista_conteudo", "designer_instrucional", 0.35, 15, 3],
+
+    ["social_media", "estrategista_conteudo", 0.60, 50, 2],
+    ["social_media", "gestor_comunidade", 0.55, 30, 2],
+    ["social_media", "analista_marketing_digital", 0.55, 45, 2],
+    ["social_media", "criador_conteudo", 0.50, 30, 2],
+
+    ["gestor_comunidade", "analista_cultura", 0.45, 15, 3],
+    ["gestor_comunidade", "produtor_eventos", 0.40, 15, 2],
+    ["gestor_comunidade", "growth_manager", 0.35, 12, 3],
+    ["gestor_comunidade", "edtech_cs", 0.40, 10, 2],
+
+    ["brand_manager", "consultor_estrategia", 0.40, 15, 4],
+    ["brand_manager", "growth_longevidade", 0.25, 5, 3],
+
+    ["growth_longevidade", "head_cs_healthtech", 0.35, 5, 3],
+    ["growth_longevidade", "empreendedor_fundador", 0.45, 8, 3],
+    ["growth_longevidade", "pm_healthtech", 0.40, 6, 3],
+
+    ["criador_conteudo", "empreendedor_fundador", 0.45, 30, 3],
+    ["criador_conteudo", "designer_instrucional", 0.45, 15, 2],
+    ["criador_conteudo", "gestor_comunidade", 0.50, 20, 2],
+
+    ["copywriter", "estrategista_conteudo", 0.55, 30, 2],
+    ["copywriter", "growth_manager", 0.35, 15, 3],
+
+    ["seo_specialist", "growth_manager", 0.45, 20, 3],
+    ["seo_specialist", "analista_marketing_digital", 0.50, 25, 2],
+
+    ["sdr", "executivo_vendas", 0.75, 150, 2],
+    ["sdr", "cs_manager", 0.45, 40, 2],
+    ["sdr", "sales_enablement", 0.30, 10, 3],
+    ["sdr", "bizdev", 0.40, 20, 3],
+    ["sdr", "growth_manager", 0.25, 10, 3],
+
+    ["executivo_vendas", "head_vendas", 0.55, 60, 5],
+    ["executivo_vendas", "bizdev", 0.55, 40, 3],
+    ["executivo_vendas", "cs_manager", 0.40, 30, 2],
+    ["executivo_vendas", "empreendedor_fundador", 0.35, 25, 5],
+    ["executivo_vendas", "sales_enablement", 0.40, 15, 3],
+    ["executivo_vendas", "consultor_performance_vendas", 0.25, 5, 5],
+
+    ["head_vendas", "chief_of_staff", 0.30, 10, 4],
+    ["head_vendas", "empreendedor_fundador", 0.40, 20, 5],
+    ["head_vendas", "consultor_performance_vendas", 0.35, 8, 4],
+    ["head_vendas", "consultor_estrategia", 0.35, 12, 4],
+
+    ["cs_manager", "head_cs_healthtech", 0.45, 15, 4],
+    ["cs_manager", "cx_specialist", 0.55, 35, 2],
+    ["cs_manager", "product_manager", 0.40, 30, 3],
+    ["cs_manager", "edtech_cs", 0.45, 15, 2],
+    ["cs_manager", "executivo_vendas", 0.35, 20, 2],
+    ["cs_manager", "gerente_operacoes", 0.35, 15, 4],
+
+    ["head_cs_healthtech", "pm_healthtech", 0.45, 10, 3],
+    ["head_cs_healthtech", "gestor_programas_saude", 0.30, 5, 3],
+    ["head_cs_healthtech", "chief_of_staff", 0.30, 5, 4],
+
+    ["cx_specialist", "product_manager", 0.45, 25, 3],
+    ["cx_specialist", "ux_designer", 0.40, 20, 3],
+    ["cx_specialist", "cs_manager", 0.45, 20, 2],
+
+    ["atendente_cliente", "cs_manager", 0.60, 80, 2],
+    ["atendente_cliente", "cx_specialist", 0.45, 30, 3],
+    ["atendente_cliente", "sdr", 0.50, 50, 1],
+    ["atendente_cliente", "edtech_cs", 0.40, 15, 2],
+    ["atendente_cliente", "recrutador", 0.30, 15, 2],
+
+    ["consultor_performance_vendas", "especialista_bem_estar_corporativo", 0.45, 8, 2],
+    ["consultor_performance_vendas", "empreendedor_fundador", 0.45, 10, 3],
+    ["consultor_performance_vendas", "especialista_td", 0.40, 8, 2],
+
+    ["sales_enablement", "especialista_td", 0.55, 15, 2],
+    ["sales_enablement", "head_vendas", 0.35, 10, 4],
+    ["sales_enablement", "designer_instrucional", 0.40, 10, 2],
+
+    ["personal_trainer", "coach_saude", 0.60, 50, 2],
+    ["personal_trainer", "especialista_performance_humana", 0.55, 30, 3],
+    ["personal_trainer", "gestor_clinica", 0.45, 40, 4],
+    ["personal_trainer", "educador_fisico_escolar", 0.35, 20, 2],
+    ["personal_trainer", "consultor_performance_vendas", 0.30, 6, 4],
+    ["personal_trainer", "especialista_bem_estar_corporativo", 0.40, 15, 3],
+    ["personal_trainer", "empreendedor_fundador", 0.30, 20, 4],
+    ["personal_trainer", "criador_conteudo", 0.35, 25, 2],
+
+    ["coach_saude", "especialista_bem_estar_corporativo", 0.55, 20, 3],
+    ["coach_saude", "growth_longevidade", 0.30, 5, 3],
+    ["coach_saude", "head_cs_healthtech", 0.25, 4, 4],
+    ["coach_saude", "mentor_carreira", 0.30, 8, 3],
+    ["coach_saude", "especialista_performance_humana", 0.50, 15, 2],
+
+    ["nutricionista", "coach_saude", 0.55, 30, 2],
+    ["nutricionista", "gestor_programas_saude", 0.45, 20, 4],
+    ["nutricionista", "especialista_obesidade_infantil", 0.45, 10, 3],
+    ["nutricionista", "pm_healthtech", 0.30, 8, 4],
+    ["nutricionista", "criador_conteudo", 0.35, 20, 2],
+
+    ["psicologo", "mentor_carreira", 0.50, 30, 3],
+    ["psicologo", "especialista_bem_estar_corporativo", 0.55, 25, 3],
+    ["psicologo", "people_partner", 0.40, 20, 3],
+    ["psicologo", "analista_cultura", 0.40, 15, 3],
+    ["psicologo", "designer_gamificacao", 0.25, 5, 4],
+
+    ["especialista_bem_estar_corporativo", "people_partner", 0.40, 10, 3],
+    ["especialista_bem_estar_corporativo", "analista_cultura", 0.50, 12, 2],
+    ["especialista_bem_estar_corporativo", "consultor_performance_vendas", 0.40, 6, 2],
+
+    ["gestor_programas_saude", "head_cs_healthtech", 0.35, 6, 3],
+    ["gestor_programas_saude", "gestor_publico", 0.35, 10, 4],
+    ["gestor_programas_saude", "pm_healthtech", 0.35, 8, 3],
+
+    ["pm_healthtech", "empreendedor_fundador", 0.45, 12, 4],
+    ["pm_healthtech", "chief_of_staff", 0.35, 6, 4],
+
+    ["especialista_performance_humana", "consultor_performance_vendas", 0.55, 10, 2],
+    ["especialista_performance_humana", "especialista_bem_estar_corporativo", 0.50, 10, 2],
+    ["especialista_performance_humana", "mentor_carreira", 0.40, 8, 3],
+
+    ["educador_fisico_escolar", "personal_trainer", 0.50, 30, 2],
+    ["educador_fisico_escolar", "coordenador_pedagogico", 0.40, 15, 5],
+    ["educador_fisico_escolar", "especialista_obesidade_infantil", 0.45, 8, 3],
+
+    ["especialista_obesidade_infantil", "gestor_programas_saude", 0.55, 8, 3],
+    ["especialista_obesidade_infantil", "gestor_publico", 0.30, 5, 4],
+
+    ["enfermeiro", "gestor_programas_saude", 0.45, 25, 5],
+    ["enfermeiro", "head_cs_healthtech", 0.25, 6, 4],
+    ["enfermeiro", "gestor_clinica", 0.40, 20, 6],
+    ["enfermeiro", "coach_saude", 0.35, 10, 3],
+
+    ["gestor_clinica", "empreendedor_fundador", 0.45, 20, 4],
+    ["gestor_clinica", "gerente_operacoes", 0.40, 15, 3],
+
+    ["gestor_esportivo", "produtor_eventos", 0.45, 15, 3],
+    ["gestor_esportivo", "bizdev", 0.35, 10, 3],
+    ["gestor_esportivo", "especialista_performance_humana", 0.40, 10, 2],
+
+    ["atleta", "personal_trainer", 0.55, 40, 2],
+    ["atleta", "gestor_esportivo", 0.45, 20, 5],
+    ["atleta", "especialista_performance_humana", 0.50, 15, 3],
+    ["atleta", "consultor_performance_vendas", 0.25, 5, 5],
+    ["atleta", "criador_conteudo", 0.35, 20, 2],
+
+    ["professor", "designer_instrucional", 0.55, 40, 2],
+    ["professor", "coordenador_pedagogico", 0.60, 60, 5],
+    ["professor", "especialista_td", 0.50, 35, 3],
+    ["professor", "criador_conteudo", 0.45, 30, 2],
+    ["professor", "edtech_cs", 0.45, 20, 2],
+    ["professor", "mentor_carreira", 0.35, 15, 4],
+    ["professor", "sales_enablement", 0.30, 10, 3],
+
+    ["designer_instrucional", "designer_gamificacao", 0.50, 12, 3],
+    ["designer_instrucional", "ux_designer", 0.40, 15, 3],
+    ["designer_instrucional", "especialista_td", 0.50, 20, 2],
+    ["designer_instrucional", "product_manager", 0.30, 10, 4],
+
+    ["especialista_td", "people_partner", 0.50, 25, 3],
+    ["especialista_td", "analista_cultura", 0.50, 20, 2],
+    ["especialista_td", "mentor_carreira", 0.45, 15, 3],
+    ["especialista_td", "sales_enablement", 0.40, 10, 2],
+
+    ["designer_gamificacao", "product_manager", 0.40, 10, 3],
+    ["designer_gamificacao", "growth_manager", 0.35, 8, 3],
+    ["designer_gamificacao", "ux_designer", 0.40, 10, 2],
+
+    ["coordenador_pedagogico", "gestor_publico", 0.35, 15, 5],
+    ["coordenador_pedagogico", "empreendedor_fundador", 0.25, 8, 5],
+    ["coordenador_pedagogico", "especialista_td", 0.40, 12, 3],
+
+    ["edtech_cs", "cs_manager", 0.55, 20, 2],
+    ["edtech_cs", "head_cs_healthtech", 0.30, 5, 4],
+    ["edtech_cs", "product_manager", 0.35, 10, 3],
+
+    ["mentor_carreira", "empreendedor_fundador", 0.45, 20, 3],
+    ["mentor_carreira", "especialista_td", 0.45, 15, 2],
+    ["mentor_carreira", "criador_conteudo", 0.45, 20, 2],
+
+    ["recrutador", "people_partner", 0.55, 50, 4],
+    ["recrutador", "analista_cultura", 0.45, 25, 3],
+    ["recrutador", "sdr", 0.35, 15, 1],
+    ["recrutador", "mentor_carreira", 0.35, 15, 4],
+    ["recrutador", "people_analytics", 0.30, 10, 3],
+    ["recrutador", "executivo_vendas", 0.30, 15, 2],
+
+    ["people_partner", "chief_of_staff", 0.35, 10, 4],
+    ["people_partner", "analista_cultura", 0.50, 20, 2],
+    ["people_partner", "especialista_bem_estar_corporativo", 0.40, 10, 3],
+
+    ["analista_cultura", "people_partner", 0.50, 20, 3],
+    ["analista_cultura", "gestor_comunidade", 0.40, 10, 2],
+
+    ["people_analytics", "analista_dados", 0.50, 15, 2],
+    ["people_analytics", "people_partner", 0.40, 10, 3],
+
+    ["consultor_processos", "gerente_operacoes", 0.55, 40, 4],
+    ["consultor_processos", "engenheiro_automacao", 0.50, 25, 2],
+    ["consultor_processos", "consultor_estrategia", 0.45, 25, 4],
+    ["consultor_processos", "chief_of_staff", 0.30, 10, 4],
+
+    ["consultor_estrategia", "chief_of_staff", 0.50, 25, 4],
+    ["consultor_estrategia", "empreendedor_fundador", 0.45, 30, 5],
+    ["consultor_estrategia", "bizdev", 0.40, 20, 3],
+    ["consultor_estrategia", "product_manager", 0.40, 20, 3],
+    ["consultor_estrategia", "analista_esg", 0.30, 10, 3],
+
+    ["empreendedor_fundador", "chief_of_staff", 0.35, 10, 3],
+    ["empreendedor_fundador", "product_manager", 0.40, 20, 2],
+    ["empreendedor_fundador", "consultor_estrategia", 0.35, 15, 2],
+    ["empreendedor_fundador", "mentor_carreira", 0.40, 15, 3],
+    ["empreendedor_fundador", "bizdev", 0.40, 15, 2],
+
+    ["gerente_projetos", "chief_of_staff", 0.45, 20, 4],
+    ["gerente_projetos", "product_manager", 0.45, 30, 3],
+    ["gerente_projetos", "gerente_operacoes", 0.50, 30, 4],
+    ["gerente_projetos", "consultor_processos", 0.40, 20, 3],
+    ["gerente_projetos", "gestor_impacto_social", 0.30, 10, 4],
+
+    ["analista_financeiro", "especialista_produtos_financeiros", 0.45, 20, 3],
+    ["analista_financeiro", "consultor_estrategia", 0.40, 20, 4],
+    ["analista_financeiro", "analista_dados", 0.45, 25, 2],
+    ["analista_financeiro", "analista_esg", 0.30, 10, 3],
+
+    ["bizdev", "head_vendas", 0.40, 15, 4],
+    ["bizdev", "empreendedor_fundador", 0.45, 20, 4],
+    ["bizdev", "chief_of_staff", 0.35, 10, 4],
+
+    ["gerente_operacoes", "chief_of_staff", 0.40, 15, 4],
+    ["gerente_operacoes", "consultor_processos", 0.45, 20, 3],
+    ["gerente_operacoes", "gestor_clinica", 0.30, 8, 3],
+
+    ["analista_esg", "gestor_impacto_social", 0.45, 15, 3],
+    ["analista_esg", "consultor_estrategia", 0.40, 10, 4],
+    ["analista_esg", "analista_compliance", 0.40, 10, 3],
+
+    ["gestor_impacto_social", "analista_esg", 0.45, 15, 3],
+    ["gestor_impacto_social", "gestor_publico", 0.40, 15, 4],
+    ["gestor_impacto_social", "produtor_cultural", 0.35, 10, 3],
+    ["gestor_impacto_social", "empreendedor_fundador", 0.35, 12, 4],
+
+    ["analista_compliance", "analista_esg", 0.40, 10, 3],
+    ["analista_compliance", "analista_seguranca", 0.35, 10, 3],
+
+    ["chief_of_staff", "empreendedor_fundador", 0.50, 20, 3],
+    ["chief_of_staff", "consultor_estrategia", 0.40, 10, 3],
+    ["chief_of_staff", "gerente_operacoes", 0.40, 10, 2],
+
+    ["especialista_produtos_financeiros", "product_manager", 0.45, 10, 2],
+    ["especialista_produtos_financeiros", "empreendedor_fundador", 0.40, 10, 4],
+
+    ["designer_grafico", "ux_designer", 0.60, 60, 2],
+    ["designer_grafico", "brand_manager", 0.35, 15, 5],
+    ["designer_grafico", "social_media", 0.45, 30, 1],
+    ["designer_grafico", "produtor_audiovisual", 0.35, 15, 2],
+
+    ["produtor_audiovisual", "criador_conteudo", 0.55, 40, 2],
+    ["produtor_audiovisual", "social_media", 0.45, 25, 1],
+    ["produtor_audiovisual", "produtor_eventos", 0.35, 15, 2],
+
+    ["jornalista", "estrategista_conteudo", 0.60, 50, 2],
+    ["jornalista", "copywriter", 0.50, 30, 1],
+    ["jornalista", "brand_manager", 0.30, 10, 4],
+    ["jornalista", "criador_conteudo", 0.45, 25, 2],
+    ["jornalista", "gestor_comunidade", 0.35, 10, 2],
+
+    ["produtor_eventos", "gestor_comunidade", 0.45, 15, 2],
+    ["produtor_eventos", "produtor_cultural", 0.45, 20, 2],
+    ["produtor_eventos", "bizdev", 0.35, 10, 3],
+    ["produtor_eventos", "gerente_projetos", 0.45, 20, 3],
+
+    ["produtor_cultural", "gestor_impacto_social", 0.45, 15, 3],
+    ["produtor_cultural", "produtor_eventos", 0.50, 20, 2],
+    ["produtor_cultural", "gestor_comunidade", 0.35, 8, 2],
+
+    ["gerente_loja", "gerente_operacoes", 0.50, 40, 4],
+    ["gerente_loja", "especialista_ecommerce", 0.40, 20, 3],
+    ["gerente_loja", "executivo_vendas", 0.40, 25, 2],
+    ["gerente_loja", "cx_specialist", 0.35, 15, 3],
+    ["gerente_loja", "recrutador", 0.25, 10, 3],
+
+    ["especialista_ecommerce", "growth_manager", 0.50, 25, 3],
+    ["especialista_ecommerce", "gerente_operacoes", 0.35, 10, 4],
+    ["especialista_ecommerce", "product_manager", 0.35, 12, 4],
+
+    ["analista_logistica", "gerente_operacoes", 0.55, 40, 5],
+    ["analista_logistica", "consultor_processos", 0.45, 20, 3],
+    ["analista_logistica", "analista_dados", 0.40, 20, 2],
+
+    ["gestor_restaurante", "gerente_operacoes", 0.45, 20, 4],
+    ["gestor_restaurante", "empreendedor_fundador", 0.45, 30, 4],
+    ["gestor_restaurante", "produtor_eventos", 0.35, 12, 2],
+    ["gestor_restaurante", "especialista_turismo", 0.30, 8, 3],
+
+    ["especialista_turismo", "produtor_eventos", 0.50, 20, 2],
+    ["especialista_turismo", "cx_specialist", 0.40, 12, 3],
+    ["especialista_turismo", "bizdev", 0.35, 10, 3],
+
+    ["gestor_publico", "gestor_impacto_social", 0.40, 15, 3],
+    ["gestor_publico", "consultor_estrategia", 0.35, 12, 4],
+    ["gestor_publico", "gestor_programas_saude", 0.30, 8, 3],
+
+    ["tecnico_manutencao", "analista_logistica", 0.30, 10, 3],
+    ["tecnico_manutencao", "consultor_processos", 0.30, 10, 4],
+    ["tecnico_manutencao", "devops", 0.25, 8, 3],
+    ["tecnico_manutencao", "gerente_operacoes", 0.35, 15, 6],
+
+    ["analista_agro", "agtech", 0.50, 15, 3],
+    ["analista_agro", "analista_esg", 0.40, 10, 3],
+    ["analista_agro", "analista_dados", 0.35, 10, 2],
+
+    ["agtech", "product_manager", 0.40, 8, 3],
+    ["agtech", "empreendedor_fundador", 0.45, 10, 3],
+
+    ["articulador_comunitario", "gestor_impacto_social", 0.55, 25, 3],
+    ["articulador_comunitario", "gestor_comunidade", 0.50, 15, 2],
+    ["articulador_comunitario", "produtor_cultural", 0.40, 12, 3],
+    ["articulador_comunitario", "gestor_publico", 0.35, 10, 5],
+    ["articulador_comunitario", "mentor_carreira", 0.30, 8, 4],
+
+    ["vendedor_varejo", "gerente_loja", 0.55, 60, 4],
+    ["vendedor_varejo", "sdr", 0.50, 40, 1],
+    ["vendedor_varejo", "atendente_cliente", 0.45, 30, 1],
+    ["vendedor_varejo", "executivo_vendas", 0.40, 25, 3],
+    ["vendedor_varejo", "cs_manager", 0.30, 15, 2]
+  ]
+}

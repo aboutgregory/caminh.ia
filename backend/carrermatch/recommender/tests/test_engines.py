@@ -9,6 +9,7 @@ from carrermatch.recommender.engines.hybrid import (
     HybridPipeline,
     InsufficientPathsError,
     NoSkillsDetectedError,
+    _Candidate,
 )
 from carrermatch.recommender.engines.item_based import ItemBasedRecommender
 from carrermatch.recommender.engines.knowledge_graph import KnowledgeGraphEngine
@@ -75,6 +76,22 @@ class TestSkillExtractor:
     def test_no_match_returns_empty(self):
         assert self.extractor.extract("xyz qwerty") == ()
 
+    @pytest.mark.parametrize(
+        ("text", "slug"),
+        [
+            ("trabalhei num e-commerce de moda.", "varejo"),
+            ("(e-commerce)", "varejo"),
+            ("rodei teste a/b, toda semana", "growth"),
+            ("usei no-code: bubble e airtable", "no_code"),
+            ("fiz pré-vendas.", "vendas_consultivas"),
+        ],
+    )
+    def test_aliases_with_symbols_at_punctuation_boundaries(self, text, slug):  # revisão 002 r1 #3
+        assert SKILL[slug] in self.ids(text)
+
+    def test_symbol_alias_not_matched_inside_longer_token(self):
+        assert SKILL["no_code"] not in self.ids("no-codex é outra coisa")
+
 
 # ---------------------------------------------------------------- vetores
 def test_cosine_bounds():
@@ -114,9 +131,11 @@ class TestItemBased:
         assert len(expanded) > 1
         assert all(w < 1.0 for s, w in expanded.items() if s != SKILL["growth"])
 
-    def test_cooccurrence_changes_neighbors(self):
+    @pytest.mark.parametrize("reverse", [False, True])
+    def test_cooccurrence_changes_neighbors_in_any_key_order(self, reverse):  # revisão 002 r1 #2
         a, b = sorted((SKILL["saude_fisica"], SKILL["vendas"]))
-        with_data = ItemBasedRecommender(SEED.roles, IDF, cooccurrence={(a, b): 10.0})
+        key = (b, a) if reverse else (a, b)
+        with_data = ItemBasedRecommender(SEED.roles, IDF, cooccurrence={key: 10.0})
         assert SKILL["vendas"] in dict(with_data.neighbors(SKILL["saude_fisica"]))
 
     def test_unrelated_profile_scores_zero(self):
@@ -188,6 +207,22 @@ class TestHybridPipeline:
             assert 1 <= p.relevance_stars <= 5
             assert 0 < p.confidence_score < 1
             assert p.description is None  # ADR-02: descrição é papel do ClaudeDescriptionService
+
+    async def test_always_five_key_skills_even_for_sparse_role(self):  # revisão 002 r1 #1
+        """cargo com só 2 habilidades + usuário com 1 habilidade → ainda 5 key_skill_ids únicos."""
+        sparse = Role(
+            999, "esparso", "Esparso", SEED.sectors[0].id, MarketTrend.ESTAVEL,
+            skills=(RoleSkill(SKILL["growth"], 1.0), RoleSkill(SKILL["analise_dados"], 0.5)),
+            related_sector_ids=(1, 2, 3),
+        )
+        from carrermatch.recommender.repositories.recommender_repo import InMemoryRepository
+
+        repo = InMemoryRepository(skills=SEED.skills, roles=(*SEED.roles, sparse), transitions=SEED.transitions)
+        pipe = await HybridPipeline.from_repository(repo)
+        candidate = _Candidate(sparse, item_score=0.5, graph=None, graph_score=0.0, combination=1.0, raw=0.5)
+        path = pipe._to_path(candidate, {SKILL["growth"]: 1.0})
+        assert len(path.key_skill_ids) == 5
+        assert len(set(path.key_skill_ids)) == 5
 
     async def test_no_duplicate_roles(self, pipeline):
         names = slugs(pipeline.recommend(pipeline.build_profile(SAMUEL_MEDINA)))

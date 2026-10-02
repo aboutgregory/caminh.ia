@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     database_url: str = Field(default="postgresql://postgres@localhost:5432/caminhia")
     db_pool_min: int = 1
     db_pool_max: int = 10
+    # 0 obrigatório atrás do pooler em modo transação do Supabase (porta 6543), que não suporta prepared statements
+    db_statement_cache_size: int = 100
 
     anthropic_api_key: SecretStr | None = None
     claude_model: str = "claude-sonnet-5-5"

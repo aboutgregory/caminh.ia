@@ -27,6 +27,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             min_size=settings.db_pool_min,
             max_size=settings.db_pool_max,
             command_timeout=10,
+            timeout=10,
+            statement_cache_size=settings.db_statement_cache_size,
+            # tabelas vivem no schema `app` (não exposto pelo PostgREST do Supabase)
+            server_settings={"search_path": "app,public", "application_name": "caminhia-api"},
         )
     except (OSError, asyncpg.PostgresError) as exc:
         # sobe mesmo sem banco: /health reporta "degraded" em vez do processo morrer

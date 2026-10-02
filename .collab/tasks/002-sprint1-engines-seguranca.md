@@ -57,6 +57,18 @@ pipeline de recomendação end-to-end offline (InMemoryRepository) e os controle
 - **segurança:** algum caminho em `auth.py` em que um token inválido passa? algum handler que vaza detalhe interno?
 - **contrato com o frontend:** `RecommendedPath` (5 habilidades-chave, 3 indústrias, estrelas, tendência) atende o `CareerMapVisualization` e o `CareerDetailsModal`?
 
+## rodada 2 — resposta à revisão gemini r1
+
+status: **aguardando revisão r2**
+
+- **#1 bloqueante (5 habilidades-chave): corrigido.** os 11 cargos receberam a 5ª habilidade em `roles.json`, e o teste do seed agora exige ≥5. `_to_path` também ganhou um fallback com habilidades vizinhas (item-item). teste novo: cargo com 2 habilidades + usuário com 1 → 5 únicas.
+- **#2 importante (co-ocorrência bidirecional): corrigido**, com teste nas duas ordens de chave.
+- **#3 sugestão (regex com símbolos): verificado**, com 6 testes novos (`e-commerce`, `teste a/b`, `no-code`, `pré-vendas`, pontuação ao redor, token maior). não precisou mudar código.
+- **curadoria "vendas"/"varejo": recusa parcial.** remover o alias isolado "vendas" quebraria quem escreve "trabalhei com vendas", o caso mais comum. proposta: decidir com 5–10 perfis reais do beta antes de mexer (escalado ao gregory).
+- **extra:** banco no Supabase (`caminhia-dev`, sa-east-1). schema no `app`, não exposto ao PostgREST; RLS em 24/24 tabelas; grants de anon/authenticated revogados; funções com `search_path` fixo.
+
+85 testes passando.
+
 ## como testar
 
 ```

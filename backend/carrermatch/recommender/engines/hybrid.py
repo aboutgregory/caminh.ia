@@ -168,8 +168,12 @@ class HybridPipeline:
         others = [rs for rs in role.skills if rs.skill_id not in direct]
         key = [rs.skill_id for rs in sorted(matched, key=lambda r: -r.importance)]
         key += [rs.skill_id for rs in sorted(others, key=lambda r: -r.importance)]
-        # cargos com <5 habilidades: completa com as habilidades mais fortes do próprio usuário
-        for skill_id, _ in sorted(direct.items(), key=lambda kv: -kv[1]):
+        # PRD §6.2 exige exatamente 5. o seed garante ≥5 por cargo; isto protege
+        # cargos cadastrados depois: completa com as habilidades mais fortes do
+        # usuário e, se ainda faltar, com as vizinhas (item-item) das do cargo
+        fillers = [s for s, _ in sorted(direct.items(), key=lambda kv: -kv[1])]
+        fillers += [n for rs in role.skills for n, _ in self._item.neighbors(rs.skill_id)]
+        for skill_id in fillers:
             if len(key) >= KEY_SKILLS:
                 break
             if skill_id not in key:

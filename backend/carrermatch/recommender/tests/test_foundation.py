@@ -61,9 +61,9 @@ class TestSeed:
     def test_knowledge_graph_meets_sprint0_gate(self):
         assert len(load_seed().transitions) >= 200
 
-    def test_every_role_has_at_least_four_skills_and_three_industries(self):
+    def test_every_role_has_at_least_five_skills_and_three_industries(self):  # PRD §6.2 — 5 habilidades-chave
         for role in load_seed().roles:
-            assert len(role.skills) >= 4, role.slug
+            assert len(role.skills) >= 5, role.slug
             assert len(role.related_sector_ids) == 3, role.slug
             assert len(set(role.related_sector_ids)) == 3, role.slug
 

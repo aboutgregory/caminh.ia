@@ -50,7 +50,8 @@ class ItemBasedRecommender:
             for b in skill_ids[i + 1 :]:
                 sim = cosine(columns[a], columns[b])
                 if max_co:
-                    co = cooccurrence.get((a, b), 0.0) / max_co
+                    # aceita o par em qualquer ordem (o repositório Postgres usa a < b, mas não é contrato)
+                    co = max(cooccurrence.get((a, b), 0.0), cooccurrence.get((b, a), 0.0)) / max_co
                     sim = (1 - COOCCURRENCE_BLEND) * sim + COOCCURRENCE_BLEND * co
                 if sim >= MIN_ITEM_SIMILARITY:
                     sims[a].append((b, sim))

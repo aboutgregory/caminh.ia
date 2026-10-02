@@ -1,4 +1,4 @@
-﻿"""Sprint 2 — POST /recommendations e POST /events, ponta a ponta com dublês (sem banco, sem Claude real)."""
+"""Sprint 2 — POST /recommendations e POST /events, ponta a ponta com dublês (sem banco, sem Claude real)."""
 
 import time
 import uuid

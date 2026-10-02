@@ -1,4 +1,4 @@
-﻿"""Sprint 0 — domínio, seed e repositório em memória."""
+"""Sprint 0 — domínio, seed e repositório em memória."""
 
 from collections import Counter
 

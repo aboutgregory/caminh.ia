@@ -1,4 +1,4 @@
-﻿"""Sprint 1 — controles de segurança: erros sem stack trace, JWT, CORS, limites de input."""
+"""Sprint 1 — controles de segurança: erros sem stack trace, JWT, CORS, limites de input."""
 
 import time
 import uuid

@@ -1,4 +1,4 @@
-﻿"""Dublês da Claude API para testes offline (nenhuma chamada real, nenhum custo)."""
+"""Dublês da Claude API para testes offline (nenhuma chamada real, nenhum custo)."""
 
 from __future__ import annotations
 

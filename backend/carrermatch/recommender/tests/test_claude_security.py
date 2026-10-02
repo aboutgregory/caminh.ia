@@ -1,4 +1,4 @@
-﻿"""Sprint 2 — ClaudeDescriptionService: PII fora do payload, validação da saída, fallbacks."""
+"""Sprint 2 — ClaudeDescriptionService: PII fora do payload, validação da saída, fallbacks."""
 
 import json
 import re

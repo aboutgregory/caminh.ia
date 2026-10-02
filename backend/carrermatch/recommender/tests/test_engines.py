@@ -1,4 +1,4 @@
-﻿"""Sprint 1 — extração, item-based, knowledge graph e pipeline híbrido (offline, InMemoryRepository)."""
+"""Sprint 1 — extração, item-based, knowledge graph e pipeline híbrido (offline, InMemoryRepository)."""
 
 import dataclasses
 

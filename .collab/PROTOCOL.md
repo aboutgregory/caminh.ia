@@ -18,13 +18,13 @@ dois agentes, um repositório. quem escreve é o **R** do RACI (roadmap); o outr
 
 ### handshake (antigravity, uma vez por sessão)
 
-a CLI `agentapi` só funciona com o endereço do language server do antigravity aberto. ao iniciar uma sessão no antigravity, o agente roda no terminal integrado, na raiz do repo:
+a CLI `agentapi` só funciona com as variáveis do language server do antigravity aberto (endereço + token CSRF). ao iniciar uma sessão no antigravity, o agente roda no terminal integrado, na raiz do repo:
 
 ```powershell
-$env:ANTIGRAVITY_LS_ADDRESS | Out-File -Encoding utf8 -NoNewline .collab/antigravity_ls_address
+Get-ChildItem env:ANTIGRAVITY_* | ForEach-Object -Begin { $h = @{} } -Process { $h[$_.Name] = $_.Value } -End { $h | ConvertTo-Json | Out-File -Encoding utf8 .collab/antigravity_env.json }
 ```
 
-(o arquivo é ignorado pelo git.)
+(o arquivo é ignorado pelo git e só vale enquanto aquela sessão do antigravity estiver aberta; refaça ao reabrir.)
 
 ## o loop
 

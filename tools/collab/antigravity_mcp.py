@@ -1,17 +1,16 @@
 """MCP server: Claude Code -> Antigravity (Gemini).
 
-Envolve a CLI `agentapi` do Antigravity. A CLI exige ANTIGRAVITY_LS_ADDRESS,
-que só existe dentro dos terminais do Antigravity aberto. Handshake:
-
-    1. variável de ambiente ANTIGRAVITY_LS_ADDRESS, se definida; senão
-    2. arquivo .collab/antigravity_ls_address, gravado pelo agente do
-       Antigravity ao iniciar a sessão (ver .collab/PROTOCOL.md).
+Envolve a CLI `agentapi` do Antigravity. A CLI exige ANTIGRAVITY_LS_ADDRESS e um
+token CSRF, que só existem nos terminais do Antigravity aberto. Handshake:
+o agente do Antigravity grava as variáveis ANTIGRAVITY_* em
+.collab/antigravity_env.json ao iniciar a sessão (ver .collab/PROTOCOL.md).
 
 Registrado em .mcp.json na raiz do repositório.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -20,29 +19,38 @@ from mcp.server.mcpserver import MCPServer
 
 REPO = Path(__file__).resolve().parents[2]
 COLLAB = REPO / ".collab"
-ADDRESS_FILE = COLLAB / "antigravity_ls_address"
+ADDRESS_FILE = COLLAB / "antigravity_ls_address"   # legado
+ENV_FILE = COLLAB / "antigravity_env.json"
 AGENTAPI = Path(os.environ.get("ANTIGRAVITY_AGENTAPI", Path.home() / ".gemini/antigravity/bin/agentapi.bat"))
 TIMEOUT_S = 300
 
 mcp = MCPServer("antigravity")
 
 
-def _ls_address() -> str:
-    addr = os.environ.get("ANTIGRAVITY_LS_ADDRESS", "").strip()
-    if not addr and ADDRESS_FILE.exists():
-        addr = ADDRESS_FILE.read_text(encoding="utf-8-sig").strip()
-    if not addr:
+def _antigravity_env() -> dict[str, str]:
+    """Variáveis ANTIGRAVITY_* do terminal do Antigravity (endereço do language server, token CSRF...).
+
+    Ordem: ambiente atual > .collab/antigravity_env.json (handshake novo) > antigravity_ls_address (legado).
+    O arquivo é local e ignorado pelo git; o token CSRF vale só para a sessão aberta do Antigravity.
+    """
+    env = {k: v for k, v in os.environ.items() if k.startswith("ANTIGRAVITY_")}
+    if "ANTIGRAVITY_LS_ADDRESS" not in env and ENV_FILE.exists():
+        data = json.loads(ENV_FILE.read_text(encoding="utf-8-sig"))
+        env.update({k: str(v) for k, v in data.items() if k.startswith("ANTIGRAVITY_")})
+    if "ANTIGRAVITY_LS_ADDRESS" not in env and ADDRESS_FILE.exists():
+        env["ANTIGRAVITY_LS_ADDRESS"] = ADDRESS_FILE.read_text(encoding="utf-8-sig").strip()
+    if not env.get("ANTIGRAVITY_LS_ADDRESS"):
         raise RuntimeError(
             "Antigravity indisponível: abra o Antigravity no repositório e peça ao agente para rodar o "
-            "handshake de .collab/PROTOCOL.md (grava .collab/antigravity_ls_address)."
+            "handshake de .collab/PROTOCOL.md (grava .collab/antigravity_env.json)."
         )
-    return addr
+    return env
 
 
 def _agentapi(*args: str) -> str:
     if not AGENTAPI.exists():
         raise RuntimeError(f"agentapi não encontrado em {AGENTAPI}")
-    env = {**os.environ, "ANTIGRAVITY_LS_ADDRESS": _ls_address()}
+    env = {**os.environ, **_antigravity_env()}
     proc = subprocess.run(
         [str(AGENTAPI), *args],
         capture_output=True,

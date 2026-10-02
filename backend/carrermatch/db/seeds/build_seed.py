@@ -62,7 +62,8 @@ def chunks() -> list[tuple[str, str]]:
                "ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, "
                "market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid"),
         insert("roles_i18n", "role_id, locale, title",
-               (f"{r.id}, '{loc}', {q(raw_role_by_id[r.id][key])}" for r in seed.roles for loc, key in (("pt-BR", "pt"), ("en", "en"))),
+               (f"{r.id}, '{loc}', {q(raw_role_by_id[r.id][key])}"
+                for r in seed.roles for loc, key in (("pt-BR", "pt"), ("en", "en"))),
                "ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title"),
         f"DELETE FROM role_skills WHERE role_id IN ({role_ids});",
         insert("role_skills", "role_id, skill_id, importance",
@@ -74,8 +75,8 @@ def chunks() -> list[tuple[str, str]]:
 
     out.append(("knowledge graph", insert(
         "career_transitions", "from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source",
-        (f"{t.from_role_id}, {t.to_role_id}, {t.observed_count}, {t.confidence}, {t.avg_years}, {arr_int(t.bridge_skill_ids)}, 'curated'"
-         for t in seed.transitions),
+        (f"{t.from_role_id}, {t.to_role_id}, {t.observed_count}, {t.confidence}, {t.avg_years}, "
+         f"{arr_int(t.bridge_skill_ids)}, 'curated'" for t in seed.transitions),
         "ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, "
         "confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids",
     )))

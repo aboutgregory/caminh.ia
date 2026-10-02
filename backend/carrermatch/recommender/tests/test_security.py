@@ -1,4 +1,4 @@
-"""Sprint 1 — controles de segurança: erros sem stack trace, JWT, CORS, limites de input."""
+﻿"""Sprint 1 — controles de segurança: erros sem stack trace, JWT, CORS, limites de input."""
 
 import time
 import uuid
@@ -31,7 +31,7 @@ def make_token(**overrides) -> str:
 
 @pytest.fixture
 def client(monkeypatch):
-    monkeypatch.setenv("DATABASE_URL", "postgresql://nobody:x@127.0.0.1:1/none")
+    monkeypatch.setenv("DATABASE_URL", "")
     monkeypatch.setenv("SUPABASE_JWT_SECRET", SECRET)
     monkeypatch.setenv("CORS_ORIGINS", ORIGIN)
     get_settings.cache_clear()
@@ -161,7 +161,7 @@ class TestCors:
     def test_docs_hidden_in_production(self, monkeypatch):
         monkeypatch.setenv("ENVIRONMENT", "production")
         monkeypatch.setenv("CORS_ORIGINS", "https://caminhia.vercel.app")
-        monkeypatch.setenv("DATABASE_URL", "postgresql://nobody:x@127.0.0.1:1/none")
+        monkeypatch.setenv("DATABASE_URL", "")
         get_settings.cache_clear()
         with TestClient(create_app()) as c:
             assert c.get("/docs").status_code == 404

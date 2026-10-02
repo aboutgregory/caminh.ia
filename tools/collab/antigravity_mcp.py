@@ -53,6 +53,7 @@ def _agentapi(*args: str) -> str:
     env = {**os.environ, **_antigravity_env()}
     proc = subprocess.run(
         [str(AGENTAPI), *args],
+        check=False,
         capture_output=True,
         text=True,
         encoding="utf-8",

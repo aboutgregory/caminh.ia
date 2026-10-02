@@ -1,4 +1,4 @@
-"""Sprint 0 — domínio, seed e repositório em memória."""
+﻿"""Sprint 0 — domínio, seed e repositório em memória."""
 
 from collections import Counter
 
@@ -105,7 +105,7 @@ class TestInMemoryRepository:
 
 
 def test_health_degraded_without_database(monkeypatch):
-    monkeypatch.setenv("DATABASE_URL", "postgresql://nobody:x@127.0.0.1:1/none")
+    monkeypatch.setenv("DATABASE_URL", "")
     from carrermatch.config import get_settings
 
     get_settings.cache_clear()

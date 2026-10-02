@@ -28,9 +28,13 @@ class Settings(BaseSettings):
 
     anthropic_api_key: SecretStr | None = None
     claude_model: str = "claude-sonnet-5-5"
-    claude_temperature: float = 0.7
-    claude_max_tokens: int = 4000
-    claude_timeout_s: float = 15.0
+    # sem claude_temperature: o claude-sonnet-5-5 rejeita temperature diferente do padrão (400)
+    claude_max_tokens: int = 3000       # por lote de 3 caminhos (~150 palavras cada + JSON)
+    claude_timeout_s: float = 12.0      # por lote; os lotes rodam em paralelo → cabe nos 15 s do TRD
+
+    # rate limiting por IP (gate de go-live #1) — formato "N/unidade;M/unidade"
+    rate_limit_recommendations: str = "10/minute;50/hour"
+    rate_limit_events: str = "120/minute"
 
     # Supabase Auth — só autenticação (o banco é PostgreSQL próprio)
     supabase_url: str | None = None                 # habilita JWKS (chaves assimétricas ES256/RS256)

@@ -1,4 +1,4 @@
-"""Personas de validação (sprint 1). Textos fictícios, sem PII."""
+﻿"""Personas de validação (sprint 1). Textos fictícios, sem PII."""
 
 # PRD §3 — obesidade infantil, terapia, disciplina corporal, growth, automações, home office
 SAMUEL_MEDINA = (

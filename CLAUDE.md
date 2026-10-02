@@ -32,3 +32,5 @@ checklist obrigatório em `.github/pull_request_template.md`; itens por sprint e
 - claude API só descreve caminhos já selecionados pelos algoritmos (ADR-02).
 - nenhuma chave no frontend; `backend/.env` fora do git.
 - respostas de erro nunca ecoam input nem stack trace (`api/errors.py`); token inválido é 401, nunca anônimo.
+- payload da Claude API: só experiências passadas por `redact_pii` + vocabulário; sem `temperature`/`tool_choice` forçado (400 no `claude-sonnet-5-5`); falha do Claude cai no fallback local, nunca no usuário.
+- eventos comportamentais: só números e ids no payload, nunca texto livre; persistência exige login **e** `consent_data`.

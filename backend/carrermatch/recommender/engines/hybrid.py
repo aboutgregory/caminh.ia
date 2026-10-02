@@ -74,22 +74,29 @@ class HybridPipeline:
         item_based: ItemBasedRecommender,
         graph: KnowledgeGraphEngine,
         roles: Sequence[Role],
+        skill_names: Mapping[int, str] | None = None,
+        sector_names: Mapping[int, str] | None = None,
     ) -> None:
         self._extractor = extractor
         self._item = item_based
         self._graph = graph
         self._roles = {r.id: r for r in roles}
+        self.skill_names: dict[int, str] = dict(skill_names or {})
+        self.sector_names: dict[int, str] = dict(sector_names or {})
 
     @classmethod
     async def from_repository(cls, repo: RecommenderRepository) -> HybridPipeline:
         skills = await repo.list_skills()
         roles = await repo.list_roles()
+        sectors = await repo.list_sectors()
         idf = skill_idf(skills, roles)
         return cls(
             extractor=SkillExtractor(skills, idf),
             item_based=ItemBasedRecommender(roles, idf, await repo.skill_cooccurrence()),
             graph=KnowledgeGraphEngine(await repo.list_transitions()),
             roles=roles,
+            skill_names={s.id: s.name for s in skills},
+            sector_names={s.id: s.name for s in sectors},
         )
 
     def build_profile(self, texts: Sequence[str], risk_tolerance: float = 0.5) -> UserProfile:

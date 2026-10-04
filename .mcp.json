@@ -2,7 +2,13 @@
   "mcpServers": {
     "antigravity": {
       "command": "C:\\Users\\Gregory\\Documents\\bho\\Tecnologia\\caminh.ia - Carrer Match\\backend\\.venv\\Scripts\\python.exe",
-      "args": ["C:\\Users\\Gregory\\Documents\\bho\\Tecnologia\\caminh.ia - Carrer Match\\tools\\collab\\antigravity_mcp.py"]
+      "args": [
+        "C:\\Users\\Gregory\\Documents\\bho\\Tecnologia\\caminh.ia - Carrer Match\\tools\\collab\\antigravity_mcp.py"
+      ]
+    },
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=ostuhmbtueewtnlgcbvu&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching"
     }
   }
 }

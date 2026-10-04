@@ -7,15 +7,22 @@ repos:
         args: ["--baseline", ".secrets.baseline"]
         exclude: ^backend/carrermatch/db/seeds/seed\.sql$
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: check-added-large-files
-        args: ["--maxkb=1024"]
-      - id: check-merge-conflict
-      # chaves privadas: cobertas pelo PrivateKeyDetector do detect-secrets
+  # pre-commit-hooks via `python -m` (não pelos .exe gerados pelo pip): o Controle de
+  # Aplicativos do Windows bloqueia esses executáveis não assinados; o python.exe é assinado.
+  # chaves privadas: cobertas pelo PrivateKeyDetector do detect-secrets
   - repo: local
     hooks:
+      - id: check-added-large-files
+        name: bloquear arquivos grandes (>1 MB)
+        entry: python -m pre_commit_hooks.check_added_large_files --maxkb=1024
+        language: python
+        additional_dependencies: ["pre-commit-hooks==5.0.0"]
+      - id: check-merge-conflict
+        name: bloquear marcadores de conflito
+        entry: python -m pre_commit_hooks.check_merge_conflict
+        language: python
+        additional_dependencies: ["pre-commit-hooks==5.0.0"]
+        types: [text]
       # bloqueia .env commitado mesmo que alguém force o add
       - id: forbid-env-files
         name: bloquear arquivos .env

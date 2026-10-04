@@ -47,12 +47,18 @@ def _antigravity_env() -> dict[str, str]:
     return env
 
 
+def _one_line(text: str) -> str:
+    """O agentapi é um .bat: o cmd corta argumentos na primeira quebra de linha (e trata % e " de
+    forma especial). Achata o texto numa linha só, com " | " no lugar das quebras."""
+    return " | ".join(part.strip() for part in text.splitlines() if part.strip()).replace('"', "'").replace("%", " por cento")
+
+
 def _agentapi(*args: str) -> str:
     if not AGENTAPI.exists():
         raise RuntimeError(f"agentapi não encontrado em {AGENTAPI}")
     env = {**os.environ, **_antigravity_env()}
     proc = subprocess.run(
-        [str(AGENTAPI), *args],
+        [str(AGENTAPI), *(_one_line(a) for a in args)],
         check=False,
         capture_output=True,
         text=True,

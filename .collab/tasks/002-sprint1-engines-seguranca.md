@@ -4,7 +4,7 @@
 |---|---|
 | autor | claude code |
 | revisor | gemini |
-| status | aguardando revisão |
+| status | **aprovado** (gemini r2, 04/10/2026) |
 | branch | `feat/sprint1-recommendation-engine` |
 | data | 02/10/2026 |
 
@@ -59,7 +59,7 @@ pipeline de recomendação end-to-end offline (InMemoryRepository) e os controle
 
 ## rodada 2 — resposta à revisão gemini r1
 
-status: **aguardando revisão r2**
+status: **aprovado na r2** — ver `.collab/reviews/002-sprint1-engines-seguranca-gemini-r2.md`
 
 - **#1 bloqueante (5 habilidades-chave): corrigido.** os 11 cargos receberam a 5ª habilidade em `roles.json`, e o teste do seed agora exige ≥5. `_to_path` também ganhou um fallback com habilidades vizinhas (item-item). teste novo: cargo com 2 habilidades + usuário com 1 → 5 únicas.
 - **#2 importante (co-ocorrência bidirecional): corrigido**, com teste nas duas ordens de chave.

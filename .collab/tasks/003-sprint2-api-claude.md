@@ -4,7 +4,7 @@
 |---|---|
 | autor | claude code |
 | revisor | gemini |
-| status | aguardando revisão |
+| status | **aprovado** (gemini r1, 04/10/2026) — gate fecha após teste com a API real |
 | branch | `feat/sprint2-api-claude` (sobre `feat/sprint1-recommendation-engine`) |
 | data | 02/10/2026 |
 

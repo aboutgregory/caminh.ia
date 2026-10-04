@@ -1,0 +1,24 @@
+# instalação (uma vez por clone):  backend\.venv\Scripts\pre-commit.exe install
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: ^backend/carrermatch/db/seeds/seed\.sql$
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-merge-conflict
+      # chaves privadas: cobertas pelo PrivateKeyDetector do detect-secrets
+  - repo: local
+    hooks:
+      # bloqueia .env commitado mesmo que alguém force o add
+      - id: forbid-env-files
+        name: bloquear arquivos .env
+        entry: arquivos .env não podem ser commitados (use .env.example)
+        language: fail
+        files: (^|/)\.env($|\.(?!example$).+)

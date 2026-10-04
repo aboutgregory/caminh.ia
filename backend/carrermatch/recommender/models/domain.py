@@ -19,6 +19,8 @@ MAX_PATHS = 21
 # RN-01 / RN-02
 MIN_EXPERIENCES = 3
 MAX_EXPERIENCES = 5
+# teto por experiência: limita custo de extração/tokens da Claude API e abuso (seg. v2 §4.3)
+MAX_EXPERIENCE_CHARS = 1500
 
 
 class MarketTrend(StrEnum):
@@ -117,6 +119,8 @@ class Experience:
     def __post_init__(self) -> None:
         if not self.raw_text.strip():
             raise ValueError("raw_text não pode ser vazio")
+        if len(self.raw_text) > MAX_EXPERIENCE_CHARS:
+            raise ValueError(f"raw_text excede {MAX_EXPERIENCE_CHARS} caracteres")
         _check_unit("emotional_impact", self.emotional_impact)
         _check_unit("mastery_level", self.mastery_level)
         _check_unit("recognition_score", self.recognition_score)

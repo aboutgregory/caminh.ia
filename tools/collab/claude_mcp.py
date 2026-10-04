@@ -40,6 +40,7 @@ def _claude_bin() -> str:
 def _run_claude(prompt: str) -> str:
     proc = subprocess.run(
         [_claude_bin(), "-p", prompt, "--allowedTools", READ_ONLY_TOOLS, "--output-format", "text"],
+        check=False,
         capture_output=True,
         text=True,
         encoding="utf-8",

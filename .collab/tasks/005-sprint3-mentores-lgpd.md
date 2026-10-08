@@ -41,10 +41,24 @@ parte backend do sprint 3: `MentorMatcher` (user-based CF), `POST /mentor-matche
 - **LGPD:** alguma tabela com dado do usuário que a exclusão não cobre? (`_DELETE_STEPS` em `account_repo.py`)
 - **UX:** as mensagens 404/409/422 em pt-BR.
 
+## validação no banco (Supabase `caminhia-dev`, 08/10/2026)
+
+migration 002 aplicada. o SQL de `PostgresAccountRepository` foi executado no banco real com as mesmas consultas do código, dentro de um bloco que termina em exceção (rollback total; conferido depois: 0 linhas de teste restantes):
+
+| verificação | resultado |
+|---|---|
+| consulta de mentores disponíveis | ✅ 2 linhas (mentor × habilidades) |
+| vetor de habilidades do mentorado | ✅ 2 habilidades |
+| 2ª solicitação pendente para o mesmo mentor | ✅ bloqueada pelo índice único (`unique_violation` → 409) |
+| consultas da exportação | ✅ experiências com nomes das habilidades em pt-BR, eventos, recomendações, mentorias |
+| exclusão (`_DELETE_STEPS` na ordem do código) | ✅ eventos 1, feedback 1, matches 1, recomendações 1, experiências 1, users 1; **residual 0** (inclusive `experience_skills` por cascata); o mentor da outra ponta ficou intacto |
+| `audit_log` | ✅ registro gravado só com contagens |
+| advisor de segurança | só o INFO "RLS sem policy" (negar por padrão, intencional) |
+
 ## pendências
 
-- o SQL de `PostgresAccountRepository` foi validado no Supabase dentro de uma transação desfeita no final (ver a seção "validação no banco" abaixo, quando preenchida).
 - `SUPABASE_SERVICE_ROLE_KEY` no `backend/.env` (produção: variável do Railway/Fly). sem ela, a revogação no Auth não acontece e vira pendência auditada.
+- o plano gratuito do Supabase **pausa o projeto após ~7 dias sem uso** (aconteceu em 08/10; os dados voltaram intactos na reativação). antes do go-live: plano pago ou uptime ping, além do backup ≥7 dias do gate #6.
 
 ## como testar
 

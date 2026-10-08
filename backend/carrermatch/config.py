@@ -35,11 +35,16 @@ class Settings(BaseSettings):
     # rate limiting por IP (gate de go-live #1) — formato "N/unidade;M/unidade"
     rate_limit_recommendations: str = "10/minute;50/hour"
     rate_limit_events: str = "120/minute"
+    rate_limit_mentor_search: str = "20/minute"
+    rate_limit_mentor_requests: str = "5/hour;20/day"   # anti-spam no formulário de mentoria (seg. v2 risco #8)
+    rate_limit_account: str = "10/hour"
 
     # Supabase Auth — só autenticação (o banco é PostgreSQL próprio)
     supabase_url: str | None = None                 # habilita JWKS (chaves assimétricas ES256/RS256)
     supabase_jwt_secret: SecretStr | None = None    # chave legada HS256
     supabase_jwt_audience: str = "authenticated"
+    # só para DELETE /users/me (revogar o usuário no Supabase Auth). nunca vai ao frontend.
+    supabase_service_role_key: SecretStr | None = None
 
     # lista separada por vírgula; aceita CORS_ORIGINS ou ALLOWED_ORIGINS
     cors_origins: str = Field(

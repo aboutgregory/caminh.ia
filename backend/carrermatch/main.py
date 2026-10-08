@@ -15,16 +15,19 @@ from fastapi.responses import JSONResponse
 from carrermatch.api.deps import AppServices
 from carrermatch.api.errors import install_error_handling
 from carrermatch.api.rate_limit import SlidingWindowLimiter
-from carrermatch.api.routes import events, recommendations
+from carrermatch.api.routes import events, mentors, recommendations, users
 from carrermatch.config import get_settings
 from carrermatch.db.seeds.loader import seed_repository
 from carrermatch.recommender.engines.hybrid import HybridPipeline
+from carrermatch.recommender.engines.mentor_matcher import MentorMatcher
+from carrermatch.recommender.repositories.account_repo import PostgresAccountRepository
 from carrermatch.recommender.repositories.recommender_repo import PostgresRecommenderRepository
 from carrermatch.recommender.repositories.write_repo import (
     InMemoryEventRepository,
     PostgresEventRepository,
     PostgresRecommendationStore,
 )
+from carrermatch.recommender.services.account_services import NullAuthAdmin, SupabaseAuthAdmin
 from carrermatch.recommender.services.behavioral_service import BehavioralEventCollector
 from carrermatch.recommender.services.claude_service import ClaudeDescriptionService
 
@@ -104,6 +107,14 @@ async def build_services(pool: asyncpg.Pool | None, claude_client: anthropic.Asy
         claude=claude,
         events=BehavioralEventCollector(PostgresEventRepository(pool) if pool else InMemoryEventRepository()),
         store=PostgresRecommendationStore(pool) if pool else None,
+        accounts=PostgresAccountRepository(pool) if pool else None,
+        mentor_matcher=MentorMatcher(pipeline.idf if pipeline else {}),
+        auth_admin=(
+            SupabaseAuthAdmin(settings.supabase_url, settings.supabase_service_role_key.get_secret_value())
+            if settings.supabase_url and settings.supabase_service_role_key
+            and settings.supabase_service_role_key.get_secret_value()
+            else NullAuthAdmin()
+        ),
     )
 
 
@@ -132,9 +143,14 @@ def create_app() -> FastAPI:
     app.state.limiters = {
         "recommendations": SlidingWindowLimiter(settings.rate_limit_recommendations),
         "events": SlidingWindowLimiter(settings.rate_limit_events),
+        "mentor_search": SlidingWindowLimiter(settings.rate_limit_mentor_search),
+        "mentor_requests": SlidingWindowLimiter(settings.rate_limit_mentor_requests),
+        "account": SlidingWindowLimiter(settings.rate_limit_account),
     }
     app.include_router(recommendations.router)
     app.include_router(events.router)
+    app.include_router(mentors.router)
+    app.include_router(users.router)
 
     @app.middleware("http")
     async def security_headers(request: Request, call_next):

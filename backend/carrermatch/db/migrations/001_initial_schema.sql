@@ -7,16 +7,25 @@
 --   - ids de vocabulário (skills, roles, sectors) são SMALLINT/INT estáveis
 --     vindos do seed; ids de usuário e eventos são UUID.
 --   - scores normalizados em [0,1] com CHECK; estrelas (1–5) só na API.
---   - RLS habilitado em tabelas com dados de usuário. o backend conecta com o
---     role dono das tabelas (bypass de RLS); policies protegem acesso direto
---     via `app.user_id` (SET LOCAL app.user_id = '<uuid>').
+--   - tudo no schema `app`, NÃO exposto pelo PostgREST do Supabase. o backend
+--     é o único cliente do banco (o frontend só fala com a API FastAPI).
+--   - RLS habilitado em TODAS as tabelas. o backend conecta com o role dono das
+--     tabelas (bypass de RLS); tabelas de usuário têm policies por
+--     `app.user_id` (SET LOCAL app.user_id = '<uuid>') para acesso direto;
+--     tabelas de vocabulário ficam sem policy = negado a qualquer outro role.
+--   - portável: roda em PostgreSQL puro e no Supabase (anon/authenticated são
+--     revogados no fim, se existirem).
 -- =============================================================================
 
 BEGIN;
 
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
-CREATE EXTENSION IF NOT EXISTS btree_gin;
-CREATE EXTENSION IF NOT EXISTS pgcrypto;  -- gen_random_uuid()
+CREATE SCHEMA IF NOT EXISTS extensions;
+CREATE EXTENSION IF NOT EXISTS pg_trgm   WITH SCHEMA extensions;
+CREATE EXTENSION IF NOT EXISTS btree_gin WITH SCHEMA extensions;
+-- gen_random_uuid() é nativo desde o PostgreSQL 13
+
+CREATE SCHEMA IF NOT EXISTS app;
+SET search_path = app, extensions, public;
 
 -- -----------------------------------------------------------------------------
 -- tipos
@@ -30,12 +39,13 @@ CREATE TYPE rec_source        AS ENUM ('item_based', 'knowledge_graph', 'hybrid'
 -- -----------------------------------------------------------------------------
 -- utilitário: updated_at automático
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION set_updated_at() RETURNS trigger AS $$
+CREATE OR REPLACE FUNCTION set_updated_at() RETURNS trigger
+LANGUAGE plpgsql SET search_path = '' AS $$
 BEGIN
-    NEW.updated_at := now();
+    NEW.updated_at := pg_catalog.now();
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- =============================================================================
 -- 1. vocabulário controlado
@@ -304,13 +314,13 @@ CREATE TABLE ltp_predictions (
 -- =============================================================================
 -- 8. views de apoio
 -- =============================================================================
-CREATE VIEW v_roles_pt AS
+CREATE VIEW v_roles_pt WITH (security_invoker = true) AS
 SELECT r.id, r.slug, ri.title, r.market_trend, r.is_hybrid, r.sector_id, si.name AS sector_name
 FROM roles r
 JOIN roles_i18n ri   ON ri.role_id = r.id AND ri.locale = 'pt-BR'
 JOIN sectors_i18n si ON si.sector_id = r.sector_id AND si.locale = 'pt-BR';
 
-CREATE VIEW v_available_mentors AS
+CREATE VIEW v_available_mentors WITH (security_invoker = true) AS
 SELECT id, display_name, mentor_headline
 FROM users
 WHERE is_mentor AND mentor_status = 'available';
@@ -318,9 +328,27 @@ WHERE is_mentor AND mentor_status = 'available';
 -- =============================================================================
 -- 9. RLS (dados de usuário)
 -- =============================================================================
-CREATE OR REPLACE FUNCTION app_user_id() RETURNS UUID AS $$
-    SELECT nullif(current_setting('app.user_id', true), '')::uuid;
-$$ LANGUAGE sql STABLE;
+CREATE OR REPLACE FUNCTION app_user_id() RETURNS UUID
+LANGUAGE sql STABLE SET search_path = '' AS $$
+    SELECT NULLIF(pg_catalog.current_setting('app.user_id', true), '')::uuid;
+$$;
+
+-- vocabulário, grafo e caches: RLS sem policy = só o dono (backend/seed) acessa
+ALTER TABLE sectors                   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sectors_i18n              ENABLE ROW LEVEL SECURITY;
+ALTER TABLE skills                    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE skills_i18n               ENABLE ROW LEVEL SECURITY;
+ALTER TABLE roles                     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE roles_i18n                ENABLE ROW LEVEL SECURITY;
+ALTER TABLE role_skills               ENABLE ROW LEVEL SECURITY;
+ALTER TABLE role_sectors              ENABLE ROW LEVEL SECURITY;
+ALTER TABLE career_transitions        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_similarities         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE plasticity_edges          ENABLE ROW LEVEL SECURITY;
+-- partições não herdam RLS do pai quando acessadas diretamente
+ALTER TABLE behavioral_events_2026    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE behavioral_events_2027    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE behavioral_events_default ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE users                   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE experiences             ENABLE ROW LEVEL SECURITY;
@@ -344,5 +372,31 @@ CREATE POLICY matches_participant   ON mentor_matches          USING (app_user_i
 CREATE POLICY events_owner          ON behavioral_events       USING (user_id = app_user_id());
 CREATE POLICY plasticity_owner      ON plasticity_nodes        USING (user_id = app_user_id());
 CREATE POLICY ltp_owner             ON ltp_predictions         USING (user_id = app_user_id());
+
+-- =============================================================================
+-- 10. privilégios: ninguém além do dono acessa o schema app
+--     (no Supabase, anon/authenticated recebem grants padrão em schemas novos)
+-- =============================================================================
+REVOKE ALL ON SCHEMA app FROM PUBLIC;
+REVOKE ALL ON ALL TABLES    IN SCHEMA app FROM PUBLIC;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA app FROM PUBLIC;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA app FROM PUBLIC;
+
+DO $$
+DECLARE r TEXT;
+BEGIN
+    FOREACH r IN ARRAY ARRAY['anon', 'authenticated'] LOOP
+        IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = r) THEN
+            EXECUTE format('REVOKE ALL ON SCHEMA app FROM %I', r);
+            EXECUTE format('REVOKE ALL ON ALL TABLES IN SCHEMA app FROM %I', r);
+            EXECUTE format('REVOKE ALL ON ALL SEQUENCES IN SCHEMA app FROM %I', r);
+            EXECUTE format('REVOKE ALL ON ALL FUNCTIONS IN SCHEMA app FROM %I', r);
+            EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA app REVOKE ALL ON TABLES FROM %I', r);
+            EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA app REVOKE ALL ON SEQUENCES FROM %I', r);
+            EXECUTE format('ALTER DEFAULT PRIVILEGES IN SCHEMA app REVOKE ALL ON FUNCTIONS FROM %I', r);
+        END IF;
+    END LOOP;
+END;
+$$;
 
 COMMIT;

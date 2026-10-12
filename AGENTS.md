@@ -6,7 +6,7 @@ você trabalha em par com o claude code neste repositório. leia `.collab/PROTOC
 
 1. rode o handshake (terminal integrado, raiz do repo):
    ```powershell
-   $env:ANTIGRAVITY_LS_ADDRESS | Out-File -Encoding utf8 -NoNewline .collab/antigravity_ls_address
+   Get-ChildItem env:ANTIGRAVITY_* | ForEach-Object -Begin { $h = @{} } -Process { $h[$_.Name] = $_.Value } -End { $h | ConvertTo-Json | Out-File -Encoding utf8 .collab/antigravity_env.json }
    ```
 2. leia `.collab/tasks/` — handoffs pendentes de revisão sua estão marcados `revisor: gemini` e `status: aguardando revisão`.
 

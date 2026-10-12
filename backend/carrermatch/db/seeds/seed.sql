@@ -1,1699 +1,1564 @@
 -- GERADO por build_seed.py — não editar à mão; edite data/*.json
+
+-- @chunk setores e habilidades
 BEGIN;
+SET search_path = app, public;
+INSERT INTO sectors (id, slug) VALUES
+  (1, 'tecnologia'),
+  (2, 'saude'),
+  (3, 'educacao'),
+  (4, 'financas'),
+  (5, 'varejo_ecommerce'),
+  (6, 'marketing_comunicacao'),
+  (7, 'consultoria'),
+  (8, 'industria'),
+  (9, 'midia_entretenimento'),
+  (10, 'bem_estar_esporte'),
+  (11, 'terceiro_setor'),
+  (12, 'setor_publico'),
+  (13, 'rh_pessoas'),
+  (14, 'logistica'),
+  (15, 'agro'),
+  (16, 'juridico'),
+  (17, 'turismo_gastronomia')
+ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
+INSERT INTO sectors_i18n (sector_id, locale, name) VALUES
+  (1, 'pt-BR', 'Tecnologia'),
+  (1, 'en', 'Technology'),
+  (2, 'pt-BR', 'Saúde'),
+  (2, 'en', 'Healthcare'),
+  (3, 'pt-BR', 'Educação'),
+  (3, 'en', 'Education'),
+  (4, 'pt-BR', 'Finanças'),
+  (4, 'en', 'Finance'),
+  (5, 'pt-BR', 'Varejo e E-commerce'),
+  (5, 'en', 'Retail & E-commerce'),
+  (6, 'pt-BR', 'Marketing e Comunicação'),
+  (6, 'en', 'Marketing & Communications'),
+  (7, 'pt-BR', 'Consultoria'),
+  (7, 'en', 'Consulting'),
+  (8, 'pt-BR', 'Indústria'),
+  (8, 'en', 'Manufacturing'),
+  (9, 'pt-BR', 'Mídia e Entretenimento'),
+  (9, 'en', 'Media & Entertainment'),
+  (10, 'pt-BR', 'Bem-estar e Esporte'),
+  (10, 'en', 'Wellness & Sports'),
+  (11, 'pt-BR', 'Terceiro Setor'),
+  (11, 'en', 'Nonprofit'),
+  (12, 'pt-BR', 'Setor Público'),
+  (12, 'en', 'Public Sector'),
+  (13, 'pt-BR', 'RH e Pessoas'),
+  (13, 'en', 'HR & People'),
+  (14, 'pt-BR', 'Logística'),
+  (14, 'en', 'Logistics'),
+  (15, 'pt-BR', 'Agronegócio'),
+  (15, 'en', 'Agribusiness'),
+  (16, 'pt-BR', 'Jurídico'),
+  (16, 'en', 'Legal'),
+  (17, 'pt-BR', 'Turismo e Gastronomia'),
+  (17, 'en', 'Hospitality & Food')
+ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
+INSERT INTO skills (id, slug, category) VALUES
+  (1, 'programacao', 'technical'),
+  (2, 'analise_dados', 'technical'),
+  (3, 'automacao', 'technical'),
+  (4, 'machine_learning', 'technical'),
+  (5, 'cloud_devops', 'technical'),
+  (6, 'ux_design', 'creative'),
+  (7, 'seguranca_info', 'technical'),
+  (8, 'no_code', 'technical'),
+  (9, 'seo', 'technical'),
+  (10, 'ferramentas_remotas', 'human'),
+  (11, 'growth', 'business'),
+  (12, 'marketing_digital', 'business'),
+  (13, 'vendas', 'business'),
+  (14, 'customer_success', 'business'),
+  (15, 'atendimento', 'business'),
+  (16, 'gestao_projetos', 'business'),
+  (17, 'gestao_produto', 'business'),
+  (18, 'financas', 'business'),
+  (19, 'empreendedorismo', 'business'),
+  (20, 'estrategia', 'business'),
+  (21, 'operacoes', 'business'),
+  (22, 'lideranca', 'human'),
+  (23, 'recrutamento', 'business'),
+  (24, 'gestao_pessoas', 'business'),
+  (25, 'marketing_conteudo', 'business'),
+  (26, 'pesquisa_mercado', 'business'),
+  (27, 'parcerias', 'business'),
+  (28, 'comunicacao', 'human'),
+  (29, 'empatia', 'human'),
+  (30, 'resiliencia', 'human'),
+  (31, 'disciplina', 'human'),
+  (32, 'autoconhecimento', 'human'),
+  (33, 'ensino', 'human'),
+  (34, 'mentoria', 'human'),
+  (35, 'criatividade', 'creative'),
+  (36, 'resolucao_problemas', 'human'),
+  (37, 'adaptabilidade', 'human'),
+  (38, 'organizacao', 'human'),
+  (39, 'trabalho_equipe', 'human'),
+  (40, 'mediacao', 'human'),
+  (41, 'storytelling', 'creative'),
+  (42, 'autodidatismo', 'human'),
+  (43, 'saude_fisica', 'domain'),
+  (44, 'nutricao', 'domain'),
+  (45, 'saude_mental', 'domain'),
+  (46, 'performance_humana', 'domain'),
+  (47, 'longevidade', 'domain'),
+  (48, 'cuidado_pessoas', 'domain'),
+  (49, 'saude_publica', 'domain'),
+  (50, 'esporte', 'domain'),
+  (51, 'educacao', 'domain'),
+  (52, 'tecnologia_saude', 'domain'),
+  (53, 'sustentabilidade', 'domain'),
+  (54, 'impacto_social', 'domain'),
+  (55, 'direito', 'domain'),
+  (56, 'varejo', 'domain'),
+  (57, 'agro', 'domain'),
+  (58, 'financas_mercado', 'domain'),
+  (59, 'cultura_arte', 'creative'),
+  (60, 'gastronomia', 'domain'),
+  (61, 'turismo', 'domain'),
+  (62, 'setor_publico', 'domain'),
+  (63, 'lideranca_comunitaria', 'human'),
+  (64, 'design_grafico', 'creative'),
+  (65, 'audiovisual', 'creative'),
+  (66, 'escrita', 'creative'),
+  (67, 'branding', 'business'),
+  (68, 'comunidade_online', 'business'),
+  (69, 'eventos', 'business'),
+  (70, 'idiomas', 'human'),
+  (71, 'pesquisa_cientifica', 'technical'),
+  (72, 'psicologia_comportamental', 'domain'),
+  (73, 'vendas_consultivas', 'business'),
+  (74, 'cx', 'business'),
+  (75, 'logistica', 'domain'),
+  (76, 'manutencao_tecnica', 'technical'),
+  (77, 'qualidade', 'business')
+ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
+INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES
+  (1, 'pt-BR', 'Programação', ARRAY['programação', 'programar', 'código', 'desenvolvedor', 'desenvolvimento de software', 'python', 'javascript', 'java', 'typescript']::text[]),
+  (2, 'pt-BR', 'Análise de Dados', ARRAY['dados', 'análise de dados', 'analytics', 'planilha', 'planilhas', 'excel', 'sql', 'dashboard', 'métricas', 'indicadores', 'power bi']::text[]),
+  (3, 'pt-BR', 'Automação de Processos', ARRAY['automação', 'automações', 'automatizar', 'automatizei', 'zapier', 'make', 'n8n', 'rpa', 'workflow', 'integrações']::text[]),
+  (4, 'pt-BR', 'Machine Learning e IA', ARRAY['inteligência artificial', 'machine learning', 'modelo preditivo', 'chatgpt', 'llm', 'prompt', 'prompts', 'ia generativa']::text[]),
+  (5, 'pt-BR', 'Cloud e DevOps', ARRAY['aws', 'azure', 'cloud', 'nuvem', 'devops', 'infraestrutura', 'servidor', 'servidores', 'docker', 'kubernetes']::text[]),
+  (6, 'pt-BR', 'UX/UI Design', ARRAY['ux', 'ui', 'design de interface', 'figma', 'usabilidade', 'prototipagem', 'protótipo', 'experiência do usuário']::text[]),
+  (7, 'pt-BR', 'Segurança da Informação', ARRAY['segurança da informação', 'cibersegurança', 'segurança digital', 'pentest', 'proteção de dados']::text[]),
+  (8, 'pt-BR', 'Ferramentas No-Code', ARRAY['no-code', 'nocode', 'no code', 'low-code', 'bubble', 'notion', 'airtable', 'lovable', 'glide']::text[]),
+  (9, 'pt-BR', 'SEO', ARRAY['seo', 'busca orgânica', 'tráfego orgânico', 'ranqueamento']::text[]),
+  (10, 'pt-BR', 'Trabalho Remoto e Colaboração Digital', ARRAY['home office', 'remoto', 'trabalho remoto', 'trabalho híbrido', 'slack', 'colaboração remota', 'assíncrono', 'anywhere office']::text[]),
+  (11, 'pt-BR', 'Growth e Experimentação', ARRAY['growth', 'growth hacking', 'crescimento', 'experimentos', 'teste a/b', 'funil', 'aquisição', 'retenção', 'conversão', 'ltv', 'cac']::text[]),
+  (12, 'pt-BR', 'Marketing Digital', ARRAY['marketing digital', 'tráfego pago', 'anúncios', 'ads', 'meta ads', 'google ads', 'campanha', 'campanhas', 'performance marketing']::text[]),
+  (13, 'pt-BR', 'Vendas e Negociação', ARRAY['vendas', 'vender', 'vendi', 'vendedor', 'vendedora', 'negociação', 'negociar', 'comercial', 'fechamento', 'prospecção', 'metas de venda']::text[]),
+  (14, 'pt-BR', 'Customer Success', ARRAY['customer success', 'sucesso do cliente', 'onboarding de clientes', 'churn', 'retenção de clientes', 'pós-venda', 'carteira de clientes']::text[]),
+  (15, 'pt-BR', 'Atendimento ao Cliente', ARRAY['atendimento', 'atender clientes', 'atendi', 'suporte', 'sac', 'relacionamento com cliente', 'balcão']::text[]),
+  (16, 'pt-BR', 'Gestão de Projetos', ARRAY['gestão de projetos', 'projetos', 'projeto', 'scrum', 'kanban', 'cronograma', 'entregas', 'prazos', 'ágil']::text[]),
+  (17, 'pt-BR', 'Gestão de Produto', ARRAY['gestão de produto', 'product manager', 'product owner', 'roadmap', 'discovery', 'backlog']::text[]),
+  (18, 'pt-BR', 'Finanças e Orçamento', ARRAY['finanças', 'financeiro', 'orçamento', 'fluxo de caixa', 'contabilidade', 'custos', 'precificação']::text[]),
+  (19, 'pt-BR', 'Empreendedorismo', ARRAY['empreender', 'empreendi', 'empreendedor', 'empreendedora', 'empreendedorismo', 'negócio próprio', 'minha empresa', 'startup', 'fundador', 'fundadora', 'fundei', 'abri uma empresa']::text[]),
+  (20, 'pt-BR', 'Estratégia de Negócios', ARRAY['estratégia', 'planejamento estratégico', 'okr', 'okrs', 'modelo de negócio', 'posicionamento estratégico']::text[]),
+  (21, 'pt-BR', 'Operações e Processos', ARRAY['operações', 'operação', 'processos', 'eficiência operacional', 'melhoria contínua', 'lean', 'padronização']::text[]),
+  (22, 'pt-BR', 'Liderança de Equipes', ARRAY['liderança', 'liderar', 'liderei', 'líder', 'gestor', 'gestora', 'gestão de equipe', 'coordenei', 'gerenciei', 'chefiei']::text[]),
+  (23, 'pt-BR', 'Recrutamento e Seleção', ARRAY['recrutamento', 'seleção', 'contratação', 'contratei', 'entrevistas', 'talent acquisition', 'recrutador']::text[]),
+  (24, 'pt-BR', 'Gestão de Pessoas', ARRAY['gestão de pessoas', 'cultura organizacional', 'clima organizacional', 'engajamento de equipe', 'recursos humanos', 'desenvolvimento humano']::text[]),
+  (25, 'pt-BR', 'Marketing de Conteúdo', ARRAY['conteúdo', 'conteúdos', 'blog', 'newsletter', 'redes sociais', 'instagram', 'linkedin', 'tiktok', 'posts']::text[]),
+  (26, 'pt-BR', 'Pesquisa de Mercado e Usuário', ARRAY['pesquisa de mercado', 'entrevista com usuários', 'pesquisa com usuários', 'benchmarking', 'concorrência', 'entrevistas qualitativas']::text[]),
+  (27, 'pt-BR', 'Parcerias e Business Development', ARRAY['parcerias', 'parceria', 'bizdev', 'desenvolvimento de negócios', 'alianças', 'networking', 'captação de recursos', 'patrocínio']::text[]),
+  (28, 'pt-BR', 'Comunicação', ARRAY['comunicação', 'comunicar', 'apresentações', 'falar em público', 'oratória', 'palestra', 'palestras']::text[]),
+  (29, 'pt-BR', 'Empatia e Escuta Ativa', ARRAY['empatia', 'escuta', 'escutar', 'acolher', 'acolhimento', 'ouvir pessoas']::text[]),
+  (30, 'pt-BR', 'Resiliência', ARRAY['resiliência', 'superação', 'superar', 'superei', 'dificuldade', 'dificuldades', 'crise', 'persistência', 'recomeço', 'recomecei']::text[]),
+  (31, 'pt-BR', 'Disciplina e Constância', ARRAY['disciplina', 'constância', 'rotina', 'hábito', 'hábitos', 'consistência', 'foco']::text[]),
+  (32, 'pt-BR', 'Autoconhecimento e Inteligência Emocional', ARRAY['autoconhecimento', 'terapia', 'psicoterapia', 'me conhecer', 'inteligência emocional', 'emoções', 'vulnerabilidade']::text[]),
+  (33, 'pt-BR', 'Ensino e Facilitação', ARRAY['ensinar', 'ensinei', 'ensino', 'professor', 'professora', 'aula', 'aulas', 'treinamento', 'treinamentos', 'facilitação', 'workshop', 'didática', 'educador']::text[]),
+  (34, 'pt-BR', 'Mentoria e Coaching', ARRAY['mentoria', 'mentor', 'mentora', 'coaching', 'coach', 'aconselhar', 'orientar pessoas', 'orientei']::text[]),
+  (35, 'pt-BR', 'Criatividade e Inovação', ARRAY['criatividade', 'criativo', 'criativa', 'ideias', 'inovação', 'inovar']::text[]),
+  (36, 'pt-BR', 'Resolução de Problemas', ARRAY['resolver problemas', 'solução de problemas', 'problemas complexos', 'troubleshooting', 'resolvi']::text[]),
+  (37, 'pt-BR', 'Adaptabilidade', ARRAY['adaptação', 'adaptabilidade', 'mudança', 'mudanças', 'transição', 'mudei de área', 'me adaptar', 'reinventar']::text[]),
+  (38, 'pt-BR', 'Organização e Gestão do Tempo', ARRAY['organização', 'organizar', 'organizei', 'planejamento', 'produtividade', 'gestão do tempo']::text[]),
+  (39, 'pt-BR', 'Trabalho em Equipe', ARRAY['trabalho em equipe', 'equipe', 'colaboração', 'colaborar', 'coletivo']::text[]),
+  (40, 'pt-BR', 'Mediação de Conflitos', ARRAY['conflitos', 'conflito', 'mediação', 'mediar', 'mediei']::text[]),
+  (41, 'pt-BR', 'Storytelling', ARRAY['storytelling', 'contar histórias', 'narrativa', 'narrativas', 'roteiro', 'roteiros']::text[]),
+  (42, 'pt-BR', 'Aprendizado Autodidata', ARRAY['autodidata', 'aprendi sozinho', 'aprendi sozinha', 'cursos online', 'por conta própria']::text[]),
+  (43, 'pt-BR', 'Saúde e Condicionamento Físico', ARRAY['academia', 'treino', 'treinos', 'musculação', 'exercício', 'exercícios', 'atividade física', 'corrida', 'condicionamento', 'disciplina corporal', 'corpo', 'emagrecer', 'emagreci', 'perdi peso']::text[]),
+  (44, 'pt-BR', 'Nutrição e Alimentação', ARRAY['nutrição', 'alimentação', 'dieta', 'reeducação alimentar', 'obesidade', 'comida saudável', 'sobrepeso']::text[]),
+  (45, 'pt-BR', 'Saúde Mental', ARRAY['saúde mental', 'ansiedade', 'depressão', 'terapia', 'bem-estar emocional', 'psicologia', 'burnout']::text[]),
+  (46, 'pt-BR', 'Performance Humana', ARRAY['performance', 'alta performance', 'rendimento', 'energia', 'sono', 'recuperação', 'biohacking', 'disciplina corporal']::text[]),
+  (47, 'pt-BR', 'Longevidade e Bem-estar', ARRAY['longevidade', 'envelhecimento saudável', 'bem-estar', 'qualidade de vida', 'wellness', 'saúde preventiva']::text[]),
+  (48, 'pt-BR', 'Cuidado de Pessoas', ARRAY['cuidar', 'cuidador', 'cuidadora', 'cuidei', 'enfermagem', 'pacientes', 'cuidado de idosos']::text[]),
+  (49, 'pt-BR', 'Saúde Pública e Prevenção', ARRAY['saúde pública', 'sus', 'epidemiologia', 'prevenção', 'obesidade infantil', 'políticas de saúde', 'agente de saúde']::text[]),
+  (50, 'pt-BR', 'Esporte e Competição', ARRAY['esporte', 'esportes', 'atleta', 'competição', 'competições', 'campeonato', 'futebol', 'luta', 'natação', 'jiu-jitsu', 'vôlei', 'basquete']::text[]),
+  (51, 'pt-BR', 'Educação', ARRAY['educação', 'escola', 'pedagogia', 'alunos', 'estudantes', 'edtech', 'sala de aula']::text[]),
+  (52, 'pt-BR', 'Tecnologia em Saúde', ARRAY['health tech', 'healthtech', 'saúde digital', 'telemedicina', 'app de saúde', 'prontuário eletrônico']::text[]),
+  (53, 'pt-BR', 'Sustentabilidade e ESG', ARRAY['sustentabilidade', 'esg', 'meio ambiente', 'carbono', 'reciclagem', 'economia circular']::text[]),
+  (54, 'pt-BR', 'Impacto Social', ARRAY['ong', 'voluntariado', 'voluntário', 'voluntária', 'projeto social', 'projetos sociais', 'periferia', 'impacto social', 'favela']::text[]),
+  (55, 'pt-BR', 'Direito e Compliance', ARRAY['direito', 'jurídico', 'advogado', 'advogada', 'contratos', 'compliance', 'lgpd', 'legislação']::text[]),
+  (56, 'pt-BR', 'Varejo', ARRAY['varejo', 'loja', 'lojas', 'e-commerce', 'ecommerce', 'vitrine', 'estoque', 'pdv']::text[]),
+  (57, 'pt-BR', 'Agronegócio', ARRAY['agro', 'agronegócio', 'fazenda', 'agricultura', 'pecuária', 'rural', 'lavoura']::text[]),
+  (58, 'pt-BR', 'Mercado Financeiro', ARRAY['mercado financeiro', 'banco', 'fintech', 'crédito', 'ações', 'investimentos', 'bolsa de valores']::text[]),
+  (59, 'pt-BR', 'Cultura e Artes', ARRAY['arte', 'artes', 'música', 'músico', 'musicista', 'teatro', 'dança', 'cinema', 'cultura', 'artista', 'banda']::text[]),
+  (60, 'pt-BR', 'Gastronomia', ARRAY['gastronomia', 'cozinha', 'cozinhar', 'cozinheiro', 'cozinheira', 'chef', 'restaurante', 'culinária', 'confeitaria']::text[]),
+  (61, 'pt-BR', 'Turismo e Hospitalidade', ARRAY['turismo', 'hotel', 'hotelaria', 'viagem', 'viagens', 'hospitalidade', 'guia turístico']::text[]),
+  (62, 'pt-BR', 'Gestão Pública', ARRAY['governo', 'prefeitura', 'setor público', 'políticas públicas', 'servidor público', 'servidora pública', 'concurso']::text[]),
+  (63, 'pt-BR', 'Liderança Comunitária', ARRAY['igreja', 'comunidade religiosa', 'liderança comunitária', 'associação de bairro', 'grupo de jovens', 'coletivo', 'movimento social']::text[]),
+  (64, 'pt-BR', 'Design Gráfico', ARRAY['design gráfico', 'identidade visual', 'photoshop', 'illustrator', 'canva', 'ilustração']::text[]),
+  (65, 'pt-BR', 'Produção Audiovisual', ARRAY['vídeo', 'vídeos', 'edição de vídeo', 'youtube', 'podcast', 'filmagem', 'fotografia', 'audiovisual']::text[]),
+  (66, 'pt-BR', 'Escrita', ARRAY['escrita', 'escrever', 'escrevi', 'redação', 'textos', 'livro', 'artigos', 'jornalismo', 'copy', 'copywriting']::text[]),
+  (67, 'pt-BR', 'Branding', ARRAY['marca', 'marcas', 'branding', 'posicionamento de marca', 'identidade de marca', 'rebranding']::text[]),
+  (68, 'pt-BR', 'Gestão de Comunidades', ARRAY['comunidade online', 'comunidade', 'comunidades', 'discord', 'grupo de whatsapp', 'engajamento de comunidade', 'membros']::text[]),
+  (69, 'pt-BR', 'Produção de Eventos', ARRAY['eventos', 'evento', 'produção de eventos', 'organizei eventos', 'congresso', 'festival', 'meetup']::text[]),
+  (70, 'pt-BR', 'Idiomas e Interculturalidade', ARRAY['inglês', 'espanhol', 'francês', 'idiomas', 'morei fora', 'intercâmbio', 'intercultural', 'exterior']::text[]),
+  (71, 'pt-BR', 'Pesquisa Científica', ARRAY['pesquisa científica', 'mestrado', 'doutorado', 'laboratório', 'artigo científico', 'iniciação científica', 'tcc']::text[]),
+  (72, 'pt-BR', 'Psicologia Comportamental', ARRAY['comportamento', 'comportamental', 'mudança de hábito', 'motivação', 'gamificação', 'economia comportamental', 'hábitos saudáveis']::text[]),
+  (73, 'pt-BR', 'Venda Consultiva B2B', ARRAY['venda consultiva', 'b2b', 'ciclo de vendas', 'pipeline', 'crm', 'inside sales', 'sdr', 'pré-vendas']::text[]),
+  (74, 'pt-BR', 'Experiência do Cliente (CX)', ARRAY['experiência do cliente', 'cx', 'jornada do cliente', 'nps', 'satisfação do cliente']::text[]),
+  (75, 'pt-BR', 'Logística', ARRAY['logística', 'entregas', 'frota', 'distribuição', 'supply chain', 'cadeia de suprimentos', 'armazém']::text[]),
+  (76, 'pt-BR', 'Manutenção e Técnica', ARRAY['manutenção', 'mecânica', 'elétrica', 'técnico', 'conserto', 'consertar', 'oficina', 'eletrônica']::text[]),
+  (77, 'pt-BR', 'Gestão da Qualidade', ARRAY['qualidade', 'iso', 'auditoria', 'controle de qualidade', 'normas', 'six sigma']::text[]),
+  (1, 'en', 'Programming', '{}'::text[]),
+  (2, 'en', 'Data Analysis', '{}'::text[]),
+  (3, 'en', 'Process Automation', '{}'::text[]),
+  (4, 'en', 'Machine Learning & AI', '{}'::text[]),
+  (5, 'en', 'Cloud & DevOps', '{}'::text[]),
+  (6, 'en', 'UX/UI Design', '{}'::text[]),
+  (7, 'en', 'Information Security', '{}'::text[]),
+  (8, 'en', 'No-Code Tools', '{}'::text[]),
+  (9, 'en', 'SEO', '{}'::text[]),
+  (10, 'en', 'Remote Work & Digital Collaboration', '{}'::text[]),
+  (11, 'en', 'Growth & Experimentation', '{}'::text[]),
+  (12, 'en', 'Digital Marketing', '{}'::text[]),
+  (13, 'en', 'Sales & Negotiation', '{}'::text[]),
+  (14, 'en', 'Customer Success', '{}'::text[]),
+  (15, 'en', 'Customer Service', '{}'::text[]),
+  (16, 'en', 'Project Management', '{}'::text[]),
+  (17, 'en', 'Product Management', '{}'::text[]),
+  (18, 'en', 'Finance & Budgeting', '{}'::text[]),
+  (19, 'en', 'Entrepreneurship', '{}'::text[]),
+  (20, 'en', 'Business Strategy', '{}'::text[]),
+  (21, 'en', 'Operations & Processes', '{}'::text[]),
+  (22, 'en', 'Team Leadership', '{}'::text[]),
+  (23, 'en', 'Recruiting', '{}'::text[]),
+  (24, 'en', 'People Management', '{}'::text[]),
+  (25, 'en', 'Content Marketing', '{}'::text[]),
+  (26, 'en', 'Market & User Research', '{}'::text[]),
+  (27, 'en', 'Partnerships & BizDev', '{}'::text[]),
+  (28, 'en', 'Communication', '{}'::text[]),
+  (29, 'en', 'Empathy & Active Listening', '{}'::text[]),
+  (30, 'en', 'Resilience', '{}'::text[]),
+  (31, 'en', 'Discipline & Consistency', '{}'::text[]),
+  (32, 'en', 'Self-awareness & Emotional Intelligence', '{}'::text[]),
+  (33, 'en', 'Teaching & Facilitation', '{}'::text[]),
+  (34, 'en', 'Mentoring & Coaching', '{}'::text[]),
+  (35, 'en', 'Creativity & Innovation', '{}'::text[]),
+  (36, 'en', 'Problem Solving', '{}'::text[]),
+  (37, 'en', 'Adaptability', '{}'::text[]),
+  (38, 'en', 'Organization & Time Management', '{}'::text[]),
+  (39, 'en', 'Teamwork', '{}'::text[]),
+  (40, 'en', 'Conflict Mediation', '{}'::text[]),
+  (41, 'en', 'Storytelling', '{}'::text[]),
+  (42, 'en', 'Self-directed Learning', '{}'::text[]),
+  (43, 'en', 'Physical Fitness', '{}'::text[]),
+  (44, 'en', 'Nutrition', '{}'::text[]),
+  (45, 'en', 'Mental Health', '{}'::text[]),
+  (46, 'en', 'Human Performance', '{}'::text[]),
+  (47, 'en', 'Longevity & Wellbeing', '{}'::text[]),
+  (48, 'en', 'Caregiving', '{}'::text[]),
+  (49, 'en', 'Public Health & Prevention', '{}'::text[]),
+  (50, 'en', 'Sports & Competition', '{}'::text[]),
+  (51, 'en', 'Education', '{}'::text[]),
+  (52, 'en', 'Health Technology', '{}'::text[]),
+  (53, 'en', 'Sustainability & ESG', '{}'::text[]),
+  (54, 'en', 'Social Impact', '{}'::text[]),
+  (55, 'en', 'Law & Compliance', '{}'::text[]),
+  (56, 'en', 'Retail', '{}'::text[]),
+  (57, 'en', 'Agribusiness', '{}'::text[]),
+  (58, 'en', 'Financial Markets', '{}'::text[]),
+  (59, 'en', 'Arts & Culture', '{}'::text[]),
+  (60, 'en', 'Culinary', '{}'::text[]),
+  (61, 'en', 'Tourism & Hospitality', '{}'::text[]),
+  (62, 'en', 'Public Administration', '{}'::text[]),
+  (63, 'en', 'Community Leadership', '{}'::text[]),
+  (64, 'en', 'Graphic Design', '{}'::text[]),
+  (65, 'en', 'Audiovisual Production', '{}'::text[]),
+  (66, 'en', 'Writing', '{}'::text[]),
+  (67, 'en', 'Branding', '{}'::text[]),
+  (68, 'en', 'Community Management', '{}'::text[]),
+  (69, 'en', 'Event Production', '{}'::text[]),
+  (70, 'en', 'Languages & Interculturality', '{}'::text[]),
+  (71, 'en', 'Scientific Research', '{}'::text[]),
+  (72, 'en', 'Behavioral Psychology', '{}'::text[]),
+  (73, 'en', 'Consultative B2B Sales', '{}'::text[]),
+  (74, 'en', 'Customer Experience', '{}'::text[]),
+  (75, 'en', 'Logistics', '{}'::text[]),
+  (76, 'en', 'Technical Maintenance', '{}'::text[]),
+  (77, 'en', 'Quality Management', '{}'::text[])
+ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
+COMMIT;
 
--- setores
-INSERT INTO sectors (id, slug) VALUES (1, 'tecnologia') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (1, 'pt-BR', 'Tecnologia') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (1, 'en', 'Technology') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (2, 'saude') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (2, 'pt-BR', 'Saúde') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (2, 'en', 'Healthcare') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (3, 'educacao') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (3, 'pt-BR', 'Educação') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (3, 'en', 'Education') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (4, 'financas') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (4, 'pt-BR', 'Finanças') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (4, 'en', 'Finance') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (5, 'varejo_ecommerce') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (5, 'pt-BR', 'Varejo e E-commerce') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (5, 'en', 'Retail & E-commerce') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (6, 'marketing_comunicacao') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (6, 'pt-BR', 'Marketing e Comunicação') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (6, 'en', 'Marketing & Communications') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (7, 'consultoria') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (7, 'pt-BR', 'Consultoria') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (7, 'en', 'Consulting') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (8, 'industria') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (8, 'pt-BR', 'Indústria') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (8, 'en', 'Manufacturing') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (9, 'midia_entretenimento') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (9, 'pt-BR', 'Mídia e Entretenimento') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (9, 'en', 'Media & Entertainment') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (10, 'bem_estar_esporte') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (10, 'pt-BR', 'Bem-estar e Esporte') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (10, 'en', 'Wellness & Sports') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (11, 'terceiro_setor') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (11, 'pt-BR', 'Terceiro Setor') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (11, 'en', 'Nonprofit') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (12, 'setor_publico') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (12, 'pt-BR', 'Setor Público') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (12, 'en', 'Public Sector') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (13, 'rh_pessoas') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (13, 'pt-BR', 'RH e Pessoas') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (13, 'en', 'HR & People') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (14, 'logistica') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (14, 'pt-BR', 'Logística') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (14, 'en', 'Logistics') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (15, 'agro') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (15, 'pt-BR', 'Agronegócio') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (15, 'en', 'Agribusiness') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (16, 'juridico') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (16, 'pt-BR', 'Jurídico') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (16, 'en', 'Legal') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors (id, slug) VALUES (17, 'turismo_gastronomia') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (17, 'pt-BR', 'Turismo e Gastronomia') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO sectors_i18n (sector_id, locale, name) VALUES (17, 'en', 'Hospitality & Food') ON CONFLICT (sector_id, locale) DO UPDATE SET name = EXCLUDED.name;
+-- @chunk cargos
+BEGIN;
+SET search_path = app, public;
+INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES
+  (1, 'desenvolvedor_software', 1, 'estavel', false),
+  (2, 'analista_dados', 1, 'em_alta', false),
+  (3, 'cientista_dados', 1, 'em_alta', false),
+  (4, 'engenheiro_automacao', 1, 'em_alta', false),
+  (5, 'product_manager', 1, 'em_alta', false),
+  (6, 'ux_designer', 1, 'estavel', false),
+  (7, 'devops', 1, 'estavel', false),
+  (8, 'especialista_ia_aplicada', 1, 'emergente', true),
+  (9, 'analista_seguranca', 1, 'em_alta', false),
+  (10, 'tech_lead', 1, 'estavel', false),
+  (11, 'ops_remote', 1, 'emergente', true),
+  (12, 'no_code_builder', 1, 'emergente', false),
+  (13, 'growth_manager', 6, 'em_alta', false),
+  (14, 'analista_marketing_digital', 6, 'estavel', false),
+  (15, 'estrategista_conteudo', 6, 'estavel', false),
+  (16, 'social_media', 6, 'estavel', false),
+  (17, 'gestor_comunidade', 6, 'emergente', false),
+  (18, 'brand_manager', 6, 'estavel', false),
+  (19, 'growth_longevidade', 10, 'emergente', true),
+  (20, 'criador_conteudo', 9, 'emergente', false),
+  (21, 'copywriter', 6, 'estavel', false),
+  (22, 'seo_specialist', 6, 'estavel', false),
+  (23, 'sdr', 1, 'estavel', false),
+  (24, 'executivo_vendas', 1, 'estavel', false),
+  (25, 'head_vendas', 1, 'estavel', false),
+  (26, 'cs_manager', 1, 'em_alta', false),
+  (27, 'head_cs_healthtech', 2, 'emergente', true),
+  (28, 'cx_specialist', 5, 'em_alta', false),
+  (29, 'atendente_cliente', 5, 'estavel', false),
+  (30, 'consultor_performance_vendas', 7, 'emergente', true),
+  (31, 'sales_enablement', 1, 'emergente', false),
+  (32, 'personal_trainer', 10, 'estavel', false),
+  (33, 'coach_saude', 10, 'emergente', false),
+  (34, 'nutricionista', 2, 'estavel', false),
+  (35, 'psicologo', 2, 'estavel', false),
+  (36, 'especialista_bem_estar_corporativo', 13, 'em_alta', true),
+  (37, 'gestor_programas_saude', 2, 'em_alta', false),
+  (38, 'pm_healthtech', 2, 'em_alta', true),
+  (39, 'especialista_performance_humana', 10, 'emergente', false),
+  (40, 'educador_fisico_escolar', 3, 'estavel', false),
+  (41, 'especialista_obesidade_infantil', 2, 'emergente', true),
+  (42, 'enfermeiro', 2, 'estavel', false),
+  (43, 'gestor_clinica', 2, 'estavel', false),
+  (44, 'gestor_esportivo', 10, 'estavel', false),
+  (45, 'atleta', 10, 'estavel', false),
+  (46, 'professor', 3, 'estavel', false),
+  (47, 'designer_instrucional', 3, 'em_alta', false),
+  (48, 'especialista_td', 13, 'estavel', false),
+  (49, 'designer_gamificacao', 3, 'emergente', true),
+  (50, 'coordenador_pedagogico', 3, 'estavel', false),
+  (51, 'edtech_cs', 3, 'emergente', true),
+  (52, 'mentor_carreira', 3, 'emergente', false),
+  (53, 'recrutador', 13, 'estavel', false),
+  (54, 'people_partner', 13, 'estavel', false),
+  (55, 'analista_cultura', 13, 'em_alta', false),
+  (56, 'people_analytics', 13, 'em_alta', true),
+  (57, 'consultor_processos', 7, 'estavel', false),
+  (58, 'consultor_estrategia', 7, 'estavel', false),
+  (59, 'empreendedor_fundador', 1, 'emergente', false),
+  (60, 'gerente_projetos', 7, 'estavel', false),
+  (61, 'analista_financeiro', 4, 'estavel', false),
+  (62, 'bizdev', 1, 'em_alta', false),
+  (63, 'gerente_operacoes', 14, 'estavel', false),
+  (64, 'analista_esg', 7, 'em_alta', false),
+  (65, 'gestor_impacto_social', 11, 'estavel', false),
+  (66, 'analista_compliance', 16, 'estavel', false),
+  (67, 'chief_of_staff', 1, 'emergente', false),
+  (68, 'especialista_produtos_financeiros', 4, 'em_alta', true),
+  (69, 'designer_grafico', 6, 'estavel', false),
+  (70, 'produtor_audiovisual', 9, 'estavel', false),
+  (71, 'jornalista', 9, 'estavel', false),
+  (72, 'produtor_eventos', 9, 'estavel', false),
+  (73, 'produtor_cultural', 9, 'estavel', false),
+  (74, 'gerente_loja', 5, 'estavel', false),
+  (75, 'especialista_ecommerce', 5, 'em_alta', false),
+  (76, 'analista_logistica', 14, 'estavel', false),
+  (77, 'gestor_restaurante', 17, 'estavel', false),
+  (78, 'especialista_turismo', 17, 'estavel', false),
+  (79, 'gestor_publico', 12, 'estavel', false),
+  (80, 'tecnico_manutencao', 8, 'estavel', false),
+  (81, 'analista_agro', 15, 'estavel', false),
+  (82, 'agtech', 15, 'emergente', true),
+  (83, 'articulador_comunitario', 11, 'estavel', false),
+  (84, 'vendedor_varejo', 5, 'estavel', false)
+ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
+INSERT INTO roles_i18n (role_id, locale, title) VALUES
+  (1, 'pt-BR', 'Desenvolvedor(a) de Software'),
+  (1, 'en', 'Software Developer'),
+  (2, 'pt-BR', 'Analista de Dados'),
+  (2, 'en', 'Data Analyst'),
+  (3, 'pt-BR', 'Cientista de Dados'),
+  (3, 'en', 'Data Scientist'),
+  (4, 'pt-BR', 'Especialista em Automação de Processos'),
+  (4, 'en', 'Process Automation Specialist'),
+  (5, 'pt-BR', 'Product Manager'),
+  (5, 'en', 'Product Manager'),
+  (6, 'pt-BR', 'UX Designer'),
+  (6, 'en', 'UX Designer'),
+  (7, 'pt-BR', 'Engenheiro(a) DevOps / Cloud'),
+  (7, 'en', 'DevOps / Cloud Engineer'),
+  (8, 'pt-BR', 'Especialista em IA Aplicada a Negócios'),
+  (8, 'en', 'Applied AI Business Specialist'),
+  (9, 'pt-BR', 'Analista de Segurança da Informação'),
+  (9, 'en', 'Information Security Analyst'),
+  (10, 'pt-BR', 'Tech Lead'),
+  (10, 'en', 'Tech Lead'),
+  (11, 'pt-BR', 'Especialista em Operações Remotas e Produtividade'),
+  (11, 'en', 'Remote Operations & Productivity Specialist'),
+  (12, 'pt-BR', 'Desenvolvedor(a) No-Code / Low-Code'),
+  (12, 'en', 'No-Code / Low-Code Builder'),
+  (13, 'pt-BR', 'Growth Manager'),
+  (13, 'en', 'Growth Manager'),
+  (14, 'pt-BR', 'Analista de Marketing Digital'),
+  (14, 'en', 'Digital Marketing Analyst'),
+  (15, 'pt-BR', 'Estrategista de Conteúdo'),
+  (15, 'en', 'Content Strategist'),
+  (16, 'pt-BR', 'Social Media'),
+  (16, 'en', 'Social Media Manager'),
+  (17, 'pt-BR', 'Community Manager'),
+  (17, 'en', 'Community Manager'),
+  (18, 'pt-BR', 'Brand Manager'),
+  (18, 'en', 'Brand Manager'),
+  (19, 'pt-BR', 'Especialista em Growth para Longevidade'),
+  (19, 'en', 'Growth Specialist for Longevity'),
+  (20, 'pt-BR', 'Criador(a) de Conteúdo Educacional'),
+  (20, 'en', 'Educational Content Creator'),
+  (21, 'pt-BR', 'Copywriter'),
+  (21, 'en', 'Copywriter'),
+  (22, 'pt-BR', 'Especialista em SEO'),
+  (22, 'en', 'SEO Specialist'),
+  (23, 'pt-BR', 'SDR / Pré-vendas'),
+  (23, 'en', 'Sales Development Representative'),
+  (24, 'pt-BR', 'Executivo(a) de Vendas B2B'),
+  (24, 'en', 'B2B Account Executive'),
+  (25, 'pt-BR', 'Head de Vendas'),
+  (25, 'en', 'Head of Sales'),
+  (26, 'pt-BR', 'Customer Success Manager'),
+  (26, 'en', 'Customer Success Manager'),
+  (27, 'pt-BR', 'Head de Customer Success em Health Tech'),
+  (27, 'en', 'Head of Customer Success in Health Tech'),
+  (28, 'pt-BR', 'Especialista em Experiência do Cliente (CX)'),
+  (28, 'en', 'Customer Experience Specialist'),
+  (29, 'pt-BR', 'Analista de Atendimento ao Cliente'),
+  (29, 'en', 'Customer Service Analyst'),
+  (30, 'pt-BR', 'Consultor(a) de Performance Humana para Times de Vendas'),
+  (30, 'en', 'Human Performance Consultant for Sales Teams'),
+  (31, 'pt-BR', 'Especialista em Sales Enablement'),
+  (31, 'en', 'Sales Enablement Specialist'),
+  (32, 'pt-BR', 'Personal Trainer'),
+  (32, 'en', 'Personal Trainer'),
+  (33, 'pt-BR', 'Health Coach'),
+  (33, 'en', 'Health Coach'),
+  (34, 'pt-BR', 'Nutricionista'),
+  (34, 'en', 'Nutritionist'),
+  (35, 'pt-BR', 'Psicólogo(a)'),
+  (35, 'en', 'Psychologist'),
+  (36, 'pt-BR', 'Especialista em Bem-estar Corporativo'),
+  (36, 'en', 'Corporate Wellbeing Specialist'),
+  (37, 'pt-BR', 'Gestor(a) de Programas de Saúde Preventiva'),
+  (37, 'en', 'Preventive Health Program Manager'),
+  (38, 'pt-BR', 'Product Manager em Health Tech'),
+  (38, 'en', 'Health Tech Product Manager'),
+  (39, 'pt-BR', 'Especialista em Performance Humana'),
+  (39, 'en', 'Human Performance Specialist'),
+  (40, 'pt-BR', 'Educador(a) Físico(a) Escolar'),
+  (40, 'en', 'School Physical Educator'),
+  (41, 'pt-BR', 'Especialista em Prevenção da Obesidade Infantil'),
+  (41, 'en', 'Childhood Obesity Prevention Specialist'),
+  (42, 'pt-BR', 'Enfermeiro(a)'),
+  (42, 'en', 'Nurse'),
+  (43, 'pt-BR', 'Gestor(a) de Clínica / Studio de Saúde'),
+  (43, 'en', 'Clinic / Health Studio Manager'),
+  (44, 'pt-BR', 'Gestor(a) Esportivo(a)'),
+  (44, 'en', 'Sports Manager'),
+  (45, 'pt-BR', 'Atleta'),
+  (45, 'en', 'Athlete'),
+  (46, 'pt-BR', 'Professor(a)'),
+  (46, 'en', 'Teacher'),
+  (47, 'pt-BR', 'Designer Instrucional'),
+  (47, 'en', 'Instructional Designer'),
+  (48, 'pt-BR', 'Especialista em Treinamento e Desenvolvimento (T&D)'),
+  (48, 'en', 'Learning & Development Specialist'),
+  (49, 'pt-BR', 'Designer de Gamificação e Engajamento'),
+  (49, 'en', 'Gamification & Engagement Designer'),
+  (50, 'pt-BR', 'Coordenador(a) Pedagógico(a)'),
+  (50, 'en', 'Pedagogical Coordinator'),
+  (51, 'pt-BR', 'Especialista em Sucesso do Aluno (EdTech)'),
+  (51, 'en', 'Student Success Specialist (EdTech)'),
+  (52, 'pt-BR', 'Mentor(a) / Coach de Carreira'),
+  (52, 'en', 'Career Mentor / Coach'),
+  (53, 'pt-BR', 'Recrutador(a) / Talent Acquisition'),
+  (53, 'en', 'Recruiter / Talent Acquisition'),
+  (54, 'pt-BR', 'HR Business Partner'),
+  (54, 'en', 'HR Business Partner'),
+  (55, 'pt-BR', 'Especialista em Cultura e Engajamento'),
+  (55, 'en', 'Culture & Engagement Specialist'),
+  (56, 'pt-BR', 'Analista de People Analytics'),
+  (56, 'en', 'People Analytics Analyst'),
+  (57, 'pt-BR', 'Consultor(a) de Processos'),
+  (57, 'en', 'Process Consultant'),
+  (58, 'pt-BR', 'Consultor(a) de Estratégia'),
+  (58, 'en', 'Strategy Consultant'),
+  (59, 'pt-BR', 'Fundador(a) de Startup'),
+  (59, 'en', 'Startup Founder'),
+  (60, 'pt-BR', 'Gerente de Projetos'),
+  (60, 'en', 'Project Manager'),
+  (61, 'pt-BR', 'Analista Financeiro'),
+  (61, 'en', 'Financial Analyst'),
+  (62, 'pt-BR', 'Business Developer'),
+  (62, 'en', 'Business Developer'),
+  (63, 'pt-BR', 'Gerente de Operações'),
+  (63, 'en', 'Operations Manager'),
+  (64, 'pt-BR', 'Analista ESG / Sustentabilidade'),
+  (64, 'en', 'ESG / Sustainability Analyst'),
+  (65, 'pt-BR', 'Gestor(a) de Projetos de Impacto Social'),
+  (65, 'en', 'Social Impact Project Manager'),
+  (66, 'pt-BR', 'Analista de Compliance'),
+  (66, 'en', 'Compliance Analyst'),
+  (67, 'pt-BR', 'Chief of Staff'),
+  (67, 'en', 'Chief of Staff'),
+  (68, 'pt-BR', 'Especialista em Produtos Financeiros Digitais'),
+  (68, 'en', 'Digital Financial Products Specialist'),
+  (69, 'pt-BR', 'Designer Gráfico'),
+  (69, 'en', 'Graphic Designer'),
+  (70, 'pt-BR', 'Produtor(a) Audiovisual'),
+  (70, 'en', 'Audiovisual Producer'),
+  (71, 'pt-BR', 'Jornalista'),
+  (71, 'en', 'Journalist'),
+  (72, 'pt-BR', 'Produtor(a) de Eventos'),
+  (72, 'en', 'Event Producer'),
+  (73, 'pt-BR', 'Produtor(a) Cultural'),
+  (73, 'en', 'Cultural Producer'),
+  (74, 'pt-BR', 'Gerente de Loja'),
+  (74, 'en', 'Store Manager'),
+  (75, 'pt-BR', 'Especialista em E-commerce'),
+  (75, 'en', 'E-commerce Specialist'),
+  (76, 'pt-BR', 'Analista de Logística'),
+  (76, 'en', 'Logistics Analyst'),
+  (77, 'pt-BR', 'Gestor(a) de Restaurante / Food Service'),
+  (77, 'en', 'Restaurant / Food Service Manager'),
+  (78, 'pt-BR', 'Especialista em Turismo e Experiências'),
+  (78, 'en', 'Tourism & Experiences Specialist'),
+  (79, 'pt-BR', 'Gestor(a) Público(a)'),
+  (79, 'en', 'Public Manager'),
+  (80, 'pt-BR', 'Técnico(a) de Manutenção'),
+  (80, 'en', 'Maintenance Technician'),
+  (81, 'pt-BR', 'Analista de Agronegócio'),
+  (81, 'en', 'Agribusiness Analyst'),
+  (82, 'pt-BR', 'Especialista em Agtech'),
+  (82, 'en', 'Agtech Specialist'),
+  (83, 'pt-BR', 'Articulador(a) Comunitário(a)'),
+  (83, 'en', 'Community Organizer'),
+  (84, 'pt-BR', 'Vendedor(a)'),
+  (84, 'en', 'Salesperson')
+ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
+DELETE FROM role_skills WHERE role_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84);
+INSERT INTO role_skills (role_id, skill_id, importance) VALUES
+  (1, 1, 1.0),
+  (1, 36, 0.8),
+  (1, 42, 0.6),
+  (1, 5, 0.5),
+  (1, 39, 0.5),
+  (2, 2, 1.0),
+  (2, 36, 0.7),
+  (2, 28, 0.5),
+  (2, 1, 0.5),
+  (2, 26, 0.4),
+  (3, 4, 1.0),
+  (3, 2, 0.9),
+  (3, 1, 0.8),
+  (3, 71, 0.5),
+  (3, 41, 0.3),
+  (4, 3, 1.0),
+  (4, 8, 0.8),
+  (4, 21, 0.7),
+  (4, 36, 0.6),
+  (4, 2, 0.5),
+  (5, 17, 1.0),
+  (5, 26, 0.7),
+  (5, 28, 0.7),
+  (5, 2, 0.6),
+  (5, 20, 0.6),
+  (5, 6, 0.4),
+  (6, 6, 1.0),
+  (6, 29, 0.7),
+  (6, 26, 0.7),
+  (6, 35, 0.6),
+  (6, 28, 0.5),
+  (7, 5, 1.0),
+  (7, 1, 0.7),
+  (7, 3, 0.7),
+  (7, 36, 0.6),
+  (7, 7, 0.4),
+  (8, 4, 0.9),
+  (8, 3, 0.8),
+  (8, 20, 0.6),
+  (8, 28, 0.6),
+  (8, 8, 0.5),
+  (9, 7, 1.0),
+  (9, 36, 0.7),
+  (9, 5, 0.6),
+  (9, 55, 0.3),
+  (9, 2, 0.4),
+  (10, 1, 0.9),
+  (10, 22, 0.9),
+  (10, 34, 0.6),
+  (10, 28, 0.6),
+  (10, 16, 0.5),
+  (11, 10, 1.0),
+  (11, 3, 0.7),
+  (11, 38, 0.7),
+  (11, 21, 0.6),
+  (11, 24, 0.5),
+  (12, 8, 1.0),
+  (12, 3, 0.8),
+  (12, 36, 0.6),
+  (12, 6, 0.4),
+  (12, 19, 0.4),
+  (13, 11, 1.0),
+  (13, 2, 0.8),
+  (13, 12, 0.7),
+  (13, 3, 0.5),
+  (13, 72, 0.5),
+  (13, 17, 0.4),
+  (14, 12, 1.0),
+  (14, 25, 0.6),
+  (14, 2, 0.5),
+  (14, 9, 0.5),
+  (14, 35, 0.4),
+  (15, 25, 1.0),
+  (15, 66, 0.8),
+  (15, 41, 0.8),
+  (15, 67, 0.5),
+  (15, 9, 0.4),
+  (16, 25, 0.9),
+  (16, 65, 0.6),
+  (16, 68, 0.6),
+  (16, 35, 0.6),
+  (16, 64, 0.5),
+  (17, 68, 1.0),
+  (17, 28, 0.7),
+  (17, 29, 0.6),
+  (17, 69, 0.5),
+  (17, 25, 0.5),
+  (18, 67, 1.0),
+  (18, 20, 0.7),
+  (18, 26, 0.6),
+  (18, 41, 0.6),
+  (18, 28, 0.6),
+  (19, 11, 0.9),
+  (19, 47, 0.9),
+  (19, 2, 0.6),
+  (19, 72, 0.6),
+  (19, 25, 0.5),
+  (19, 43, 0.4),
+  (20, 25, 0.8),
+  (20, 33, 0.8),
+  (20, 65, 0.7),
+  (20, 41, 0.7),
+  (20, 68, 0.5),
+  (21, 66, 1.0),
+  (21, 41, 0.8),
+  (21, 12, 0.5),
+  (21, 72, 0.5),
+  (21, 13, 0.3),
+  (22, 9, 1.0),
+  (22, 25, 0.6),
+  (22, 2, 0.6),
+  (22, 1, 0.3),
+  (22, 66, 0.4),
+  (23, 73, 0.9),
+  (23, 13, 0.8),
+  (23, 28, 0.7),
+  (23, 30, 0.7),
+  (23, 38, 0.5),
+  (24, 13, 1.0),
+  (24, 73, 0.9),
+  (24, 28, 0.7),
+  (24, 30, 0.6),
+  (24, 40, 0.4),
+  (25, 13, 0.9),
+  (25, 22, 0.9),
+  (25, 20, 0.7),
+  (25, 2, 0.5),
+  (25, 34, 0.5),
+  (26, 14, 1.0),
+  (26, 29, 0.7),
+  (26, 28, 0.7),
+  (26, 2, 0.5),
+  (26, 73, 0.4),
+  (27, 14, 0.9),
+  (27, 52, 0.8),
+  (27, 22, 0.8),
+  (27, 29, 0.6),
+  (27, 2, 0.5),
+  (27, 49, 0.3),
+  (28, 74, 1.0),
+  (28, 29, 0.7),
+  (28, 26, 0.6),
+  (28, 2, 0.5),
+  (28, 6, 0.4),
+  (29, 15, 1.0),
+  (29, 29, 0.7),
+  (29, 28, 0.7),
+  (29, 36, 0.6),
+  (29, 30, 0.5),
+  (30, 46, 0.9),
+  (30, 13, 0.7),
+  (30, 34, 0.7),
+  (30, 72, 0.6),
+  (30, 43, 0.5),
+  (30, 22, 0.4),
+  (31, 33, 0.8),
+  (31, 13, 0.7),
+  (31, 28, 0.7),
+  (31, 73, 0.6),
+  (31, 3, 0.4),
+  (32, 43, 1.0),
+  (32, 31, 0.7),
+  (32, 34, 0.6),
+  (32, 29, 0.5),
+  (32, 19, 0.4),
+  (33, 72, 0.8),
+  (33, 34, 0.8),
+  (33, 43, 0.7),
+  (33, 44, 0.7),
+  (33, 29, 0.7),
+  (34, 44, 1.0),
+  (34, 29, 0.6),
+  (34, 49, 0.5),
+  (34, 33, 0.4),
+  (34, 71, 0.3),
+  (35, 45, 1.0),
+  (35, 29, 0.9),
+  (35, 32, 0.7),
+  (35, 72, 0.7),
+  (35, 71, 0.3),
+  (36, 47, 0.7),
+  (36, 45, 0.7),
+  (36, 24, 0.7),
+  (36, 43, 0.5),
+  (36, 28, 0.5),
+  (37, 49, 0.9),
+  (37, 16, 0.7),
+  (37, 2, 0.5),
+  (37, 28, 0.5),
+  (37, 44, 0.4),
+  (38, 17, 0.9),
+  (38, 52, 0.9),
+  (38, 2, 0.6),
+  (38, 6, 0.5),
+  (38, 29, 0.5),
+  (39, 46, 1.0),
+  (39, 43, 0.7),
+  (39, 31, 0.6),
+  (39, 34, 0.6),
+  (39, 45, 0.5),
+  (40, 43, 0.8),
+  (40, 33, 0.8),
+  (40, 51, 0.7),
+  (40, 50, 0.6),
+  (40, 29, 0.5),
+  (41, 49, 0.9),
+  (41, 44, 0.8),
+  (41, 51, 0.6),
+  (41, 72, 0.6),
+  (41, 29, 0.6),
+  (42, 48, 1.0),
+  (42, 29, 0.7),
+  (42, 30, 0.7),
+  (42, 49, 0.5),
+  (42, 38, 0.5),
+  (43, 21, 0.7),
+  (43, 19, 0.7),
+  (43, 18, 0.6),
+  (43, 22, 0.6),
+  (43, 15, 0.5),
+  (43, 43, 0.4),
+  (44, 50, 0.9),
+  (44, 16, 0.6),
+  (44, 22, 0.6),
+  (44, 27, 0.5),
+  (44, 18, 0.4),
+  (45, 50, 1.0),
+  (45, 31, 0.9),
+  (45, 30, 0.8),
+  (45, 43, 0.8),
+  (45, 39, 0.6),
+  (46, 33, 1.0),
+  (46, 51, 0.8),
+  (46, 28, 0.7),
+  (46, 29, 0.6),
+  (46, 38, 0.5),
+  (47, 33, 0.8),
+  (47, 51, 0.7),
+  (47, 66, 0.6),
+  (47, 6, 0.5),
+  (47, 65, 0.4),
+  (47, 72, 0.4),
+  (48, 33, 0.8),
+  (48, 24, 0.7),
+  (48, 28, 0.7),
+  (48, 34, 0.6),
+  (48, 72, 0.4),
+  (49, 72, 0.9),
+  (49, 35, 0.7),
+  (49, 6, 0.6),
+  (49, 33, 0.6),
+  (49, 68, 0.4),
+  (50, 51, 0.9),
+  (50, 22, 0.7),
+  (50, 33, 0.7),
+  (50, 38, 0.6),
+  (50, 40, 0.5),
+  (51, 14, 0.8),
+  (51, 51, 0.8),
+  (51, 29, 0.7),
+  (51, 2, 0.5),
+  (51, 34, 0.5),
+  (52, 34, 1.0),
+  (52, 29, 0.8),
+  (52, 32, 0.7),
+  (52, 28, 0.6),
+  (52, 37, 0.5),
+  (53, 23, 1.0),
+  (53, 28, 0.7),
+  (53, 29, 0.6),
+  (53, 13, 0.4),
+  (53, 2, 0.3),
+  (54, 24, 1.0),
+  (54, 40, 0.7),
+  (54, 28, 0.7),
+  (54, 29, 0.6),
+  (54, 20, 0.5),
+  (55, 24, 0.9),
+  (55, 28, 0.7),
+  (55, 69, 0.5),
+  (55, 72, 0.5),
+  (55, 68, 0.4),
+  (56, 2, 0.9),
+  (56, 24, 0.7),
+  (56, 28, 0.5),
+  (56, 1, 0.4),
+  (56, 72, 0.4),
+  (57, 21, 0.9),
+  (57, 3, 0.6),
+  (57, 2, 0.6),
+  (57, 28, 0.6),
+  (57, 77, 0.5),
+  (58, 20, 1.0),
+  (58, 2, 0.7),
+  (58, 28, 0.7),
+  (58, 36, 0.7),
+  (58, 26, 0.6),
+  (59, 19, 1.0),
+  (59, 30, 0.8),
+  (59, 20, 0.7),
+  (59, 13, 0.6),
+  (59, 22, 0.6),
+  (59, 37, 0.6),
+  (60, 16, 1.0),
+  (60, 38, 0.8),
+  (60, 22, 0.7),
+  (60, 28, 0.7),
+  (60, 40, 0.5),
+  (61, 18, 1.0),
+  (61, 2, 0.8),
+  (61, 38, 0.5),
+  (61, 20, 0.4),
+  (61, 58, 0.4),
+  (62, 27, 1.0),
+  (62, 13, 0.7),
+  (62, 28, 0.7),
+  (62, 20, 0.6),
+  (62, 26, 0.4),
+  (63, 21, 1.0),
+  (63, 22, 0.8),
+  (63, 2, 0.5),
+  (63, 77, 0.5),
+  (63, 75, 0.4),
+  (64, 53, 1.0),
+  (64, 2, 0.6),
+  (64, 28, 0.6),
+  (64, 20, 0.5),
+  (64, 55, 0.4),
+  (65, 54, 1.0),
+  (65, 16, 0.7),
+  (65, 27, 0.6),
+  (65, 28, 0.6),
+  (65, 29, 0.6),
+  (66, 55, 0.9),
+  (66, 77, 0.6),
+  (66, 38, 0.6),
+  (66, 7, 0.4),
+  (66, 28, 0.4),
+  (67, 20, 0.8),
+  (67, 16, 0.8),
+  (67, 28, 0.8),
+  (67, 22, 0.6),
+  (67, 21, 0.6),
+  (67, 37, 0.6),
+  (68, 58, 0.9),
+  (68, 17, 0.7),
+  (68, 2, 0.6),
+  (68, 55, 0.3),
+  (68, 6, 0.3),
+  (69, 64, 1.0),
+  (69, 35, 0.8),
+  (69, 67, 0.6),
+  (69, 6, 0.3),
+  (69, 65, 0.3),
+  (70, 65, 1.0),
+  (70, 41, 0.7),
+  (70, 35, 0.7),
+  (70, 16, 0.5),
+  (70, 25, 0.4),
+  (71, 66, 1.0),
+  (71, 41, 0.7),
+  (71, 28, 0.7),
+  (71, 26, 0.5),
+  (71, 25, 0.4),
+  (72, 69, 1.0),
+  (72, 16, 0.7),
+  (72, 38, 0.7),
+  (72, 27, 0.6),
+  (72, 30, 0.5),
+  (73, 59, 0.9),
+  (73, 69, 0.7),
+  (73, 16, 0.6),
+  (73, 27, 0.6),
+  (73, 54, 0.4),
+  (74, 56, 0.9),
+  (74, 13, 0.7),
+  (74, 22, 0.7),
+  (74, 15, 0.6),
+  (74, 21, 0.5),
+  (75, 56, 0.8),
+  (75, 12, 0.7),
+  (75, 2, 0.6),
+  (75, 21, 0.5),
+  (75, 6, 0.3),
+  (76, 75, 1.0),
+  (76, 21, 0.7),
+  (76, 2, 0.6),
+  (76, 38, 0.6),
+  (76, 3, 0.3),
+  (77, 60, 0.9),
+  (77, 21, 0.7),
+  (77, 22, 0.6),
+  (77, 15, 0.6),
+  (77, 18, 0.5),
+  (78, 61, 0.9),
+  (78, 15, 0.6),
+  (78, 70, 0.6),
+  (78, 69, 0.5),
+  (78, 13, 0.4),
+  (79, 62, 0.9),
+  (79, 16, 0.6),
+  (79, 22, 0.6),
+  (79, 55, 0.5),
+  (79, 28, 0.5),
+  (80, 76, 1.0),
+  (80, 36, 0.8),
+  (80, 77, 0.5),
+  (80, 38, 0.4),
+  (80, 42, 0.4),
+  (81, 57, 0.9),
+  (81, 2, 0.6),
+  (81, 21, 0.5),
+  (81, 18, 0.4),
+  (81, 53, 0.4),
+  (82, 57, 0.8),
+  (82, 2, 0.7),
+  (82, 3, 0.6),
+  (82, 53, 0.5),
+  (82, 17, 0.4),
+  (83, 63, 0.8),
+  (83, 54, 0.8),
+  (83, 28, 0.7),
+  (83, 40, 0.6),
+  (83, 22, 0.6),
+  (84, 13, 0.9),
+  (84, 15, 0.8),
+  (84, 28, 0.6),
+  (84, 30, 0.5),
+  (84, 56, 0.5);
+DELETE FROM role_sectors WHERE role_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84);
+INSERT INTO role_sectors (role_id, sector_id) VALUES
+  (1, 1),
+  (1, 4),
+  (1, 5),
+  (2, 1),
+  (2, 4),
+  (2, 5),
+  (3, 1),
+  (3, 4),
+  (3, 2),
+  (4, 1),
+  (4, 7),
+  (4, 8),
+  (5, 1),
+  (5, 4),
+  (5, 5),
+  (6, 1),
+  (6, 5),
+  (6, 4),
+  (7, 1),
+  (7, 4),
+  (7, 8),
+  (8, 1),
+  (8, 7),
+  (8, 6),
+  (9, 1),
+  (9, 4),
+  (9, 12),
+  (10, 1),
+  (10, 4),
+  (10, 5),
+  (11, 1),
+  (11, 13),
+  (11, 7),
+  (12, 1),
+  (12, 7),
+  (12, 5),
+  (13, 6),
+  (13, 1),
+  (13, 5),
+  (14, 6),
+  (14, 5),
+  (14, 1),
+  (15, 6),
+  (15, 9),
+  (15, 1),
+  (16, 6),
+  (16, 9),
+  (16, 5),
+  (17, 6),
+  (17, 1),
+  (17, 3),
+  (18, 6),
+  (18, 5),
+  (18, 8),
+  (19, 10),
+  (19, 2),
+  (19, 1),
+  (20, 9),
+  (20, 3),
+  (20, 6),
+  (21, 6),
+  (21, 5),
+  (21, 9),
+  (22, 6),
+  (22, 1),
+  (22, 5),
+  (23, 1),
+  (23, 4),
+  (23, 7),
+  (24, 1),
+  (24, 8),
+  (24, 4),
+  (25, 1),
+  (25, 8),
+  (25, 5),
+  (26, 1),
+  (26, 3),
+  (26, 2),
+  (27, 2),
+  (27, 1),
+  (27, 10),
+  (28, 5),
+  (28, 1),
+  (28, 17),
+  (29, 5),
+  (29, 1),
+  (29, 4),
+  (30, 7),
+  (30, 10),
+  (30, 13),
+  (31, 1),
+  (31, 7),
+  (31, 3),
+  (32, 10),
+  (32, 2),
+  (32, 3),
+  (33, 10),
+  (33, 2),
+  (33, 1),
+  (34, 2),
+  (34, 10),
+  (34, 17),
+  (35, 2),
+  (35, 13),
+  (35, 3),
+  (36, 13),
+  (36, 2),
+  (36, 10),
+  (37, 2),
+  (37, 12),
+  (37, 11),
+  (38, 2),
+  (38, 1),
+  (38, 10),
+  (39, 10),
+  (39, 2),
+  (39, 7),
+  (40, 3),
+  (40, 10),
+  (40, 12),
+  (41, 2),
+  (41, 3),
+  (41, 12),
+  (42, 2),
+  (42, 12),
+  (42, 11),
+  (43, 2),
+  (43, 10),
+  (43, 5),
+  (44, 10),
+  (44, 9),
+  (44, 12),
+  (45, 10),
+  (45, 9),
+  (45, 3),
+  (46, 3),
+  (46, 12),
+  (46, 11),
+  (47, 3),
+  (47, 1),
+  (47, 13),
+  (48, 13),
+  (48, 3),
+  (48, 7),
+  (49, 3),
+  (49, 1),
+  (49, 13),
+  (50, 3),
+  (50, 12),
+  (50, 11),
+  (51, 3),
+  (51, 1),
+  (51, 13),
+  (52, 3),
+  (52, 13),
+  (52, 7),
+  (53, 13),
+  (53, 1),
+  (53, 7),
+  (54, 13),
+  (54, 1),
+  (54, 8),
+  (55, 13),
+  (55, 1),
+  (55, 7),
+  (56, 13),
+  (56, 1),
+  (56, 7),
+  (57, 7),
+  (57, 8),
+  (57, 14),
+  (58, 7),
+  (58, 4),
+  (58, 1),
+  (59, 1),
+  (59, 7),
+  (59, 5),
+  (60, 7),
+  (60, 1),
+  (60, 8),
+  (61, 4),
+  (61, 8),
+  (61, 7),
+  (62, 1),
+  (62, 7),
+  (62, 4),
+  (63, 14),
+  (63, 8),
+  (63, 5),
+  (64, 7),
+  (64, 8),
+  (64, 15),
+  (65, 11),
+  (65, 12),
+  (65, 3),
+  (66, 16),
+  (66, 4),
+  (66, 8),
+  (67, 1),
+  (67, 7),
+  (67, 4),
+  (68, 4),
+  (68, 1),
+  (68, 5),
+  (69, 6),
+  (69, 9),
+  (69, 5),
+  (70, 9),
+  (70, 6),
+  (70, 3),
+  (71, 9),
+  (71, 6),
+  (71, 12),
+  (72, 9),
+  (72, 17),
+  (72, 6),
+  (73, 9),
+  (73, 11),
+  (73, 12),
+  (74, 5),
+  (74, 17),
+  (74, 14),
+  (75, 5),
+  (75, 1),
+  (75, 14),
+  (76, 14),
+  (76, 5),
+  (76, 8),
+  (77, 17),
+  (77, 5),
+  (77, 10),
+  (78, 17),
+  (78, 9),
+  (78, 5),
+  (79, 12),
+  (79, 11),
+  (79, 2),
+  (80, 8),
+  (80, 14),
+  (80, 15),
+  (81, 15),
+  (81, 4),
+  (81, 14),
+  (82, 15),
+  (82, 1),
+  (82, 8),
+  (83, 11),
+  (83, 12),
+  (83, 3),
+  (84, 5),
+  (84, 17),
+  (84, 4);
+COMMIT;
 
--- habilidades
-INSERT INTO skills (id, slug, category) VALUES (1, 'programacao', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (1, 'pt-BR', 'Programação', ARRAY['programação', 'programar', 'código', 'desenvolvedor', 'desenvolvimento de software', 'python', 'javascript', 'java', 'typescript']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (1, 'en', 'Programming') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (2, 'analise_dados', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (2, 'pt-BR', 'Análise de Dados', ARRAY['dados', 'análise de dados', 'analytics', 'planilha', 'planilhas', 'excel', 'sql', 'dashboard', 'métricas', 'indicadores', 'power bi']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (2, 'en', 'Data Analysis') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (3, 'automacao', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (3, 'pt-BR', 'Automação de Processos', ARRAY['automação', 'automações', 'automatizar', 'automatizei', 'zapier', 'make', 'n8n', 'rpa', 'workflow', 'integrações']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (3, 'en', 'Process Automation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (4, 'machine_learning', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (4, 'pt-BR', 'Machine Learning e IA', ARRAY['inteligência artificial', 'machine learning', 'modelo preditivo', 'chatgpt', 'llm', 'prompt', 'prompts', 'ia generativa']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (4, 'en', 'Machine Learning & AI') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (5, 'cloud_devops', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (5, 'pt-BR', 'Cloud e DevOps', ARRAY['aws', 'azure', 'cloud', 'nuvem', 'devops', 'infraestrutura', 'servidor', 'servidores', 'docker', 'kubernetes']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (5, 'en', 'Cloud & DevOps') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (6, 'ux_design', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (6, 'pt-BR', 'UX/UI Design', ARRAY['ux', 'ui', 'design de interface', 'figma', 'usabilidade', 'prototipagem', 'protótipo', 'experiência do usuário']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (6, 'en', 'UX/UI Design') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (7, 'seguranca_info', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (7, 'pt-BR', 'Segurança da Informação', ARRAY['segurança da informação', 'cibersegurança', 'segurança digital', 'pentest', 'proteção de dados']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (7, 'en', 'Information Security') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (8, 'no_code', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (8, 'pt-BR', 'Ferramentas No-Code', ARRAY['no-code', 'nocode', 'no code', 'low-code', 'bubble', 'notion', 'airtable', 'lovable', 'glide']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (8, 'en', 'No-Code Tools') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (9, 'seo', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (9, 'pt-BR', 'SEO', ARRAY['seo', 'busca orgânica', 'tráfego orgânico', 'ranqueamento']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (9, 'en', 'SEO') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (10, 'ferramentas_remotas', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (10, 'pt-BR', 'Trabalho Remoto e Colaboração Digital', ARRAY['home office', 'remoto', 'trabalho remoto', 'trabalho híbrido', 'slack', 'colaboração remota', 'assíncrono', 'anywhere office']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (10, 'en', 'Remote Work & Digital Collaboration') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (11, 'growth', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (11, 'pt-BR', 'Growth e Experimentação', ARRAY['growth', 'growth hacking', 'crescimento', 'experimentos', 'teste a/b', 'funil', 'aquisição', 'retenção', 'conversão', 'ltv', 'cac']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (11, 'en', 'Growth & Experimentation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (12, 'marketing_digital', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (12, 'pt-BR', 'Marketing Digital', ARRAY['marketing digital', 'tráfego pago', 'anúncios', 'ads', 'meta ads', 'google ads', 'campanha', 'campanhas', 'performance marketing']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (12, 'en', 'Digital Marketing') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (13, 'vendas', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (13, 'pt-BR', 'Vendas e Negociação', ARRAY['vendas', 'vender', 'vendi', 'vendedor', 'vendedora', 'negociação', 'negociar', 'comercial', 'fechamento', 'prospecção', 'metas de venda']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (13, 'en', 'Sales & Negotiation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (14, 'customer_success', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (14, 'pt-BR', 'Customer Success', ARRAY['customer success', 'sucesso do cliente', 'onboarding de clientes', 'churn', 'retenção de clientes', 'pós-venda', 'carteira de clientes']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (14, 'en', 'Customer Success') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (15, 'atendimento', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (15, 'pt-BR', 'Atendimento ao Cliente', ARRAY['atendimento', 'atender clientes', 'atendi', 'suporte', 'sac', 'relacionamento com cliente', 'balcão']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (15, 'en', 'Customer Service') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (16, 'gestao_projetos', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (16, 'pt-BR', 'Gestão de Projetos', ARRAY['gestão de projetos', 'projetos', 'projeto', 'scrum', 'kanban', 'cronograma', 'entregas', 'prazos', 'ágil']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (16, 'en', 'Project Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (17, 'gestao_produto', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (17, 'pt-BR', 'Gestão de Produto', ARRAY['gestão de produto', 'product manager', 'product owner', 'roadmap', 'discovery', 'backlog']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (17, 'en', 'Product Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (18, 'financas', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (18, 'pt-BR', 'Finanças e Orçamento', ARRAY['finanças', 'financeiro', 'orçamento', 'fluxo de caixa', 'contabilidade', 'custos', 'precificação']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (18, 'en', 'Finance & Budgeting') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (19, 'empreendedorismo', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (19, 'pt-BR', 'Empreendedorismo', ARRAY['empreender', 'empreendi', 'empreendedor', 'empreendedora', 'empreendedorismo', 'negócio próprio', 'minha empresa', 'startup', 'fundador', 'fundadora', 'fundei', 'abri uma empresa']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (19, 'en', 'Entrepreneurship') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (20, 'estrategia', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (20, 'pt-BR', 'Estratégia de Negócios', ARRAY['estratégia', 'planejamento estratégico', 'okr', 'okrs', 'modelo de negócio', 'posicionamento estratégico']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (20, 'en', 'Business Strategy') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (21, 'operacoes', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (21, 'pt-BR', 'Operações e Processos', ARRAY['operações', 'operação', 'processos', 'eficiência operacional', 'melhoria contínua', 'lean', 'padronização']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (21, 'en', 'Operations & Processes') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (22, 'lideranca', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (22, 'pt-BR', 'Liderança de Equipes', ARRAY['liderança', 'liderar', 'liderei', 'líder', 'gestor', 'gestora', 'gestão de equipe', 'coordenei', 'gerenciei', 'chefiei']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (22, 'en', 'Team Leadership') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (23, 'recrutamento', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (23, 'pt-BR', 'Recrutamento e Seleção', ARRAY['recrutamento', 'seleção', 'contratação', 'contratei', 'entrevistas', 'talent acquisition', 'recrutador']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (23, 'en', 'Recruiting') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (24, 'gestao_pessoas', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (24, 'pt-BR', 'Gestão de Pessoas', ARRAY['gestão de pessoas', 'cultura organizacional', 'clima organizacional', 'engajamento de equipe', 'recursos humanos', 'desenvolvimento humano']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (24, 'en', 'People Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (25, 'marketing_conteudo', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (25, 'pt-BR', 'Marketing de Conteúdo', ARRAY['conteúdo', 'conteúdos', 'blog', 'newsletter', 'redes sociais', 'instagram', 'linkedin', 'tiktok', 'posts']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (25, 'en', 'Content Marketing') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (26, 'pesquisa_mercado', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (26, 'pt-BR', 'Pesquisa de Mercado e Usuário', ARRAY['pesquisa de mercado', 'entrevista com usuários', 'pesquisa com usuários', 'benchmarking', 'concorrência', 'entrevistas qualitativas']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (26, 'en', 'Market & User Research') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (27, 'parcerias', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (27, 'pt-BR', 'Parcerias e Business Development', ARRAY['parcerias', 'parceria', 'bizdev', 'desenvolvimento de negócios', 'alianças', 'networking', 'captação de recursos', 'patrocínio']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (27, 'en', 'Partnerships & BizDev') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (28, 'comunicacao', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (28, 'pt-BR', 'Comunicação', ARRAY['comunicação', 'comunicar', 'apresentações', 'falar em público', 'oratória', 'palestra', 'palestras']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (28, 'en', 'Communication') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (29, 'empatia', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (29, 'pt-BR', 'Empatia e Escuta Ativa', ARRAY['empatia', 'escuta', 'escutar', 'acolher', 'acolhimento', 'ouvir pessoas']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (29, 'en', 'Empathy & Active Listening') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (30, 'resiliencia', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (30, 'pt-BR', 'Resiliência', ARRAY['resiliência', 'superação', 'superar', 'superei', 'dificuldade', 'dificuldades', 'crise', 'persistência', 'recomeço', 'recomecei']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (30, 'en', 'Resilience') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (31, 'disciplina', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (31, 'pt-BR', 'Disciplina e Constância', ARRAY['disciplina', 'constância', 'rotina', 'hábito', 'hábitos', 'consistência', 'foco']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (31, 'en', 'Discipline & Consistency') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (32, 'autoconhecimento', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (32, 'pt-BR', 'Autoconhecimento e Inteligência Emocional', ARRAY['autoconhecimento', 'terapia', 'psicoterapia', 'me conhecer', 'inteligência emocional', 'emoções', 'vulnerabilidade']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (32, 'en', 'Self-awareness & Emotional Intelligence') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (33, 'ensino', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (33, 'pt-BR', 'Ensino e Facilitação', ARRAY['ensinar', 'ensinei', 'ensino', 'professor', 'professora', 'aula', 'aulas', 'treinamento', 'treinamentos', 'facilitação', 'workshop', 'didática', 'educador']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (33, 'en', 'Teaching & Facilitation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (34, 'mentoria', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (34, 'pt-BR', 'Mentoria e Coaching', ARRAY['mentoria', 'mentor', 'mentora', 'coaching', 'coach', 'aconselhar', 'orientar pessoas', 'orientei']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (34, 'en', 'Mentoring & Coaching') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (35, 'criatividade', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (35, 'pt-BR', 'Criatividade e Inovação', ARRAY['criatividade', 'criativo', 'criativa', 'ideias', 'inovação', 'inovar']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (35, 'en', 'Creativity & Innovation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (36, 'resolucao_problemas', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (36, 'pt-BR', 'Resolução de Problemas', ARRAY['resolver problemas', 'solução de problemas', 'problemas complexos', 'troubleshooting', 'resolvi']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (36, 'en', 'Problem Solving') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (37, 'adaptabilidade', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (37, 'pt-BR', 'Adaptabilidade', ARRAY['adaptação', 'adaptabilidade', 'mudança', 'mudanças', 'transição', 'mudei de área', 'me adaptar', 'reinventar']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (37, 'en', 'Adaptability') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (38, 'organizacao', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (38, 'pt-BR', 'Organização e Gestão do Tempo', ARRAY['organização', 'organizar', 'organizei', 'planejamento', 'produtividade', 'gestão do tempo']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (38, 'en', 'Organization & Time Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (39, 'trabalho_equipe', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (39, 'pt-BR', 'Trabalho em Equipe', ARRAY['trabalho em equipe', 'equipe', 'colaboração', 'colaborar', 'coletivo']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (39, 'en', 'Teamwork') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (40, 'mediacao', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (40, 'pt-BR', 'Mediação de Conflitos', ARRAY['conflitos', 'conflito', 'mediação', 'mediar', 'mediei']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (40, 'en', 'Conflict Mediation') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (41, 'storytelling', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (41, 'pt-BR', 'Storytelling', ARRAY['storytelling', 'contar histórias', 'narrativa', 'narrativas', 'roteiro', 'roteiros']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (41, 'en', 'Storytelling') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (42, 'autodidatismo', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (42, 'pt-BR', 'Aprendizado Autodidata', ARRAY['autodidata', 'aprendi sozinho', 'aprendi sozinha', 'cursos online', 'por conta própria']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (42, 'en', 'Self-directed Learning') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (43, 'saude_fisica', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (43, 'pt-BR', 'Saúde e Condicionamento Físico', ARRAY['academia', 'treino', 'treinos', 'musculação', 'exercício', 'exercícios', 'atividade física', 'corrida', 'condicionamento', 'disciplina corporal', 'corpo', 'emagrecer', 'emagreci', 'perdi peso']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (43, 'en', 'Physical Fitness') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (44, 'nutricao', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (44, 'pt-BR', 'Nutrição e Alimentação', ARRAY['nutrição', 'alimentação', 'dieta', 'reeducação alimentar', 'obesidade', 'comida saudável', 'sobrepeso']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (44, 'en', 'Nutrition') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (45, 'saude_mental', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (45, 'pt-BR', 'Saúde Mental', ARRAY['saúde mental', 'ansiedade', 'depressão', 'terapia', 'bem-estar emocional', 'psicologia', 'burnout']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (45, 'en', 'Mental Health') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (46, 'performance_humana', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (46, 'pt-BR', 'Performance Humana', ARRAY['performance', 'alta performance', 'rendimento', 'energia', 'sono', 'recuperação', 'biohacking', 'disciplina corporal']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (46, 'en', 'Human Performance') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (47, 'longevidade', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (47, 'pt-BR', 'Longevidade e Bem-estar', ARRAY['longevidade', 'envelhecimento saudável', 'bem-estar', 'qualidade de vida', 'wellness', 'saúde preventiva']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (47, 'en', 'Longevity & Wellbeing') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (48, 'cuidado_pessoas', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (48, 'pt-BR', 'Cuidado de Pessoas', ARRAY['cuidar', 'cuidador', 'cuidadora', 'cuidei', 'enfermagem', 'pacientes', 'cuidado de idosos']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (48, 'en', 'Caregiving') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (49, 'saude_publica', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (49, 'pt-BR', 'Saúde Pública e Prevenção', ARRAY['saúde pública', 'sus', 'epidemiologia', 'prevenção', 'obesidade infantil', 'políticas de saúde', 'agente de saúde']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (49, 'en', 'Public Health & Prevention') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (50, 'esporte', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (50, 'pt-BR', 'Esporte e Competição', ARRAY['esporte', 'esportes', 'atleta', 'competição', 'competições', 'campeonato', 'futebol', 'luta', 'natação', 'jiu-jitsu', 'vôlei', 'basquete']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (50, 'en', 'Sports & Competition') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (51, 'educacao', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (51, 'pt-BR', 'Educação', ARRAY['educação', 'escola', 'pedagogia', 'alunos', 'estudantes', 'edtech', 'sala de aula']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (51, 'en', 'Education') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (52, 'tecnologia_saude', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (52, 'pt-BR', 'Tecnologia em Saúde', ARRAY['health tech', 'healthtech', 'saúde digital', 'telemedicina', 'app de saúde', 'prontuário eletrônico']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (52, 'en', 'Health Technology') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (53, 'sustentabilidade', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (53, 'pt-BR', 'Sustentabilidade e ESG', ARRAY['sustentabilidade', 'esg', 'meio ambiente', 'carbono', 'reciclagem', 'economia circular']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (53, 'en', 'Sustainability & ESG') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (54, 'impacto_social', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (54, 'pt-BR', 'Impacto Social', ARRAY['ong', 'voluntariado', 'voluntário', 'voluntária', 'projeto social', 'projetos sociais', 'periferia', 'impacto social', 'favela']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (54, 'en', 'Social Impact') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (55, 'direito', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (55, 'pt-BR', 'Direito e Compliance', ARRAY['direito', 'jurídico', 'advogado', 'advogada', 'contratos', 'compliance', 'lgpd', 'legislação']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (55, 'en', 'Law & Compliance') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (56, 'varejo', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (56, 'pt-BR', 'Varejo', ARRAY['varejo', 'loja', 'lojas', 'e-commerce', 'ecommerce', 'vitrine', 'estoque', 'pdv']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (56, 'en', 'Retail') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (57, 'agro', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (57, 'pt-BR', 'Agronegócio', ARRAY['agro', 'agronegócio', 'fazenda', 'agricultura', 'pecuária', 'rural', 'lavoura']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (57, 'en', 'Agribusiness') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (58, 'financas_mercado', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (58, 'pt-BR', 'Mercado Financeiro', ARRAY['mercado financeiro', 'banco', 'fintech', 'crédito', 'ações', 'investimentos', 'bolsa de valores']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (58, 'en', 'Financial Markets') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (59, 'cultura_arte', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (59, 'pt-BR', 'Cultura e Artes', ARRAY['arte', 'artes', 'música', 'músico', 'musicista', 'teatro', 'dança', 'cinema', 'cultura', 'artista', 'banda']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (59, 'en', 'Arts & Culture') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (60, 'gastronomia', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (60, 'pt-BR', 'Gastronomia', ARRAY['gastronomia', 'cozinha', 'cozinhar', 'cozinheiro', 'cozinheira', 'chef', 'restaurante', 'culinária', 'confeitaria']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (60, 'en', 'Culinary') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (61, 'turismo', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (61, 'pt-BR', 'Turismo e Hospitalidade', ARRAY['turismo', 'hotel', 'hotelaria', 'viagem', 'viagens', 'hospitalidade', 'guia turístico']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (61, 'en', 'Tourism & Hospitality') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (62, 'setor_publico', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (62, 'pt-BR', 'Gestão Pública', ARRAY['governo', 'prefeitura', 'setor público', 'políticas públicas', 'servidor público', 'servidora pública', 'concurso']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (62, 'en', 'Public Administration') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (63, 'lideranca_comunitaria', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (63, 'pt-BR', 'Liderança Comunitária', ARRAY['igreja', 'comunidade religiosa', 'liderança comunitária', 'associação de bairro', 'grupo de jovens', 'coletivo', 'movimento social']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (63, 'en', 'Community Leadership') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (64, 'design_grafico', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (64, 'pt-BR', 'Design Gráfico', ARRAY['design gráfico', 'identidade visual', 'photoshop', 'illustrator', 'canva', 'ilustração']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (64, 'en', 'Graphic Design') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (65, 'audiovisual', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (65, 'pt-BR', 'Produção Audiovisual', ARRAY['vídeo', 'vídeos', 'edição de vídeo', 'youtube', 'podcast', 'filmagem', 'fotografia', 'audiovisual']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (65, 'en', 'Audiovisual Production') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (66, 'escrita', 'creative') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (66, 'pt-BR', 'Escrita', ARRAY['escrita', 'escrever', 'escrevi', 'redação', 'textos', 'livro', 'artigos', 'jornalismo', 'copy', 'copywriting']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (66, 'en', 'Writing') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (67, 'branding', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (67, 'pt-BR', 'Branding', ARRAY['marca', 'marcas', 'branding', 'posicionamento de marca', 'identidade de marca', 'rebranding']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (67, 'en', 'Branding') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (68, 'comunidade_online', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (68, 'pt-BR', 'Gestão de Comunidades', ARRAY['comunidade online', 'comunidade', 'comunidades', 'discord', 'grupo de whatsapp', 'engajamento de comunidade', 'membros']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (68, 'en', 'Community Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (69, 'eventos', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (69, 'pt-BR', 'Produção de Eventos', ARRAY['eventos', 'evento', 'produção de eventos', 'organizei eventos', 'congresso', 'festival', 'meetup']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (69, 'en', 'Event Production') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (70, 'idiomas', 'human') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (70, 'pt-BR', 'Idiomas e Interculturalidade', ARRAY['inglês', 'espanhol', 'francês', 'idiomas', 'morei fora', 'intercâmbio', 'intercultural', 'exterior']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (70, 'en', 'Languages & Interculturality') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (71, 'pesquisa_cientifica', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (71, 'pt-BR', 'Pesquisa Científica', ARRAY['pesquisa científica', 'mestrado', 'doutorado', 'laboratório', 'artigo científico', 'iniciação científica', 'tcc']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (71, 'en', 'Scientific Research') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (72, 'psicologia_comportamental', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (72, 'pt-BR', 'Psicologia Comportamental', ARRAY['comportamento', 'comportamental', 'mudança de hábito', 'motivação', 'gamificação', 'economia comportamental', 'hábitos saudáveis']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (72, 'en', 'Behavioral Psychology') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (73, 'vendas_consultivas', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (73, 'pt-BR', 'Venda Consultiva B2B', ARRAY['venda consultiva', 'b2b', 'ciclo de vendas', 'pipeline', 'crm', 'inside sales', 'sdr', 'pré-vendas']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (73, 'en', 'Consultative B2B Sales') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (74, 'cx', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (74, 'pt-BR', 'Experiência do Cliente (CX)', ARRAY['experiência do cliente', 'cx', 'jornada do cliente', 'nps', 'satisfação do cliente']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (74, 'en', 'Customer Experience') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (75, 'logistica', 'domain') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (75, 'pt-BR', 'Logística', ARRAY['logística', 'entregas', 'frota', 'distribuição', 'supply chain', 'cadeia de suprimentos', 'armazém']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (75, 'en', 'Logistics') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (76, 'manutencao_tecnica', 'technical') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (76, 'pt-BR', 'Manutenção e Técnica', ARRAY['manutenção', 'mecânica', 'elétrica', 'técnico', 'conserto', 'consertar', 'oficina', 'eletrônica']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (76, 'en', 'Technical Maintenance') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO skills (id, slug, category) VALUES (77, 'qualidade', 'business') ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, category = EXCLUDED.category;
-INSERT INTO skills_i18n (skill_id, locale, name, aliases) VALUES (77, 'pt-BR', 'Gestão da Qualidade', ARRAY['qualidade', 'iso', 'auditoria', 'controle de qualidade', 'normas', 'six sigma']::text[]) ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name, aliases = EXCLUDED.aliases;
-INSERT INTO skills_i18n (skill_id, locale, name) VALUES (77, 'en', 'Quality Management') ON CONFLICT (skill_id, locale) DO UPDATE SET name = EXCLUDED.name;
-
--- cargos
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (1, 'desenvolvedor_software', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (1, 'pt-BR', 'Desenvolvedor(a) de Software') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (1, 'en', 'Software Developer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 1;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (1, 1, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (1, 36, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (1, 42, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (1, 5, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (1, 39, 0.5);
-DELETE FROM role_sectors WHERE role_id = 1;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (1, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (1, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (1, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (2, 'analista_dados', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (2, 'pt-BR', 'Analista de Dados') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (2, 'en', 'Data Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 2;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (2, 2, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (2, 36, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (2, 28, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (2, 1, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (2, 26, 0.4);
-DELETE FROM role_sectors WHERE role_id = 2;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (2, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (2, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (2, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (3, 'cientista_dados', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (3, 'pt-BR', 'Cientista de Dados') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (3, 'en', 'Data Scientist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 3;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (3, 4, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (3, 2, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (3, 1, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (3, 71, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (3, 41, 0.3);
-DELETE FROM role_sectors WHERE role_id = 3;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (3, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (3, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (3, 2);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (4, 'engenheiro_automacao', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (4, 'pt-BR', 'Especialista em Automação de Processos') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (4, 'en', 'Process Automation Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 4;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (4, 3, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (4, 8, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (4, 21, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (4, 36, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (4, 2, 0.5);
-DELETE FROM role_sectors WHERE role_id = 4;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (4, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (4, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (4, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (5, 'product_manager', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (5, 'pt-BR', 'Product Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (5, 'en', 'Product Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 5;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 17, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 26, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 20, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (5, 6, 0.4);
-DELETE FROM role_sectors WHERE role_id = 5;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (5, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (5, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (5, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (6, 'ux_designer', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (6, 'pt-BR', 'UX Designer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (6, 'en', 'UX Designer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 6;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (6, 6, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (6, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (6, 26, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (6, 35, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (6, 28, 0.5);
-DELETE FROM role_sectors WHERE role_id = 6;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (6, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (6, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (6, 4);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (7, 'devops', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (7, 'pt-BR', 'Engenheiro(a) DevOps / Cloud') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (7, 'en', 'DevOps / Cloud Engineer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 7;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (7, 5, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (7, 1, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (7, 3, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (7, 36, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (7, 7, 0.4);
-DELETE FROM role_sectors WHERE role_id = 7;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (7, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (7, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (7, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (8, 'especialista_ia_aplicada', 1, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (8, 'pt-BR', 'Especialista em IA Aplicada a Negócios') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (8, 'en', 'Applied AI Business Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 8;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (8, 4, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (8, 3, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (8, 20, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (8, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (8, 8, 0.5);
-DELETE FROM role_sectors WHERE role_id = 8;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (8, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (8, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (8, 6);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (9, 'analista_seguranca', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (9, 'pt-BR', 'Analista de Segurança da Informação') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (9, 'en', 'Information Security Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 9;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (9, 7, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (9, 36, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (9, 5, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (9, 55, 0.3);
-DELETE FROM role_sectors WHERE role_id = 9;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (9, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (9, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (9, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (10, 'tech_lead', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (10, 'pt-BR', 'Tech Lead') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (10, 'en', 'Tech Lead') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 10;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (10, 1, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (10, 22, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (10, 34, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (10, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (10, 16, 0.5);
-DELETE FROM role_sectors WHERE role_id = 10;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (10, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (10, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (10, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (11, 'ops_remote', 1, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (11, 'pt-BR', 'Especialista em Operações Remotas e Produtividade') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (11, 'en', 'Remote Operations & Productivity Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 11;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (11, 10, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (11, 3, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (11, 38, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (11, 21, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (11, 24, 0.5);
-DELETE FROM role_sectors WHERE role_id = 11;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (11, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (11, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (11, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (12, 'no_code_builder', 1, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (12, 'pt-BR', 'Desenvolvedor(a) No-Code / Low-Code') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (12, 'en', 'No-Code / Low-Code Builder') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 12;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (12, 8, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (12, 3, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (12, 36, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (12, 6, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (12, 19, 0.4);
-DELETE FROM role_sectors WHERE role_id = 12;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (12, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (12, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (12, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (13, 'growth_manager', 6, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (13, 'pt-BR', 'Growth Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (13, 'en', 'Growth Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 13;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 11, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 2, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 12, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 3, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 72, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (13, 17, 0.4);
-DELETE FROM role_sectors WHERE role_id = 13;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (13, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (13, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (13, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (14, 'analista_marketing_digital', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (14, 'pt-BR', 'Analista de Marketing Digital') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (14, 'en', 'Digital Marketing Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 14;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (14, 12, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (14, 25, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (14, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (14, 9, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (14, 35, 0.4);
-DELETE FROM role_sectors WHERE role_id = 14;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (14, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (14, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (14, 1);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (15, 'estrategista_conteudo', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (15, 'pt-BR', 'Estrategista de Conteúdo') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (15, 'en', 'Content Strategist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 15;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (15, 25, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (15, 66, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (15, 41, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (15, 67, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (15, 9, 0.4);
-DELETE FROM role_sectors WHERE role_id = 15;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (15, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (15, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (15, 1);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (16, 'social_media', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (16, 'pt-BR', 'Social Media') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (16, 'en', 'Social Media Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 16;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (16, 25, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (16, 65, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (16, 68, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (16, 35, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (16, 64, 0.5);
-DELETE FROM role_sectors WHERE role_id = 16;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (16, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (16, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (16, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (17, 'gestor_comunidade', 6, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (17, 'pt-BR', 'Community Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (17, 'en', 'Community Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 17;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (17, 68, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (17, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (17, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (17, 69, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (17, 25, 0.5);
-DELETE FROM role_sectors WHERE role_id = 17;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (17, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (17, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (17, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (18, 'brand_manager', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (18, 'pt-BR', 'Brand Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (18, 'en', 'Brand Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 18;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (18, 67, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (18, 20, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (18, 26, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (18, 41, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (18, 28, 0.6);
-DELETE FROM role_sectors WHERE role_id = 18;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (18, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (18, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (18, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (19, 'growth_longevidade', 10, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (19, 'pt-BR', 'Especialista em Growth para Longevidade') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (19, 'en', 'Growth Specialist for Longevity') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 19;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 11, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 47, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 72, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 25, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (19, 43, 0.4);
-DELETE FROM role_sectors WHERE role_id = 19;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (19, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (19, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (19, 1);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (20, 'criador_conteudo', 9, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (20, 'pt-BR', 'Criador(a) de Conteúdo Educacional') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (20, 'en', 'Educational Content Creator') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 20;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (20, 25, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (20, 33, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (20, 65, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (20, 41, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (20, 68, 0.5);
-DELETE FROM role_sectors WHERE role_id = 20;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (20, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (20, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (20, 6);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (21, 'copywriter', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (21, 'pt-BR', 'Copywriter') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (21, 'en', 'Copywriter') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 21;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (21, 66, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (21, 41, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (21, 12, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (21, 72, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (21, 13, 0.3);
-DELETE FROM role_sectors WHERE role_id = 21;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (21, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (21, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (21, 9);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (22, 'seo_specialist', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (22, 'pt-BR', 'Especialista em SEO') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (22, 'en', 'SEO Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 22;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (22, 9, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (22, 25, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (22, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (22, 1, 0.3);
-DELETE FROM role_sectors WHERE role_id = 22;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (22, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (22, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (22, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (23, 'sdr', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (23, 'pt-BR', 'SDR / Pré-vendas') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (23, 'en', 'Sales Development Representative') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 23;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (23, 73, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (23, 13, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (23, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (23, 30, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (23, 38, 0.5);
-DELETE FROM role_sectors WHERE role_id = 23;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (23, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (23, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (23, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (24, 'executivo_vendas', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (24, 'pt-BR', 'Executivo(a) de Vendas B2B') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (24, 'en', 'B2B Account Executive') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 24;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (24, 13, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (24, 73, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (24, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (24, 30, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (24, 40, 0.4);
-DELETE FROM role_sectors WHERE role_id = 24;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (24, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (24, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (24, 4);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (25, 'head_vendas', 1, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (25, 'pt-BR', 'Head de Vendas') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (25, 'en', 'Head of Sales') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 25;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (25, 13, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (25, 22, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (25, 20, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (25, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (25, 34, 0.5);
-DELETE FROM role_sectors WHERE role_id = 25;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (25, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (25, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (25, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (26, 'cs_manager', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (26, 'pt-BR', 'Customer Success Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (26, 'en', 'Customer Success Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 26;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (26, 14, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (26, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (26, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (26, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (26, 73, 0.4);
-DELETE FROM role_sectors WHERE role_id = 26;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (26, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (26, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (26, 2);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (27, 'head_cs_healthtech', 2, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (27, 'pt-BR', 'Head de Customer Success em Health Tech') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (27, 'en', 'Head of Customer Success in Health Tech') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 27;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 14, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 52, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 22, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (27, 49, 0.3);
-DELETE FROM role_sectors WHERE role_id = 27;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (27, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (27, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (27, 10);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (28, 'cx_specialist', 5, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (28, 'pt-BR', 'Especialista em Experiência do Cliente (CX)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (28, 'en', 'Customer Experience Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 28;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (28, 74, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (28, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (28, 26, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (28, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (28, 6, 0.4);
-DELETE FROM role_sectors WHERE role_id = 28;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (28, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (28, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (28, 17);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (29, 'atendente_cliente', 5, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (29, 'pt-BR', 'Analista de Atendimento ao Cliente') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (29, 'en', 'Customer Service Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 29;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (29, 15, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (29, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (29, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (29, 36, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (29, 30, 0.5);
-DELETE FROM role_sectors WHERE role_id = 29;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (29, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (29, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (29, 4);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (30, 'consultor_performance_vendas', 7, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (30, 'pt-BR', 'Consultor(a) de Performance Humana para Times de Vendas') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (30, 'en', 'Human Performance Consultant for Sales Teams') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 30;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 46, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 13, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 34, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 72, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 43, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (30, 22, 0.4);
-DELETE FROM role_sectors WHERE role_id = 30;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (30, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (30, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (30, 13);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (31, 'sales_enablement', 1, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (31, 'pt-BR', 'Especialista em Sales Enablement') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (31, 'en', 'Sales Enablement Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 31;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (31, 33, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (31, 13, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (31, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (31, 73, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (31, 3, 0.4);
-DELETE FROM role_sectors WHERE role_id = 31;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (31, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (31, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (31, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (32, 'personal_trainer', 10, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (32, 'pt-BR', 'Personal Trainer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (32, 'en', 'Personal Trainer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 32;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (32, 43, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (32, 31, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (32, 34, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (32, 29, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (32, 19, 0.4);
-DELETE FROM role_sectors WHERE role_id = 32;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (32, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (32, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (32, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (33, 'coach_saude', 10, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (33, 'pt-BR', 'Health Coach') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (33, 'en', 'Health Coach') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 33;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (33, 72, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (33, 34, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (33, 43, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (33, 44, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (33, 29, 0.7);
-DELETE FROM role_sectors WHERE role_id = 33;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (33, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (33, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (33, 1);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (34, 'nutricionista', 2, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (34, 'pt-BR', 'Nutricionista') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (34, 'en', 'Nutritionist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 34;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (34, 44, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (34, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (34, 49, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (34, 33, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (34, 71, 0.3);
-DELETE FROM role_sectors WHERE role_id = 34;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (34, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (34, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (34, 17);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (35, 'psicologo', 2, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (35, 'pt-BR', 'Psicólogo(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (35, 'en', 'Psychologist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 35;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (35, 45, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (35, 29, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (35, 32, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (35, 72, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (35, 71, 0.3);
-DELETE FROM role_sectors WHERE role_id = 35;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (35, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (35, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (35, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (36, 'especialista_bem_estar_corporativo', 13, 'em_alta', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (36, 'pt-BR', 'Especialista em Bem-estar Corporativo') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (36, 'en', 'Corporate Wellbeing Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 36;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (36, 47, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (36, 45, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (36, 24, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (36, 43, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (36, 28, 0.5);
-DELETE FROM role_sectors WHERE role_id = 36;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (36, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (36, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (36, 10);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (37, 'gestor_programas_saude', 2, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (37, 'pt-BR', 'Gestor(a) de Programas de Saúde Preventiva') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (37, 'en', 'Preventive Health Program Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 37;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (37, 49, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (37, 16, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (37, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (37, 28, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (37, 44, 0.4);
-DELETE FROM role_sectors WHERE role_id = 37;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (37, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (37, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (37, 11);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (38, 'pm_healthtech', 2, 'em_alta', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (38, 'pt-BR', 'Product Manager em Health Tech') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (38, 'en', 'Health Tech Product Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 38;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (38, 17, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (38, 52, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (38, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (38, 6, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (38, 29, 0.5);
-DELETE FROM role_sectors WHERE role_id = 38;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (38, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (38, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (38, 10);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (39, 'especialista_performance_humana', 10, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (39, 'pt-BR', 'Especialista em Performance Humana') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (39, 'en', 'Human Performance Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 39;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (39, 46, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (39, 43, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (39, 31, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (39, 34, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (39, 45, 0.5);
-DELETE FROM role_sectors WHERE role_id = 39;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (39, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (39, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (39, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (40, 'educador_fisico_escolar', 3, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (40, 'pt-BR', 'Educador(a) Físico(a) Escolar') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (40, 'en', 'School Physical Educator') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 40;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (40, 43, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (40, 33, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (40, 51, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (40, 50, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (40, 29, 0.5);
-DELETE FROM role_sectors WHERE role_id = 40;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (40, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (40, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (40, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (41, 'especialista_obesidade_infantil', 2, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (41, 'pt-BR', 'Especialista em Prevenção da Obesidade Infantil') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (41, 'en', 'Childhood Obesity Prevention Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 41;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (41, 49, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (41, 44, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (41, 51, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (41, 72, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (41, 29, 0.6);
-DELETE FROM role_sectors WHERE role_id = 41;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (41, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (41, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (41, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (42, 'enfermeiro', 2, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (42, 'pt-BR', 'Enfermeiro(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (42, 'en', 'Nurse') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 42;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (42, 48, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (42, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (42, 30, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (42, 49, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (42, 38, 0.5);
-DELETE FROM role_sectors WHERE role_id = 42;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (42, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (42, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (42, 11);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (43, 'gestor_clinica', 2, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (43, 'pt-BR', 'Gestor(a) de Clínica / Studio de Saúde') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (43, 'en', 'Clinic / Health Studio Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 43;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 21, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 19, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 18, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 15, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (43, 43, 0.4);
-DELETE FROM role_sectors WHERE role_id = 43;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (43, 2);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (43, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (43, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (44, 'gestor_esportivo', 10, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (44, 'pt-BR', 'Gestor(a) Esportivo(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (44, 'en', 'Sports Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 44;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (44, 50, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (44, 16, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (44, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (44, 27, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (44, 18, 0.4);
-DELETE FROM role_sectors WHERE role_id = 44;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (44, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (44, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (44, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (45, 'atleta', 10, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (45, 'pt-BR', 'Atleta') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (45, 'en', 'Athlete') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 45;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (45, 50, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (45, 31, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (45, 30, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (45, 43, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (45, 39, 0.6);
-DELETE FROM role_sectors WHERE role_id = 45;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (45, 10);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (45, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (45, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (46, 'professor', 3, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (46, 'pt-BR', 'Professor(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (46, 'en', 'Teacher') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 46;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (46, 33, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (46, 51, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (46, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (46, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (46, 38, 0.5);
-DELETE FROM role_sectors WHERE role_id = 46;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (46, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (46, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (46, 11);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (47, 'designer_instrucional', 3, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (47, 'pt-BR', 'Designer Instrucional') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (47, 'en', 'Instructional Designer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 47;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 33, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 51, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 66, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 6, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 65, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (47, 72, 0.4);
-DELETE FROM role_sectors WHERE role_id = 47;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (47, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (47, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (47, 13);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (48, 'especialista_td', 13, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (48, 'pt-BR', 'Especialista em Treinamento e Desenvolvimento (T&D)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (48, 'en', 'Learning & Development Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 48;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (48, 33, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (48, 24, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (48, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (48, 34, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (48, 72, 0.4);
-DELETE FROM role_sectors WHERE role_id = 48;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (48, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (48, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (48, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (49, 'designer_gamificacao', 3, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (49, 'pt-BR', 'Designer de Gamificação e Engajamento') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (49, 'en', 'Gamification & Engagement Designer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 49;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (49, 72, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (49, 35, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (49, 6, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (49, 33, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (49, 68, 0.4);
-DELETE FROM role_sectors WHERE role_id = 49;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (49, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (49, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (49, 13);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (50, 'coordenador_pedagogico', 3, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (50, 'pt-BR', 'Coordenador(a) Pedagógico(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (50, 'en', 'Pedagogical Coordinator') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 50;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (50, 51, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (50, 22, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (50, 33, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (50, 38, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (50, 40, 0.5);
-DELETE FROM role_sectors WHERE role_id = 50;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (50, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (50, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (50, 11);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (51, 'edtech_cs', 3, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (51, 'pt-BR', 'Especialista em Sucesso do Aluno (EdTech)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (51, 'en', 'Student Success Specialist (EdTech)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 51;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (51, 14, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (51, 51, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (51, 29, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (51, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (51, 34, 0.5);
-DELETE FROM role_sectors WHERE role_id = 51;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (51, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (51, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (51, 13);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (52, 'mentor_carreira', 3, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (52, 'pt-BR', 'Mentor(a) / Coach de Carreira') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (52, 'en', 'Career Mentor / Coach') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 52;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (52, 34, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (52, 29, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (52, 32, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (52, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (52, 37, 0.5);
-DELETE FROM role_sectors WHERE role_id = 52;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (52, 3);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (52, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (52, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (53, 'recrutador', 13, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (53, 'pt-BR', 'Recrutador(a) / Talent Acquisition') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (53, 'en', 'Recruiter / Talent Acquisition') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 53;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (53, 23, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (53, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (53, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (53, 13, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (53, 2, 0.3);
-DELETE FROM role_sectors WHERE role_id = 53;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (53, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (53, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (53, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (54, 'people_partner', 13, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (54, 'pt-BR', 'HR Business Partner') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (54, 'en', 'HR Business Partner') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 54;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (54, 24, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (54, 40, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (54, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (54, 29, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (54, 20, 0.5);
-DELETE FROM role_sectors WHERE role_id = 54;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (54, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (54, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (54, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (55, 'analista_cultura', 13, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (55, 'pt-BR', 'Especialista em Cultura e Engajamento') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (55, 'en', 'Culture & Engagement Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 55;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (55, 24, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (55, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (55, 69, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (55, 72, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (55, 68, 0.4);
-DELETE FROM role_sectors WHERE role_id = 55;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (55, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (55, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (55, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (56, 'people_analytics', 13, 'em_alta', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (56, 'pt-BR', 'Analista de People Analytics') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (56, 'en', 'People Analytics Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 56;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (56, 2, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (56, 24, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (56, 28, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (56, 1, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (56, 72, 0.4);
-DELETE FROM role_sectors WHERE role_id = 56;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (56, 13);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (56, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (56, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (57, 'consultor_processos', 7, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (57, 'pt-BR', 'Consultor(a) de Processos') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (57, 'en', 'Process Consultant') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 57;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (57, 21, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (57, 3, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (57, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (57, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (57, 77, 0.5);
-DELETE FROM role_sectors WHERE role_id = 57;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (57, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (57, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (57, 14);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (58, 'consultor_estrategia', 7, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (58, 'pt-BR', 'Consultor(a) de Estratégia') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (58, 'en', 'Strategy Consultant') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 58;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (58, 20, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (58, 2, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (58, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (58, 36, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (58, 26, 0.6);
-DELETE FROM role_sectors WHERE role_id = 58;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (58, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (58, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (58, 1);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (59, 'empreendedor_fundador', 1, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (59, 'pt-BR', 'Fundador(a) de Startup') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (59, 'en', 'Startup Founder') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 59;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 19, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 30, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 20, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 13, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (59, 37, 0.6);
-DELETE FROM role_sectors WHERE role_id = 59;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (59, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (59, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (59, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (60, 'gerente_projetos', 7, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (60, 'pt-BR', 'Gerente de Projetos') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (60, 'en', 'Project Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 60;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (60, 16, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (60, 38, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (60, 22, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (60, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (60, 40, 0.5);
-DELETE FROM role_sectors WHERE role_id = 60;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (60, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (60, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (60, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (61, 'analista_financeiro', 4, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (61, 'pt-BR', 'Analista Financeiro') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (61, 'en', 'Financial Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 61;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (61, 18, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (61, 2, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (61, 38, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (61, 20, 0.4);
-DELETE FROM role_sectors WHERE role_id = 61;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (61, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (61, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (61, 7);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (62, 'bizdev', 1, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (62, 'pt-BR', 'Business Developer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (62, 'en', 'Business Developer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 62;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (62, 27, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (62, 13, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (62, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (62, 20, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (62, 26, 0.4);
-DELETE FROM role_sectors WHERE role_id = 62;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (62, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (62, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (62, 4);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (63, 'gerente_operacoes', 14, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (63, 'pt-BR', 'Gerente de Operações') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (63, 'en', 'Operations Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 63;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (63, 21, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (63, 22, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (63, 2, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (63, 77, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (63, 75, 0.4);
-DELETE FROM role_sectors WHERE role_id = 63;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (63, 14);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (63, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (63, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (64, 'analista_esg', 7, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (64, 'pt-BR', 'Analista ESG / Sustentabilidade') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (64, 'en', 'ESG / Sustainability Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 64;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (64, 53, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (64, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (64, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (64, 20, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (64, 55, 0.4);
-DELETE FROM role_sectors WHERE role_id = 64;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (64, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (64, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (64, 15);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (65, 'gestor_impacto_social', 11, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (65, 'pt-BR', 'Gestor(a) de Projetos de Impacto Social') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (65, 'en', 'Social Impact Project Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 65;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (65, 54, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (65, 16, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (65, 27, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (65, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (65, 29, 0.6);
-DELETE FROM role_sectors WHERE role_id = 65;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (65, 11);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (65, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (65, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (66, 'analista_compliance', 16, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (66, 'pt-BR', 'Analista de Compliance') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (66, 'en', 'Compliance Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 66;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (66, 55, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (66, 77, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (66, 38, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (66, 7, 0.4);
-DELETE FROM role_sectors WHERE role_id = 66;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (66, 16);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (66, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (66, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (67, 'chief_of_staff', 1, 'emergente', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (67, 'pt-BR', 'Chief of Staff') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (67, 'en', 'Chief of Staff') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 67;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 20, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 16, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 28, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 21, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (67, 37, 0.6);
-DELETE FROM role_sectors WHERE role_id = 67;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (67, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (67, 7);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (67, 4);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (68, 'especialista_produtos_financeiros', 4, 'em_alta', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (68, 'pt-BR', 'Especialista em Produtos Financeiros Digitais') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (68, 'en', 'Digital Financial Products Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 68;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (68, 58, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (68, 17, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (68, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (68, 55, 0.3);
-DELETE FROM role_sectors WHERE role_id = 68;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (68, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (68, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (68, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (69, 'designer_grafico', 6, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (69, 'pt-BR', 'Designer Gráfico') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (69, 'en', 'Graphic Designer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 69;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (69, 64, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (69, 35, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (69, 67, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (69, 6, 0.3);
-DELETE FROM role_sectors WHERE role_id = 69;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (69, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (69, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (69, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (70, 'produtor_audiovisual', 9, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (70, 'pt-BR', 'Produtor(a) Audiovisual') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (70, 'en', 'Audiovisual Producer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 70;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (70, 65, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (70, 41, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (70, 35, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (70, 16, 0.5);
-DELETE FROM role_sectors WHERE role_id = 70;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (70, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (70, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (70, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (71, 'jornalista', 9, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (71, 'pt-BR', 'Jornalista') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (71, 'en', 'Journalist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 71;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (71, 66, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (71, 41, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (71, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (71, 26, 0.5);
-DELETE FROM role_sectors WHERE role_id = 71;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (71, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (71, 6);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (71, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (72, 'produtor_eventos', 9, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (72, 'pt-BR', 'Produtor(a) de Eventos') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (72, 'en', 'Event Producer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 72;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (72, 69, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (72, 16, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (72, 38, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (72, 27, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (72, 30, 0.5);
-DELETE FROM role_sectors WHERE role_id = 72;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (72, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (72, 17);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (72, 6);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (73, 'produtor_cultural', 9, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (73, 'pt-BR', 'Produtor(a) Cultural') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (73, 'en', 'Cultural Producer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 73;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (73, 59, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (73, 69, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (73, 16, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (73, 27, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (73, 54, 0.4);
-DELETE FROM role_sectors WHERE role_id = 73;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (73, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (73, 11);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (73, 12);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (74, 'gerente_loja', 5, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (74, 'pt-BR', 'Gerente de Loja') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (74, 'en', 'Store Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 74;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (74, 56, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (74, 13, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (74, 22, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (74, 15, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (74, 21, 0.5);
-DELETE FROM role_sectors WHERE role_id = 74;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (74, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (74, 17);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (74, 14);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (75, 'especialista_ecommerce', 5, 'em_alta', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (75, 'pt-BR', 'Especialista em E-commerce') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (75, 'en', 'E-commerce Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 75;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (75, 56, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (75, 12, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (75, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (75, 21, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (75, 6, 0.3);
-DELETE FROM role_sectors WHERE role_id = 75;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (75, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (75, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (75, 14);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (76, 'analista_logistica', 14, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (76, 'pt-BR', 'Analista de Logística') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (76, 'en', 'Logistics Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 76;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (76, 75, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (76, 21, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (76, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (76, 38, 0.6);
-DELETE FROM role_sectors WHERE role_id = 76;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (76, 14);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (76, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (76, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (77, 'gestor_restaurante', 17, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (77, 'pt-BR', 'Gestor(a) de Restaurante / Food Service') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (77, 'en', 'Restaurant / Food Service Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 77;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (77, 60, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (77, 21, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (77, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (77, 15, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (77, 18, 0.5);
-DELETE FROM role_sectors WHERE role_id = 77;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (77, 17);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (77, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (77, 10);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (78, 'especialista_turismo', 17, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (78, 'pt-BR', 'Especialista em Turismo e Experiências') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (78, 'en', 'Tourism & Experiences Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 78;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (78, 61, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (78, 15, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (78, 70, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (78, 69, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (78, 13, 0.4);
-DELETE FROM role_sectors WHERE role_id = 78;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (78, 17);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (78, 9);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (78, 5);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (79, 'gestor_publico', 12, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (79, 'pt-BR', 'Gestor(a) Público(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (79, 'en', 'Public Manager') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 79;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (79, 62, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (79, 16, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (79, 22, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (79, 55, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (79, 28, 0.5);
-DELETE FROM role_sectors WHERE role_id = 79;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (79, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (79, 11);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (79, 2);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (80, 'tecnico_manutencao', 8, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (80, 'pt-BR', 'Técnico(a) de Manutenção') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (80, 'en', 'Maintenance Technician') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 80;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (80, 76, 1.0);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (80, 36, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (80, 77, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (80, 38, 0.4);
-DELETE FROM role_sectors WHERE role_id = 80;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (80, 8);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (80, 14);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (80, 15);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (81, 'analista_agro', 15, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (81, 'pt-BR', 'Analista de Agronegócio') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (81, 'en', 'Agribusiness Analyst') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 81;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (81, 57, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (81, 2, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (81, 21, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (81, 18, 0.4);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (81, 53, 0.4);
-DELETE FROM role_sectors WHERE role_id = 81;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (81, 15);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (81, 4);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (81, 14);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (82, 'agtech', 15, 'emergente', true) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (82, 'pt-BR', 'Especialista em Agtech') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (82, 'en', 'Agtech Specialist') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 82;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (82, 57, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (82, 2, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (82, 3, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (82, 53, 0.5);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (82, 17, 0.4);
-DELETE FROM role_sectors WHERE role_id = 82;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (82, 15);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (82, 1);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (82, 8);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (83, 'articulador_comunitario', 11, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (83, 'pt-BR', 'Articulador(a) Comunitário(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (83, 'en', 'Community Organizer') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 83;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (83, 63, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (83, 54, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (83, 28, 0.7);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (83, 40, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (83, 22, 0.6);
-DELETE FROM role_sectors WHERE role_id = 83;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (83, 11);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (83, 12);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (83, 3);
-INSERT INTO roles (id, slug, sector_id, market_trend, is_hybrid) VALUES (84, 'vendedor_varejo', 5, 'estavel', false) ON CONFLICT (id) DO UPDATE SET slug = EXCLUDED.slug, sector_id = EXCLUDED.sector_id, market_trend = EXCLUDED.market_trend, is_hybrid = EXCLUDED.is_hybrid;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (84, 'pt-BR', 'Vendedor(a)') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-INSERT INTO roles_i18n (role_id, locale, title) VALUES (84, 'en', 'Salesperson') ON CONFLICT (role_id, locale) DO UPDATE SET title = EXCLUDED.title;
-DELETE FROM role_skills WHERE role_id = 84;
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (84, 13, 0.9);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (84, 15, 0.8);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (84, 28, 0.6);
-INSERT INTO role_skills (role_id, skill_id, importance) VALUES (84, 30, 0.5);
-DELETE FROM role_sectors WHERE role_id = 84;
-INSERT INTO role_sectors (role_id, sector_id) VALUES (84, 5);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (84, 17);
-INSERT INTO role_sectors (role_id, sector_id) VALUES (84, 4);
-
--- knowledge graph (career_transitions)
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 10, 120, 0.8, 4, ARRAY[1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 7, 60, 0.6, 3, ARRAY[5, 1, 36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 3, 45, 0.5, 3, ARRAY[1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 5, 40, 0.45, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 12, 15, 0.3, 1, ARRAY[36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 9, 30, 0.4, 3, ARRAY[36, 5]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 59, 25, 0.3, 5, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (1, 8, 20, 0.45, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 3, 90, 0.7, 3, ARRAY[2, 1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 5, 40, 0.5, 3, ARRAY[26, 28, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 56, 25, 0.5, 2, ARRAY[2, 28, 1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 13, 35, 0.55, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 58, 25, 0.4, 4, ARRAY[2, 28, 36, 26]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 61, 20, 0.35, 2, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (2, 4, 25, 0.45, 2, ARRAY[36, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (3, 8, 40, 0.65, 2, ARRAY[4]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (3, 5, 20, 0.35, 4, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (3, 10, 15, 0.3, 4, ARRAY[1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (4, 8, 30, 0.6, 2, ARRAY[3, 8]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (4, 57, 30, 0.55, 3, ARRAY[21, 3, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (4, 11, 15, 0.45, 2, ARRAY[3, 21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (4, 7, 15, 0.35, 3, ARRAY[3, 36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (4, 12, 20, 0.5, 1, ARRAY[8, 3, 36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (5, 67, 20, 0.45, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (5, 38, 25, 0.5, 2, ARRAY[17, 2, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (5, 59, 35, 0.45, 5, ARRAY[20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (5, 13, 20, 0.4, 3, ARRAY[2, 17]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (5, 68, 15, 0.4, 3, ARRAY[17, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (6, 5, 50, 0.55, 4, ARRAY[26, 28, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (6, 28, 25, 0.5, 3, ARRAY[29, 26, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (6, 49, 10, 0.4, 3, ARRAY[35, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (6, 47, 15, 0.4, 3, ARRAY[6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (7, 9, 40, 0.55, 3, ARRAY[7, 36, 5]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (7, 10, 30, 0.5, 4, ARRAY[1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (8, 58, 15, 0.45, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (8, 59, 15, 0.4, 3, ARRAY[20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (8, 67, 8, 0.3, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (9, 66, 25, 0.5, 3, ARRAY[55, 7]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (9, 7, 20, 0.4, 2, ARRAY[5, 36, 7]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (10, 67, 12, 0.35, 5, ARRAY[16, 28, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (10, 59, 25, 0.4, 5, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (10, 60, 30, 0.45, 3, ARRAY[16, 22, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (11, 67, 12, 0.45, 3, ARRAY[21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (11, 63, 20, 0.5, 3, ARRAY[21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (11, 54, 10, 0.35, 3, ARRAY[24]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (12, 59, 30, 0.5, 2, ARRAY[19]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (12, 4, 25, 0.55, 2, ARRAY[3, 8, 36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (12, 5, 15, 0.4, 3, ARRAY[6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (13, 5, 40, 0.55, 3, ARRAY[17, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (13, 19, 8, 0.4, 2, ARRAY[11, 2, 72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (13, 59, 30, 0.45, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (13, 67, 10, 0.3, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (13, 18, 10, 0.3, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (14, 13, 60, 0.6, 3, ARRAY[2, 12]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (14, 75, 40, 0.55, 2, ARRAY[12, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (14, 22, 30, 0.5, 2, ARRAY[9, 25, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (14, 15, 30, 0.45, 2, ARRAY[25, 9]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (14, 18, 20, 0.35, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (15, 18, 25, 0.45, 4, ARRAY[67, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (15, 20, 25, 0.5, 2, ARRAY[25, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (15, 21, 30, 0.5, 1, ARRAY[66, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (15, 47, 15, 0.35, 3, ARRAY[66]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (16, 15, 50, 0.6, 2, ARRAY[25]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (16, 17, 30, 0.55, 2, ARRAY[68, 25]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (16, 14, 45, 0.55, 2, ARRAY[25, 35]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (16, 20, 30, 0.5, 2, ARRAY[25, 65, 68]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (17, 55, 15, 0.45, 3, ARRAY[28, 69, 68]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (17, 72, 15, 0.4, 2, ARRAY[69]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (17, 13, 12, 0.35, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (17, 51, 10, 0.4, 2, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (18, 58, 15, 0.4, 4, ARRAY[20, 28, 26]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (18, 19, 5, 0.25, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (19, 27, 5, 0.35, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (19, 59, 8, 0.45, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (19, 38, 6, 0.4, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (20, 59, 30, 0.45, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (20, 47, 15, 0.45, 2, ARRAY[33, 65]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (20, 17, 20, 0.5, 2, ARRAY[68, 25]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (21, 15, 30, 0.55, 2, ARRAY[66, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (21, 13, 15, 0.35, 3, ARRAY[12, 72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (22, 13, 20, 0.45, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (22, 14, 25, 0.5, 2, ARRAY[25, 2, 9]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (23, 24, 150, 0.75, 2, ARRAY[13, 73, 28, 30]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (23, 26, 40, 0.45, 2, ARRAY[28, 73]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (23, 31, 10, 0.3, 3, ARRAY[13, 28, 73]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (23, 62, 20, 0.4, 3, ARRAY[13, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (23, 13, 10, 0.25, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 25, 60, 0.55, 5, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 62, 40, 0.55, 3, ARRAY[13, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 26, 30, 0.4, 2, ARRAY[28, 73]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 59, 25, 0.35, 5, ARRAY[30, 13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 31, 15, 0.4, 3, ARRAY[13, 28, 73]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (24, 30, 5, 0.25, 5, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (25, 67, 10, 0.3, 4, ARRAY[20, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (25, 59, 20, 0.4, 5, ARRAY[20, 13, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (25, 30, 8, 0.35, 4, ARRAY[13, 34, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (25, 58, 12, 0.35, 4, ARRAY[20, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 27, 15, 0.45, 4, ARRAY[14, 29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 28, 35, 0.55, 2, ARRAY[29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 5, 30, 0.4, 3, ARRAY[28, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 51, 15, 0.45, 2, ARRAY[14, 29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 24, 20, 0.35, 2, ARRAY[73, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (26, 63, 15, 0.35, 4, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (27, 38, 10, 0.45, 3, ARRAY[52, 2, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (27, 37, 5, 0.3, 3, ARRAY[49, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (27, 67, 5, 0.3, 4, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (28, 5, 25, 0.45, 3, ARRAY[26, 2, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (28, 6, 20, 0.4, 3, ARRAY[6, 29, 26]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (28, 26, 20, 0.45, 2, ARRAY[29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (29, 26, 80, 0.6, 2, ARRAY[29, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (29, 28, 30, 0.45, 3, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (29, 23, 50, 0.5, 1, ARRAY[28, 30]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (29, 51, 15, 0.4, 2, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (29, 53, 15, 0.3, 2, ARRAY[28, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (30, 36, 8, 0.45, 2, ARRAY[43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (30, 59, 10, 0.45, 3, ARRAY[13, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (30, 48, 8, 0.4, 2, ARRAY[34, 72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (31, 48, 15, 0.55, 2, ARRAY[33, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (31, 25, 10, 0.35, 4, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (31, 47, 10, 0.4, 2, ARRAY[33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 33, 50, 0.6, 2, ARRAY[34, 43, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 39, 30, 0.55, 3, ARRAY[43, 31, 34]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 43, 40, 0.45, 4, ARRAY[19, 43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 40, 20, 0.35, 2, ARRAY[43, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 30, 6, 0.3, 4, ARRAY[34, 43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 36, 15, 0.4, 3, ARRAY[43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 59, 20, 0.3, 4, ARRAY[19]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (32, 20, 25, 0.35, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (33, 36, 20, 0.55, 3, ARRAY[43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (33, 19, 5, 0.3, 3, ARRAY[72, 43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (33, 27, 4, 0.25, 4, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (33, 52, 8, 0.3, 3, ARRAY[34, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (33, 39, 15, 0.5, 2, ARRAY[43, 34]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (34, 33, 30, 0.55, 2, ARRAY[44, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (34, 37, 20, 0.45, 4, ARRAY[49, 44]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (34, 41, 10, 0.45, 3, ARRAY[49, 44, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (34, 38, 8, 0.3, 4, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (34, 20, 20, 0.35, 2, ARRAY[33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (35, 52, 30, 0.5, 3, ARRAY[29, 32]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (35, 36, 25, 0.55, 3, ARRAY[45]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (35, 54, 20, 0.4, 3, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (35, 55, 15, 0.4, 3, ARRAY[72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (35, 49, 5, 0.25, 4, ARRAY[72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (36, 54, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (36, 55, 12, 0.5, 2, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (36, 30, 6, 0.4, 2, ARRAY[43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (37, 27, 6, 0.35, 3, ARRAY[2, 49]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (37, 79, 10, 0.35, 4, ARRAY[16, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (37, 38, 8, 0.35, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (38, 59, 12, 0.45, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (38, 67, 6, 0.35, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (39, 30, 10, 0.55, 2, ARRAY[46, 34, 43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (39, 36, 10, 0.5, 2, ARRAY[45, 43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (39, 52, 8, 0.4, 3, ARRAY[34]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (40, 32, 30, 0.5, 2, ARRAY[43, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (40, 50, 15, 0.4, 5, ARRAY[51, 33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (40, 41, 8, 0.45, 3, ARRAY[51, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (41, 37, 8, 0.55, 3, ARRAY[49, 44]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (41, 79, 5, 0.3, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (42, 37, 25, 0.45, 5, ARRAY[49]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (42, 27, 6, 0.25, 4, ARRAY[29, 49]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (42, 43, 20, 0.4, 6, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (42, 33, 10, 0.35, 3, ARRAY[29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (43, 59, 20, 0.45, 4, ARRAY[19, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (43, 63, 15, 0.4, 3, ARRAY[21, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (44, 72, 15, 0.45, 3, ARRAY[16, 27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (44, 62, 10, 0.35, 3, ARRAY[27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (44, 39, 10, 0.4, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (45, 32, 40, 0.55, 2, ARRAY[43, 31]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (45, 44, 20, 0.45, 5, ARRAY[50]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (45, 39, 15, 0.5, 3, ARRAY[43, 31]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (45, 30, 5, 0.25, 5, ARRAY[43]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (45, 20, 20, 0.35, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 47, 40, 0.55, 2, ARRAY[33, 51]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 50, 60, 0.6, 5, ARRAY[51, 33, 38]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 48, 35, 0.5, 3, ARRAY[33, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 20, 30, 0.45, 2, ARRAY[33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 51, 20, 0.45, 2, ARRAY[51, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 52, 15, 0.35, 4, ARRAY[29, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (46, 31, 10, 0.3, 3, ARRAY[33, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (47, 49, 12, 0.5, 3, ARRAY[72, 6, 33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (47, 6, 15, 0.4, 3, ARRAY[6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (47, 48, 20, 0.5, 2, ARRAY[33, 72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (47, 5, 10, 0.3, 4, ARRAY[6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (48, 54, 25, 0.5, 3, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (48, 55, 20, 0.5, 2, ARRAY[24, 28, 72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (48, 52, 15, 0.45, 3, ARRAY[34, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (48, 31, 10, 0.4, 2, ARRAY[33, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (49, 5, 10, 0.4, 3, ARRAY[6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (49, 13, 8, 0.35, 3, ARRAY[72]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (49, 6, 10, 0.4, 2, ARRAY[6, 35]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (50, 79, 15, 0.35, 5, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (50, 59, 8, 0.25, 5, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (50, 48, 12, 0.4, 3, ARRAY[33]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (51, 26, 20, 0.55, 2, ARRAY[14, 29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (51, 27, 5, 0.3, 4, ARRAY[14, 29, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (51, 5, 10, 0.35, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (52, 59, 20, 0.45, 3, ARRAY[37]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (52, 48, 15, 0.45, 2, ARRAY[28, 34]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (52, 20, 20, 0.45, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 54, 50, 0.55, 4, ARRAY[28, 29]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 55, 25, 0.45, 3, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 23, 15, 0.35, 1, ARRAY[13, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 52, 15, 0.35, 4, ARRAY[29, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 56, 10, 0.3, 3, ARRAY[2, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (53, 24, 15, 0.3, 2, ARRAY[13, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (54, 67, 10, 0.35, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (54, 55, 20, 0.5, 2, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (54, 36, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (55, 54, 20, 0.5, 3, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (55, 17, 10, 0.4, 2, ARRAY[68, 28, 69]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (56, 2, 15, 0.5, 2, ARRAY[2, 28, 1]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (56, 54, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (57, 63, 40, 0.55, 4, ARRAY[21, 2, 77]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (57, 4, 25, 0.5, 2, ARRAY[3, 21, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (57, 58, 25, 0.45, 4, ARRAY[2, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (57, 67, 10, 0.3, 4, ARRAY[28, 21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (58, 67, 25, 0.5, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (58, 59, 30, 0.45, 5, ARRAY[20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (58, 62, 20, 0.4, 3, ARRAY[28, 20, 26]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (58, 5, 20, 0.4, 3, ARRAY[26, 28, 2, 20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (58, 64, 10, 0.3, 3, ARRAY[2, 28, 20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (59, 67, 10, 0.35, 3, ARRAY[20, 22, 37]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (59, 5, 20, 0.4, 2, ARRAY[20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (59, 58, 15, 0.35, 2, ARRAY[20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (59, 52, 15, 0.4, 3, ARRAY[37]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (59, 62, 15, 0.4, 2, ARRAY[13, 20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (60, 67, 20, 0.45, 4, ARRAY[16, 28, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (60, 5, 30, 0.45, 3, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (60, 63, 30, 0.5, 4, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (60, 57, 20, 0.4, 3, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (60, 65, 10, 0.3, 4, ARRAY[16, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (61, 68, 20, 0.45, 3, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (61, 58, 20, 0.4, 4, ARRAY[20, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (61, 2, 25, 0.45, 2, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (61, 64, 10, 0.3, 3, ARRAY[2, 20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (62, 25, 15, 0.4, 4, ARRAY[13, 20]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (62, 59, 20, 0.45, 4, ARRAY[20, 13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (62, 67, 10, 0.35, 4, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (63, 67, 15, 0.4, 4, ARRAY[22, 21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (63, 57, 20, 0.45, 3, ARRAY[21, 2, 77]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (63, 43, 8, 0.3, 3, ARRAY[21, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (64, 65, 15, 0.45, 3, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (64, 58, 10, 0.4, 4, ARRAY[20, 2, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (64, 66, 10, 0.4, 3, ARRAY[55]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (65, 64, 15, 0.45, 3, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (65, 79, 15, 0.4, 4, ARRAY[16, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (65, 73, 10, 0.35, 3, ARRAY[16, 27, 54]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (65, 59, 12, 0.35, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (66, 64, 10, 0.4, 3, ARRAY[55]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (66, 9, 10, 0.35, 3, ARRAY[7, 55]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (67, 59, 20, 0.5, 3, ARRAY[20, 22, 37]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (67, 58, 10, 0.4, 3, ARRAY[20, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (67, 63, 10, 0.4, 2, ARRAY[21, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (68, 5, 10, 0.45, 2, ARRAY[17, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (68, 59, 10, 0.4, 4, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (69, 6, 60, 0.6, 2, ARRAY[6, 35]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (69, 18, 15, 0.35, 5, ARRAY[67]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (69, 16, 30, 0.45, 1, ARRAY[35, 64]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (69, 70, 15, 0.35, 2, ARRAY[35]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (70, 20, 40, 0.55, 2, ARRAY[65, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (70, 16, 25, 0.45, 1, ARRAY[65, 35]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (70, 72, 15, 0.35, 2, ARRAY[16]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (71, 15, 50, 0.6, 2, ARRAY[66, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (71, 21, 30, 0.5, 1, ARRAY[66, 41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (71, 18, 10, 0.3, 4, ARRAY[26, 41, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (71, 20, 25, 0.45, 2, ARRAY[41]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (71, 17, 10, 0.35, 2, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (72, 17, 15, 0.45, 2, ARRAY[69]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (72, 73, 20, 0.45, 2, ARRAY[69, 16, 27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (72, 62, 10, 0.35, 3, ARRAY[27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (72, 60, 20, 0.45, 3, ARRAY[16, 38]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (73, 65, 15, 0.45, 3, ARRAY[54, 16, 27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (73, 72, 20, 0.5, 2, ARRAY[69, 16, 27]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (73, 17, 8, 0.35, 2, ARRAY[69]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (74, 63, 40, 0.5, 4, ARRAY[21, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (74, 75, 20, 0.4, 3, ARRAY[56, 21]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (74, 24, 25, 0.4, 2, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (74, 28, 15, 0.35, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (74, 53, 10, 0.25, 3, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (75, 13, 25, 0.5, 3, ARRAY[2, 12]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (75, 63, 10, 0.35, 4, ARRAY[21, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (75, 5, 12, 0.35, 4, ARRAY[2, 6]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (76, 63, 40, 0.55, 5, ARRAY[21, 2, 75]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (76, 57, 20, 0.45, 3, ARRAY[21, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (76, 2, 20, 0.4, 2, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (77, 63, 20, 0.45, 4, ARRAY[21, 22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (77, 59, 30, 0.45, 4, ARRAY[22]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (77, 72, 12, 0.35, 2, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (77, 78, 8, 0.3, 3, ARRAY[15]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (78, 72, 20, 0.5, 2, ARRAY[69]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (78, 28, 12, 0.4, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (78, 62, 10, 0.35, 3, ARRAY[13]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (79, 65, 15, 0.4, 3, ARRAY[16, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (79, 58, 12, 0.35, 4, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (79, 37, 8, 0.3, 3, ARRAY[16, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (80, 76, 10, 0.3, 3, ARRAY[38]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (80, 57, 10, 0.3, 4, ARRAY[77]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (80, 7, 8, 0.25, 3, ARRAY[36]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (80, 63, 15, 0.35, 6, ARRAY[77]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (81, 82, 15, 0.5, 3, ARRAY[57, 2, 53]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (81, 64, 10, 0.4, 3, ARRAY[53, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (81, 2, 10, 0.35, 2, ARRAY[2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (82, 5, 8, 0.4, 3, ARRAY[17, 2]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (82, 59, 10, 0.45, 3, '{}'::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (83, 65, 25, 0.55, 3, ARRAY[54, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (83, 17, 15, 0.5, 2, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (83, 73, 12, 0.4, 3, ARRAY[54]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (83, 79, 10, 0.35, 5, ARRAY[22, 28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (83, 52, 8, 0.3, 4, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (84, 74, 60, 0.55, 4, ARRAY[13, 15]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (84, 23, 40, 0.5, 1, ARRAY[13, 28, 30]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (84, 29, 30, 0.45, 1, ARRAY[15, 28, 30]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (84, 24, 25, 0.4, 3, ARRAY[13, 28, 30]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES (84, 26, 15, 0.3, 2, ARRAY[28]::int[], 'curated') ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
-
+-- @chunk knowledge graph
+BEGIN;
+SET search_path = app, public;
+INSERT INTO career_transitions (from_role_id, to_role_id, observed_count, confidence, avg_years, bridge_skill_ids, source) VALUES
+  (1, 10, 120, 0.8, 4, ARRAY[1]::int[], 'curated'),
+  (1, 7, 60, 0.6, 3, ARRAY[5, 1, 36]::int[], 'curated'),
+  (1, 3, 45, 0.5, 3, ARRAY[1]::int[], 'curated'),
+  (1, 5, 40, 0.45, 4, '{}'::int[], 'curated'),
+  (1, 12, 15, 0.3, 1, ARRAY[36]::int[], 'curated'),
+  (1, 9, 30, 0.4, 3, ARRAY[36, 5]::int[], 'curated'),
+  (1, 59, 25, 0.3, 5, '{}'::int[], 'curated'),
+  (1, 8, 20, 0.45, 2, '{}'::int[], 'curated'),
+  (2, 3, 90, 0.7, 3, ARRAY[2, 1]::int[], 'curated'),
+  (2, 5, 40, 0.5, 3, ARRAY[26, 28, 2]::int[], 'curated'),
+  (2, 56, 25, 0.5, 2, ARRAY[2, 28, 1]::int[], 'curated'),
+  (2, 13, 35, 0.55, 3, ARRAY[2]::int[], 'curated'),
+  (2, 58, 25, 0.4, 4, ARRAY[2, 28, 36, 26]::int[], 'curated'),
+  (2, 61, 20, 0.35, 2, ARRAY[2]::int[], 'curated'),
+  (2, 4, 25, 0.45, 2, ARRAY[36, 2]::int[], 'curated'),
+  (3, 8, 40, 0.65, 2, ARRAY[4]::int[], 'curated'),
+  (3, 5, 20, 0.35, 4, ARRAY[2]::int[], 'curated'),
+  (3, 10, 15, 0.3, 4, ARRAY[1]::int[], 'curated'),
+  (4, 8, 30, 0.6, 2, ARRAY[3, 8]::int[], 'curated'),
+  (4, 57, 30, 0.55, 3, ARRAY[21, 3, 2]::int[], 'curated'),
+  (4, 11, 15, 0.45, 2, ARRAY[3, 21]::int[], 'curated'),
+  (4, 7, 15, 0.35, 3, ARRAY[3, 36]::int[], 'curated'),
+  (4, 12, 20, 0.5, 1, ARRAY[8, 3, 36]::int[], 'curated'),
+  (5, 67, 20, 0.45, 4, ARRAY[20, 28]::int[], 'curated'),
+  (5, 38, 25, 0.5, 2, ARRAY[17, 2, 6]::int[], 'curated'),
+  (5, 59, 35, 0.45, 5, ARRAY[20]::int[], 'curated'),
+  (5, 13, 20, 0.4, 3, ARRAY[2, 17]::int[], 'curated'),
+  (5, 68, 15, 0.4, 3, ARRAY[17, 2, 6]::int[], 'curated'),
+  (6, 5, 50, 0.55, 4, ARRAY[26, 28, 6]::int[], 'curated'),
+  (6, 28, 25, 0.5, 3, ARRAY[29, 26, 6]::int[], 'curated'),
+  (6, 49, 10, 0.4, 3, ARRAY[35, 6]::int[], 'curated'),
+  (6, 47, 15, 0.4, 3, ARRAY[6]::int[], 'curated'),
+  (7, 9, 40, 0.55, 3, ARRAY[7, 36, 5]::int[], 'curated'),
+  (7, 10, 30, 0.5, 4, ARRAY[1]::int[], 'curated'),
+  (8, 58, 15, 0.45, 4, ARRAY[20, 28]::int[], 'curated'),
+  (8, 59, 15, 0.4, 3, ARRAY[20]::int[], 'curated'),
+  (8, 67, 8, 0.3, 4, ARRAY[20, 28]::int[], 'curated'),
+  (9, 66, 25, 0.5, 3, ARRAY[55, 7]::int[], 'curated'),
+  (9, 7, 20, 0.4, 2, ARRAY[5, 36, 7]::int[], 'curated'),
+  (10, 67, 12, 0.35, 5, ARRAY[16, 28, 22]::int[], 'curated'),
+  (10, 59, 25, 0.4, 5, ARRAY[22]::int[], 'curated'),
+  (10, 60, 30, 0.45, 3, ARRAY[16, 22, 28]::int[], 'curated'),
+  (11, 67, 12, 0.45, 3, ARRAY[21]::int[], 'curated'),
+  (11, 63, 20, 0.5, 3, ARRAY[21]::int[], 'curated'),
+  (11, 54, 10, 0.35, 3, ARRAY[24]::int[], 'curated'),
+  (12, 59, 30, 0.5, 2, ARRAY[19]::int[], 'curated'),
+  (12, 4, 25, 0.55, 2, ARRAY[3, 8, 36]::int[], 'curated'),
+  (12, 5, 15, 0.4, 3, ARRAY[6]::int[], 'curated'),
+  (13, 5, 40, 0.55, 3, ARRAY[17, 2]::int[], 'curated'),
+  (13, 19, 8, 0.4, 2, ARRAY[11, 2, 72]::int[], 'curated'),
+  (13, 59, 30, 0.45, 4, '{}'::int[], 'curated'),
+  (13, 67, 10, 0.3, 4, '{}'::int[], 'curated'),
+  (13, 18, 10, 0.3, 4, '{}'::int[], 'curated'),
+  (14, 13, 60, 0.6, 3, ARRAY[2, 12]::int[], 'curated'),
+  (14, 75, 40, 0.55, 2, ARRAY[12, 2]::int[], 'curated'),
+  (14, 22, 30, 0.5, 2, ARRAY[9, 25, 2]::int[], 'curated'),
+  (14, 15, 30, 0.45, 2, ARRAY[25, 9]::int[], 'curated'),
+  (14, 18, 20, 0.35, 4, '{}'::int[], 'curated'),
+  (15, 18, 25, 0.45, 4, ARRAY[67, 41]::int[], 'curated'),
+  (15, 20, 25, 0.5, 2, ARRAY[25, 41]::int[], 'curated'),
+  (15, 21, 30, 0.5, 1, ARRAY[66, 41]::int[], 'curated'),
+  (15, 47, 15, 0.35, 3, ARRAY[66]::int[], 'curated'),
+  (16, 15, 50, 0.6, 2, ARRAY[25]::int[], 'curated'),
+  (16, 17, 30, 0.55, 2, ARRAY[68, 25]::int[], 'curated'),
+  (16, 14, 45, 0.55, 2, ARRAY[25, 35]::int[], 'curated'),
+  (16, 20, 30, 0.5, 2, ARRAY[25, 65, 68]::int[], 'curated'),
+  (17, 55, 15, 0.45, 3, ARRAY[28, 69, 68]::int[], 'curated'),
+  (17, 72, 15, 0.4, 2, ARRAY[69]::int[], 'curated'),
+  (17, 13, 12, 0.35, 3, '{}'::int[], 'curated'),
+  (17, 51, 10, 0.4, 2, ARRAY[29]::int[], 'curated'),
+  (18, 58, 15, 0.4, 4, ARRAY[20, 28, 26]::int[], 'curated'),
+  (18, 19, 5, 0.25, 3, '{}'::int[], 'curated'),
+  (19, 27, 5, 0.35, 3, ARRAY[2]::int[], 'curated'),
+  (19, 59, 8, 0.45, 3, '{}'::int[], 'curated'),
+  (19, 38, 6, 0.4, 3, ARRAY[2]::int[], 'curated'),
+  (20, 59, 30, 0.45, 3, '{}'::int[], 'curated'),
+  (20, 47, 15, 0.45, 2, ARRAY[33, 65]::int[], 'curated'),
+  (20, 17, 20, 0.5, 2, ARRAY[68, 25]::int[], 'curated'),
+  (21, 15, 30, 0.55, 2, ARRAY[66, 41]::int[], 'curated'),
+  (21, 13, 15, 0.35, 3, ARRAY[12, 72]::int[], 'curated'),
+  (22, 13, 20, 0.45, 3, ARRAY[2]::int[], 'curated'),
+  (22, 14, 25, 0.5, 2, ARRAY[25, 2, 9]::int[], 'curated'),
+  (23, 24, 150, 0.75, 2, ARRAY[13, 73, 28, 30]::int[], 'curated'),
+  (23, 26, 40, 0.45, 2, ARRAY[28, 73]::int[], 'curated'),
+  (23, 31, 10, 0.3, 3, ARRAY[13, 28, 73]::int[], 'curated'),
+  (23, 62, 20, 0.4, 3, ARRAY[13, 28]::int[], 'curated'),
+  (23, 13, 10, 0.25, 3, '{}'::int[], 'curated'),
+  (24, 25, 60, 0.55, 5, ARRAY[13]::int[], 'curated'),
+  (24, 62, 40, 0.55, 3, ARRAY[13, 28]::int[], 'curated'),
+  (24, 26, 30, 0.4, 2, ARRAY[28, 73]::int[], 'curated'),
+  (24, 59, 25, 0.35, 5, ARRAY[30, 13]::int[], 'curated'),
+  (24, 31, 15, 0.4, 3, ARRAY[13, 28, 73]::int[], 'curated'),
+  (24, 30, 5, 0.25, 5, ARRAY[13]::int[], 'curated'),
+  (25, 67, 10, 0.3, 4, ARRAY[20, 22]::int[], 'curated'),
+  (25, 59, 20, 0.4, 5, ARRAY[20, 13, 22]::int[], 'curated'),
+  (25, 30, 8, 0.35, 4, ARRAY[13, 34, 22]::int[], 'curated'),
+  (25, 58, 12, 0.35, 4, ARRAY[20, 2]::int[], 'curated'),
+  (26, 27, 15, 0.45, 4, ARRAY[14, 29, 2]::int[], 'curated'),
+  (26, 28, 35, 0.55, 2, ARRAY[29, 2]::int[], 'curated'),
+  (26, 5, 30, 0.4, 3, ARRAY[28, 2]::int[], 'curated'),
+  (26, 51, 15, 0.45, 2, ARRAY[14, 29, 2]::int[], 'curated'),
+  (26, 24, 20, 0.35, 2, ARRAY[73, 28]::int[], 'curated'),
+  (26, 63, 15, 0.35, 4, ARRAY[2]::int[], 'curated'),
+  (27, 38, 10, 0.45, 3, ARRAY[52, 2, 29]::int[], 'curated'),
+  (27, 37, 5, 0.3, 3, ARRAY[49, 2]::int[], 'curated'),
+  (27, 67, 5, 0.3, 4, ARRAY[22]::int[], 'curated'),
+  (28, 5, 25, 0.45, 3, ARRAY[26, 2, 6]::int[], 'curated'),
+  (28, 6, 20, 0.4, 3, ARRAY[6, 29, 26]::int[], 'curated'),
+  (28, 26, 20, 0.45, 2, ARRAY[29, 2]::int[], 'curated'),
+  (29, 26, 80, 0.6, 2, ARRAY[29, 28]::int[], 'curated'),
+  (29, 28, 30, 0.45, 3, ARRAY[29]::int[], 'curated'),
+  (29, 23, 50, 0.5, 1, ARRAY[28, 30]::int[], 'curated'),
+  (29, 51, 15, 0.4, 2, ARRAY[29]::int[], 'curated'),
+  (29, 53, 15, 0.3, 2, ARRAY[28, 29]::int[], 'curated'),
+  (30, 36, 8, 0.45, 2, ARRAY[43]::int[], 'curated'),
+  (30, 59, 10, 0.45, 3, ARRAY[13, 22]::int[], 'curated'),
+  (30, 48, 8, 0.4, 2, ARRAY[34, 72]::int[], 'curated'),
+  (31, 48, 15, 0.55, 2, ARRAY[33, 28]::int[], 'curated'),
+  (31, 25, 10, 0.35, 4, ARRAY[13]::int[], 'curated'),
+  (31, 47, 10, 0.4, 2, ARRAY[33]::int[], 'curated'),
+  (32, 33, 50, 0.6, 2, ARRAY[34, 43, 29]::int[], 'curated'),
+  (32, 39, 30, 0.55, 3, ARRAY[43, 31, 34]::int[], 'curated'),
+  (32, 43, 40, 0.45, 4, ARRAY[19, 43]::int[], 'curated'),
+  (32, 40, 20, 0.35, 2, ARRAY[43, 29]::int[], 'curated'),
+  (32, 30, 6, 0.3, 4, ARRAY[34, 43]::int[], 'curated'),
+  (32, 36, 15, 0.4, 3, ARRAY[43]::int[], 'curated'),
+  (32, 59, 20, 0.3, 4, ARRAY[19]::int[], 'curated'),
+  (32, 20, 25, 0.35, 2, '{}'::int[], 'curated'),
+  (33, 36, 20, 0.55, 3, ARRAY[43]::int[], 'curated'),
+  (33, 19, 5, 0.3, 3, ARRAY[72, 43]::int[], 'curated'),
+  (33, 27, 4, 0.25, 4, ARRAY[29]::int[], 'curated'),
+  (33, 52, 8, 0.3, 3, ARRAY[34, 29]::int[], 'curated'),
+  (33, 39, 15, 0.5, 2, ARRAY[43, 34]::int[], 'curated'),
+  (34, 33, 30, 0.55, 2, ARRAY[44, 29]::int[], 'curated'),
+  (34, 37, 20, 0.45, 4, ARRAY[49, 44]::int[], 'curated'),
+  (34, 41, 10, 0.45, 3, ARRAY[49, 44, 29]::int[], 'curated'),
+  (34, 38, 8, 0.3, 4, ARRAY[29]::int[], 'curated'),
+  (34, 20, 20, 0.35, 2, ARRAY[33]::int[], 'curated'),
+  (35, 52, 30, 0.5, 3, ARRAY[29, 32]::int[], 'curated'),
+  (35, 36, 25, 0.55, 3, ARRAY[45]::int[], 'curated'),
+  (35, 54, 20, 0.4, 3, ARRAY[29]::int[], 'curated'),
+  (35, 55, 15, 0.4, 3, ARRAY[72]::int[], 'curated'),
+  (35, 49, 5, 0.25, 4, ARRAY[72]::int[], 'curated'),
+  (36, 54, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated'),
+  (36, 55, 12, 0.5, 2, ARRAY[24, 28]::int[], 'curated'),
+  (36, 30, 6, 0.4, 2, ARRAY[43]::int[], 'curated'),
+  (37, 27, 6, 0.35, 3, ARRAY[2, 49]::int[], 'curated'),
+  (37, 79, 10, 0.35, 4, ARRAY[16, 28]::int[], 'curated'),
+  (37, 38, 8, 0.35, 3, ARRAY[2]::int[], 'curated'),
+  (38, 59, 12, 0.45, 4, '{}'::int[], 'curated'),
+  (38, 67, 6, 0.35, 4, '{}'::int[], 'curated'),
+  (39, 30, 10, 0.55, 2, ARRAY[46, 34, 43]::int[], 'curated'),
+  (39, 36, 10, 0.5, 2, ARRAY[45, 43]::int[], 'curated'),
+  (39, 52, 8, 0.4, 3, ARRAY[34]::int[], 'curated'),
+  (40, 32, 30, 0.5, 2, ARRAY[43, 29]::int[], 'curated'),
+  (40, 50, 15, 0.4, 5, ARRAY[51, 33]::int[], 'curated'),
+  (40, 41, 8, 0.45, 3, ARRAY[51, 29]::int[], 'curated'),
+  (41, 37, 8, 0.55, 3, ARRAY[49, 44]::int[], 'curated'),
+  (41, 79, 5, 0.3, 4, '{}'::int[], 'curated'),
+  (42, 37, 25, 0.45, 5, ARRAY[49]::int[], 'curated'),
+  (42, 27, 6, 0.25, 4, ARRAY[29, 49]::int[], 'curated'),
+  (42, 43, 20, 0.4, 6, '{}'::int[], 'curated'),
+  (42, 33, 10, 0.35, 3, ARRAY[29]::int[], 'curated'),
+  (43, 59, 20, 0.45, 4, ARRAY[19, 22]::int[], 'curated'),
+  (43, 63, 15, 0.4, 3, ARRAY[21, 22]::int[], 'curated'),
+  (44, 72, 15, 0.45, 3, ARRAY[16, 27]::int[], 'curated'),
+  (44, 62, 10, 0.35, 3, ARRAY[27]::int[], 'curated'),
+  (44, 39, 10, 0.4, 2, '{}'::int[], 'curated'),
+  (45, 32, 40, 0.55, 2, ARRAY[43, 31]::int[], 'curated'),
+  (45, 44, 20, 0.45, 5, ARRAY[50]::int[], 'curated'),
+  (45, 39, 15, 0.5, 3, ARRAY[43, 31]::int[], 'curated'),
+  (45, 30, 5, 0.25, 5, ARRAY[43]::int[], 'curated'),
+  (45, 20, 20, 0.35, 2, '{}'::int[], 'curated'),
+  (46, 47, 40, 0.55, 2, ARRAY[33, 51]::int[], 'curated'),
+  (46, 50, 60, 0.6, 5, ARRAY[51, 33, 38]::int[], 'curated'),
+  (46, 48, 35, 0.5, 3, ARRAY[33, 28]::int[], 'curated'),
+  (46, 20, 30, 0.45, 2, ARRAY[33]::int[], 'curated'),
+  (46, 51, 20, 0.45, 2, ARRAY[51, 29]::int[], 'curated'),
+  (46, 52, 15, 0.35, 4, ARRAY[29, 28]::int[], 'curated'),
+  (46, 31, 10, 0.3, 3, ARRAY[33, 28]::int[], 'curated'),
+  (47, 49, 12, 0.5, 3, ARRAY[72, 6, 33]::int[], 'curated'),
+  (47, 6, 15, 0.4, 3, ARRAY[6]::int[], 'curated'),
+  (47, 48, 20, 0.5, 2, ARRAY[33, 72]::int[], 'curated'),
+  (47, 5, 10, 0.3, 4, ARRAY[6]::int[], 'curated'),
+  (48, 54, 25, 0.5, 3, ARRAY[24, 28]::int[], 'curated'),
+  (48, 55, 20, 0.5, 2, ARRAY[24, 28, 72]::int[], 'curated'),
+  (48, 52, 15, 0.45, 3, ARRAY[34, 28]::int[], 'curated'),
+  (48, 31, 10, 0.4, 2, ARRAY[33, 28]::int[], 'curated'),
+  (49, 5, 10, 0.4, 3, ARRAY[6]::int[], 'curated'),
+  (49, 13, 8, 0.35, 3, ARRAY[72]::int[], 'curated'),
+  (49, 6, 10, 0.4, 2, ARRAY[6, 35]::int[], 'curated'),
+  (50, 79, 15, 0.35, 5, ARRAY[22]::int[], 'curated'),
+  (50, 59, 8, 0.25, 5, ARRAY[22]::int[], 'curated'),
+  (50, 48, 12, 0.4, 3, ARRAY[33]::int[], 'curated'),
+  (51, 26, 20, 0.55, 2, ARRAY[14, 29, 2]::int[], 'curated'),
+  (51, 27, 5, 0.3, 4, ARRAY[14, 29, 2]::int[], 'curated'),
+  (51, 5, 10, 0.35, 3, ARRAY[2]::int[], 'curated'),
+  (52, 59, 20, 0.45, 3, ARRAY[37]::int[], 'curated'),
+  (52, 48, 15, 0.45, 2, ARRAY[28, 34]::int[], 'curated'),
+  (52, 20, 20, 0.45, 2, '{}'::int[], 'curated'),
+  (53, 54, 50, 0.55, 4, ARRAY[28, 29]::int[], 'curated'),
+  (53, 55, 25, 0.45, 3, ARRAY[28]::int[], 'curated'),
+  (53, 23, 15, 0.35, 1, ARRAY[13, 28]::int[], 'curated'),
+  (53, 52, 15, 0.35, 4, ARRAY[29, 28]::int[], 'curated'),
+  (53, 56, 10, 0.3, 3, ARRAY[2, 28]::int[], 'curated'),
+  (53, 24, 15, 0.3, 2, ARRAY[13, 28]::int[], 'curated'),
+  (54, 67, 10, 0.35, 4, ARRAY[20, 28]::int[], 'curated'),
+  (54, 55, 20, 0.5, 2, ARRAY[24, 28]::int[], 'curated'),
+  (54, 36, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated'),
+  (55, 54, 20, 0.5, 3, ARRAY[24, 28]::int[], 'curated'),
+  (55, 17, 10, 0.4, 2, ARRAY[68, 28, 69]::int[], 'curated'),
+  (56, 2, 15, 0.5, 2, ARRAY[2, 28, 1]::int[], 'curated'),
+  (56, 54, 10, 0.4, 3, ARRAY[24, 28]::int[], 'curated'),
+  (57, 63, 40, 0.55, 4, ARRAY[21, 2, 77]::int[], 'curated'),
+  (57, 4, 25, 0.5, 2, ARRAY[3, 21, 2]::int[], 'curated'),
+  (57, 58, 25, 0.45, 4, ARRAY[2, 28]::int[], 'curated'),
+  (57, 67, 10, 0.3, 4, ARRAY[28, 21]::int[], 'curated'),
+  (58, 67, 25, 0.5, 4, ARRAY[20, 28]::int[], 'curated'),
+  (58, 59, 30, 0.45, 5, ARRAY[20]::int[], 'curated'),
+  (58, 62, 20, 0.4, 3, ARRAY[28, 20, 26]::int[], 'curated'),
+  (58, 5, 20, 0.4, 3, ARRAY[26, 28, 2, 20]::int[], 'curated'),
+  (58, 64, 10, 0.3, 3, ARRAY[2, 28, 20]::int[], 'curated'),
+  (59, 67, 10, 0.35, 3, ARRAY[20, 22, 37]::int[], 'curated'),
+  (59, 5, 20, 0.4, 2, ARRAY[20]::int[], 'curated'),
+  (59, 58, 15, 0.35, 2, ARRAY[20]::int[], 'curated'),
+  (59, 52, 15, 0.4, 3, ARRAY[37]::int[], 'curated'),
+  (59, 62, 15, 0.4, 2, ARRAY[13, 20]::int[], 'curated'),
+  (60, 67, 20, 0.45, 4, ARRAY[16, 28, 22]::int[], 'curated'),
+  (60, 5, 30, 0.45, 3, ARRAY[28]::int[], 'curated'),
+  (60, 63, 30, 0.5, 4, ARRAY[22]::int[], 'curated'),
+  (60, 57, 20, 0.4, 3, ARRAY[28]::int[], 'curated'),
+  (60, 65, 10, 0.3, 4, ARRAY[16, 28]::int[], 'curated'),
+  (61, 68, 20, 0.45, 3, ARRAY[58, 2]::int[], 'curated'),
+  (61, 58, 20, 0.4, 4, ARRAY[20, 2]::int[], 'curated'),
+  (61, 2, 25, 0.45, 2, ARRAY[2]::int[], 'curated'),
+  (61, 64, 10, 0.3, 3, ARRAY[2, 20]::int[], 'curated'),
+  (62, 25, 15, 0.4, 4, ARRAY[13, 20]::int[], 'curated'),
+  (62, 59, 20, 0.45, 4, ARRAY[20, 13]::int[], 'curated'),
+  (62, 67, 10, 0.35, 4, ARRAY[20, 28]::int[], 'curated'),
+  (63, 67, 15, 0.4, 4, ARRAY[22, 21]::int[], 'curated'),
+  (63, 57, 20, 0.45, 3, ARRAY[21, 2, 77]::int[], 'curated'),
+  (63, 43, 8, 0.3, 3, ARRAY[21, 22]::int[], 'curated'),
+  (64, 65, 15, 0.45, 3, ARRAY[28]::int[], 'curated'),
+  (64, 58, 10, 0.4, 4, ARRAY[20, 2, 28]::int[], 'curated'),
+  (64, 66, 10, 0.4, 3, ARRAY[55, 28]::int[], 'curated'),
+  (65, 64, 15, 0.45, 3, ARRAY[28]::int[], 'curated'),
+  (65, 79, 15, 0.4, 4, ARRAY[16, 28]::int[], 'curated'),
+  (65, 73, 10, 0.35, 3, ARRAY[16, 27, 54]::int[], 'curated'),
+  (65, 59, 12, 0.35, 4, '{}'::int[], 'curated'),
+  (66, 64, 10, 0.4, 3, ARRAY[28, 55]::int[], 'curated'),
+  (66, 9, 10, 0.35, 3, ARRAY[7, 55]::int[], 'curated'),
+  (67, 59, 20, 0.5, 3, ARRAY[20, 22, 37]::int[], 'curated'),
+  (67, 58, 10, 0.4, 3, ARRAY[20, 28]::int[], 'curated'),
+  (67, 63, 10, 0.4, 2, ARRAY[21, 22]::int[], 'curated'),
+  (68, 5, 10, 0.45, 2, ARRAY[17, 2, 6]::int[], 'curated'),
+  (68, 59, 10, 0.4, 4, '{}'::int[], 'curated'),
+  (69, 6, 60, 0.6, 2, ARRAY[6, 35]::int[], 'curated'),
+  (69, 18, 15, 0.35, 5, ARRAY[67]::int[], 'curated'),
+  (69, 16, 30, 0.45, 1, ARRAY[65, 35, 64]::int[], 'curated'),
+  (69, 70, 15, 0.35, 2, ARRAY[65, 35]::int[], 'curated'),
+  (70, 20, 40, 0.55, 2, ARRAY[25, 65, 41]::int[], 'curated'),
+  (70, 16, 25, 0.45, 1, ARRAY[25, 65, 35]::int[], 'curated'),
+  (70, 72, 15, 0.35, 2, ARRAY[16]::int[], 'curated'),
+  (71, 15, 50, 0.6, 2, ARRAY[25, 66, 41]::int[], 'curated'),
+  (71, 21, 30, 0.5, 1, ARRAY[66, 41]::int[], 'curated'),
+  (71, 18, 10, 0.3, 4, ARRAY[26, 41, 28]::int[], 'curated'),
+  (71, 20, 25, 0.45, 2, ARRAY[25, 41]::int[], 'curated'),
+  (71, 17, 10, 0.35, 2, ARRAY[28, 25]::int[], 'curated'),
+  (72, 17, 15, 0.45, 2, ARRAY[69]::int[], 'curated'),
+  (72, 73, 20, 0.45, 2, ARRAY[69, 16, 27]::int[], 'curated'),
+  (72, 62, 10, 0.35, 3, ARRAY[27]::int[], 'curated'),
+  (72, 60, 20, 0.45, 3, ARRAY[16, 38]::int[], 'curated'),
+  (73, 65, 15, 0.45, 3, ARRAY[54, 16, 27]::int[], 'curated'),
+  (73, 72, 20, 0.5, 2, ARRAY[69, 16, 27]::int[], 'curated'),
+  (73, 17, 8, 0.35, 2, ARRAY[69]::int[], 'curated'),
+  (74, 63, 40, 0.5, 4, ARRAY[21, 22]::int[], 'curated'),
+  (74, 75, 20, 0.4, 3, ARRAY[56, 21]::int[], 'curated'),
+  (74, 24, 25, 0.4, 2, ARRAY[13]::int[], 'curated'),
+  (74, 28, 15, 0.35, 3, '{}'::int[], 'curated'),
+  (74, 53, 10, 0.25, 3, ARRAY[13]::int[], 'curated'),
+  (75, 13, 25, 0.5, 3, ARRAY[2, 12]::int[], 'curated'),
+  (75, 63, 10, 0.35, 4, ARRAY[21, 2]::int[], 'curated'),
+  (75, 5, 12, 0.35, 4, ARRAY[2, 6]::int[], 'curated'),
+  (76, 63, 40, 0.55, 5, ARRAY[21, 2, 75]::int[], 'curated'),
+  (76, 57, 20, 0.45, 3, ARRAY[21, 3, 2]::int[], 'curated'),
+  (76, 2, 20, 0.4, 2, ARRAY[2]::int[], 'curated'),
+  (77, 63, 20, 0.45, 4, ARRAY[21, 22]::int[], 'curated'),
+  (77, 59, 30, 0.45, 4, ARRAY[22]::int[], 'curated'),
+  (77, 72, 12, 0.35, 2, '{}'::int[], 'curated'),
+  (77, 78, 8, 0.3, 3, ARRAY[15]::int[], 'curated'),
+  (78, 72, 20, 0.5, 2, ARRAY[69]::int[], 'curated'),
+  (78, 28, 12, 0.4, 3, '{}'::int[], 'curated'),
+  (78, 62, 10, 0.35, 3, ARRAY[13]::int[], 'curated'),
+  (79, 65, 15, 0.4, 3, ARRAY[16, 28]::int[], 'curated'),
+  (79, 58, 12, 0.35, 4, ARRAY[28]::int[], 'curated'),
+  (79, 37, 8, 0.3, 3, ARRAY[16, 28]::int[], 'curated'),
+  (80, 76, 10, 0.3, 3, ARRAY[38]::int[], 'curated'),
+  (80, 57, 10, 0.3, 4, ARRAY[77]::int[], 'curated'),
+  (80, 7, 8, 0.25, 3, ARRAY[36]::int[], 'curated'),
+  (80, 63, 15, 0.35, 6, ARRAY[77]::int[], 'curated'),
+  (81, 82, 15, 0.5, 3, ARRAY[57, 2, 53]::int[], 'curated'),
+  (81, 64, 10, 0.4, 3, ARRAY[53, 2]::int[], 'curated'),
+  (81, 2, 10, 0.35, 2, ARRAY[2]::int[], 'curated'),
+  (82, 5, 8, 0.4, 3, ARRAY[17, 2]::int[], 'curated'),
+  (82, 59, 10, 0.45, 3, '{}'::int[], 'curated'),
+  (83, 65, 25, 0.55, 3, ARRAY[54, 28]::int[], 'curated'),
+  (83, 17, 15, 0.5, 2, ARRAY[28]::int[], 'curated'),
+  (83, 73, 12, 0.4, 3, ARRAY[54]::int[], 'curated'),
+  (83, 79, 10, 0.35, 5, ARRAY[22, 28]::int[], 'curated'),
+  (83, 52, 8, 0.3, 4, ARRAY[28]::int[], 'curated'),
+  (84, 74, 60, 0.55, 4, ARRAY[56, 13, 15]::int[], 'curated'),
+  (84, 23, 40, 0.5, 1, ARRAY[13, 28, 30]::int[], 'curated'),
+  (84, 29, 30, 0.45, 1, ARRAY[15, 28, 30]::int[], 'curated'),
+  (84, 24, 25, 0.4, 3, ARRAY[13, 28, 30]::int[], 'curated'),
+  (84, 26, 15, 0.3, 2, ARRAY[28]::int[], 'curated')
+ON CONFLICT (from_role_id, to_role_id) DO UPDATE SET observed_count = EXCLUDED.observed_count, confidence = EXCLUDED.confidence, avg_years = EXCLUDED.avg_years, bridge_skill_ids = EXCLUDED.bridge_skill_ids;
 COMMIT;

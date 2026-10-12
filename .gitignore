@@ -16,6 +16,7 @@ dist/
 
 # colaboração — endereço local do language server do antigravity
 .collab/antigravity_ls_address
+.collab/antigravity_env.json
 
 # os
 Thumbs.db

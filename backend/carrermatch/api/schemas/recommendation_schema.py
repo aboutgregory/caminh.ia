@@ -13,6 +13,19 @@ from carrermatch.recommender.services.pii import clean_user_text
 MIN_EXPERIENCE_CHARS = 10
 
 
+def clean_experiences(values: list[str]) -> list[str]:
+    """Regras de entrada de experiências, compartilhadas por todas as rotas (RN-01/02 + higienização)."""
+    if not MIN_EXPERIENCES <= len(values) <= MAX_EXPERIENCES:
+        raise ValueError(f"envie entre {MIN_EXPERIENCES} e {MAX_EXPERIENCES} experiências")
+    cleaned = [clean_user_text(v) for v in values]
+    for i, text in enumerate(cleaned, 1):
+        if len(text) < MIN_EXPERIENCE_CHARS:
+            raise ValueError(f"experiência {i} muito curta: conte o que você fez e o que aprendeu")
+        if len(text) > MAX_EXPERIENCE_CHARS:
+            raise ValueError(f"experiência {i} passa de {MAX_EXPERIENCE_CHARS} caracteres")
+    return cleaned
+
+
 class RecommendationRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -24,13 +37,7 @@ class RecommendationRequest(BaseModel):
     @field_validator("experiences")
     @classmethod
     def _clean(cls, values: list[str]) -> list[str]:
-        cleaned = [clean_user_text(v) for v in values]
-        for i, text in enumerate(cleaned, 1):
-            if len(text) < MIN_EXPERIENCE_CHARS:
-                raise ValueError(f"experiência {i} muito curta: conte o que você fez e o que aprendeu")
-            if len(text) > MAX_EXPERIENCE_CHARS:
-                raise ValueError(f"experiência {i} passa de {MAX_EXPERIENCE_CHARS} caracteres")
-        return cleaned
+        return clean_experiences(values)
 
 
 class CareerPathOut(BaseModel):

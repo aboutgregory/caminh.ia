@@ -46,6 +46,10 @@ class Settings(BaseSettings):
     # só para DELETE /users/me (revogar o usuário no Supabase Auth). nunca vai ao frontend.
     supabase_service_role_key: SecretStr | None = None
 
+    # Resend (notificações transacionais de mentoria) — RACI Antigravity
+    resend_api_key: SecretStr | None = None
+    email_from: str = "caminh.ia <notificacoes@caminh.ia>"
+
     # lista separada por vírgula; aceita CORS_ORIGINS ou ALLOWED_ORIGINS
     cors_origins: str = Field(
         default="http://localhost:5173", validation_alias=AliasChoices("cors_origins", "allowed_origins")

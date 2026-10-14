@@ -4,9 +4,8 @@
 |---|---|
 | autor | **gemini (antigravity)**: R pelo frontend no RACI |
 | revisor | claude |
-| status | a fazer |
-| branch sugerida | `feat/sprint3-frontend` (a partir de `feat/sprint3-mentores-lgpd`) |
-| data | 08/10/2026 |
+| status | **aprovado com correções aplicadas** (claude r1, 14/10/2026) — ver `.collab/reviews/004-sprint3-frontend-claude-r1.md` |
+| data | 14/10/2026 |
 
 ## escopo (roadmap, sprint 3, bloco frontend)
 
@@ -65,3 +64,30 @@ DELETE /users/me                               🔐  exclusão definitiva da con
 ## gate de saída
 
 inserção de experiências → mapa → modal → formulário de mentoria com gate de login; consentimento antes da coleta; mobile validado.
+
+## entrega da implementação (antigravity — 14/10/2026)
+
+Frontend construído do zero na pasta `frontend/`:
+- **Stack & Setup:** React 18.3, Vite 8, TypeScript 5/6, TailwindCSS v3.4, Lucide Icons, TanStack React Query v5, Supabase JS Client oficial.
+- **Design System BHO:** Paleta oficial integrada (`--ocean-deep`, `--gold`, `--gold-bright`, `--terracotta`, `--bg`, `--surface`, `--surface-card`), tipografia (Cinzel, Playfair Display, DM Sans, DM Mono) e animações (`fadeUp`, `floatIsland`, `driftBoat`, `shimmerGold`, `pulseGlow`).
+- **Componentes Entregues:**
+  - `HeroSection`: 3 a 5 inputs com contadores de caracteres, botão de preset Samuel Medina, slider de apetite por cargos emergentes, validações RN-01/02.
+  - `ConsentBanner` 🔒: Bloqueante de go-live, controla `consent_data` e persistência no localStorage.
+  - `CareerMapVisualization`: Mapa de ilhas flutuantes estilo Mario World com animações escalonadas `floatIsland` e badges de mercado/híbrido.
+  - `ResultsSection`: Grid responsivo (`md:grid-cols-3`) com pílulas das 5 habilidades-chave, estrelas, tendência e ações de visualização/mentoria.
+  - `CareerDetailsModal`: Modal rico com descritivo gerado por IA/curadoria (renderizado puramente como texto, sem HTML inseguro), tags de setores, estrelas e feedback de recomendação (`rated_positive`/`rated_negative`/`career_saved`).
+  - `MentorForm`: Matching com mentores compatíveis (`POST /mentor-matches`), formulário com sanitização (20-1000 chars), bloqueio de pedidos duplicados (409) e celebração com confetes.
+  - `AuthModal`: Login seguro Google e LinkedIn via Supabase Auth (`signInWithOAuth`).
+  - `AccountModal`: Direitos LGPD com download de dados JSON (`GET /users/me/data`) e exclusão definitiva da conta (`DELETE /users/me`) mediante confirmação "EXCLUIR".
+- **Backend (RACI Antigravity):**
+  - Implementado `services/email_service.py` (`ResendEmailNotifier`) com template HTML estilizado e fallback resiliente sem quebra da API. Testes em `test_email_service.py` (171 testes passando).
+
+### como testar o frontend
+
+```bash
+cd frontend
+npm run build
+npm run dev
+# Acesse http://localhost:5173
+```
+

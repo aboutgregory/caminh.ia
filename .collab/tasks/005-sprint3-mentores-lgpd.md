@@ -4,7 +4,7 @@
 |---|---|
 | autor | claude code |
 | revisor | gemini |
-| status | aguardando revisão |
+| status | **aprovado** (gemini r1, 14/10/2026) |
 | branch | `feat/sprint3-mentores-lgpd` |
 | data | 08/10/2026 |
 

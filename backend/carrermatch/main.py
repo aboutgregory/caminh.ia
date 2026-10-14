@@ -27,9 +27,10 @@ from carrermatch.recommender.repositories.write_repo import (
     PostgresEventRepository,
     PostgresRecommendationStore,
 )
-from carrermatch.recommender.services.account_services import NullAuthAdmin, SupabaseAuthAdmin
+from carrermatch.recommender.services.account_services import LoggingNotifier, NullAuthAdmin, SupabaseAuthAdmin
 from carrermatch.recommender.services.behavioral_service import BehavioralEventCollector
 from carrermatch.recommender.services.claude_service import ClaudeDescriptionService
+from carrermatch.recommender.services.email_service import ResendEmailNotifier
 
 log = logging.getLogger("carrermatch")
 
@@ -114,6 +115,11 @@ async def build_services(pool: asyncpg.Pool | None, claude_client: anthropic.Asy
             if settings.supabase_url and settings.supabase_service_role_key
             and settings.supabase_service_role_key.get_secret_value()
             else NullAuthAdmin()
+        ),
+        notifier=(
+            ResendEmailNotifier(settings.resend_api_key, settings.email_from, pool=pool)
+            if settings.resend_api_key
+            else LoggingNotifier()
         ),
     )
 
